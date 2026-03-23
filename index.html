@@ -11,7 +11,6 @@
     <style>
         :root {
             --azul-profundo: #0a192f;
-            --azul-tarjeta: #112240;
             --dorado: #f9e29b;
             --dorado-oscuro: #c5a059;
             --blanco-suave: #e6f1ff;
@@ -26,7 +25,7 @@
             scroll-behavior: smooth;
         }
 
-        /* Sección Principal (Hero) */
+        /* Sección Principal */
         .hero {
             min-height: 100vh;
             background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), 
@@ -50,7 +49,6 @@
             color: var(--dorado);
             margin: 0;
             letter-spacing: 3px;
-            line-height: 1.2;
         }
 
         .subtitle {
@@ -61,7 +59,7 @@
             color: var(--blanco-suave);
         }
 
-        /* Retrato del Gran Maestro */
+        /* Sección del Gran Maestro */
         .gm-portrait {
             margin-bottom: 40px;
         }
@@ -87,11 +85,11 @@
             margin: 0;
         }
 
-        /* Carrusel de Imágenes (Ajustado para 8 fotos) */
+        /* Carrusel (8 Fotos) */
         .swiper {
             width: 100%;
-            max-width: 700px;
-            height: 450px; /* Un poco más alto para resaltar las fotos */
+            max-width: 750px;
+            height: 450px;
             margin: 20px 0 50px;
             border: 2px solid var(--dorado-oscuro);
             border-radius: 8px;
@@ -102,29 +100,24 @@
         .swiper-slide img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Cambiado a contain para no cortar las fotos */
+            object-fit: contain;
             background-color: #000;
         }
 
-        .swiper-button-next, .swiper-button-prev {
-            color: var(--dorado) !important;
-        }
+        .swiper-button-next, .swiper-button-prev { color: var(--dorado) !important; }
+        .swiper-pagination-bullet-active { background: var(--dorado) !important; }
 
-        .swiper-pagination-bullet-active {
-            background: var(--dorado) !important;
-        }
-
-        /* Contenedor de Botones (CTA) */
+        /* Botonera Principal */
         .cta-container {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
             justify-content: center;
             margin-bottom: 40px;
         }
 
         .btn-portal {
-            padding: 16px 35px;
+            padding: 16px 30px;
             border: 2px solid var(--dorado);
             color: var(--dorado);
             text-decoration: none;
@@ -133,8 +126,9 @@
             transition: 0.4s;
             background: transparent;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 1px;
+            min-width: 180px;
         }
 
         .btn-portal:hover {
@@ -148,17 +142,14 @@
             color: white;
         }
 
-        /* Footer */
         footer {
             padding: 40px;
             text-align: center;
             border-top: 1px solid rgba(197, 160, 89, 0.2);
             color: var(--dorado-oscuro);
             font-size: 0.85rem;
-            background-color: rgba(0,0,0,0.2);
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             h1 { font-size: 1.6rem; }
             .swiper { height: 300px; }
@@ -169,8 +160,7 @@
 <body>
 
     <section class="hero">
-        <img src="logo_moderno.png" alt="Logo Gran Logia de Tamaulipas" class="logo-main">
-        
+        <img src="logo_moderno.png" alt="Logo GLT" class="logo-main">
         <h1>Muy Respetable Gran Logia de Tamaulipas</h1>
         <p class="subtitle">Libertad, Igualdad, Fraternidad</p>
         
@@ -182,14 +172,14 @@
 
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="foto1.jpg" alt="Imagen 1"></div>
-                <div class="swiper-slide"><img src="foto2.jpg" alt="Imagen 2"></div>
-                <div class="swiper-slide"><img src="foto3.jpg" alt="Imagen 3"></div>
-                <div class="swiper-slide"><img src="foto4.jpg" alt="Imagen 4"></div>
-                <div class="swiper-slide"><img src="foto5.jpg" alt="Imagen 5"></div>
-                <div class="swiper-slide"><img src="foto6.jpg" alt="Imagen 6"></div>
-                <div class="swiper-slide"><img src="foto7.jpg" alt="Imagen 7"></div>
-                <div class="swiper-slide"><img src="foto8.jpg" alt="Imagen 8"></div>
+                <div class="swiper-slide"><img src="foto1.png" alt="Imagen 1"></div>
+                <div class="swiper-slide"><img src="foto2.png" alt="Imagen 2"></div>
+                <div class="swiper-slide"><img src="foto3.png" alt="Imagen 3"></div>
+                <div class="swiper-slide"><img src="foto4.png" alt="Imagen 4"></div>
+                <div class="swiper-slide"><img src="foto5.png" alt="Imagen 5"></div>
+                <div class="swiper-slide"><img src="foto6.png" alt="Imagen 6"></div>
+                <div class="swiper-slide"><img src="foto7.png" alt="Imagen 7"></div>
+                <div class="swiper-slide"><img src="foto8.png" alt="Imagen 8"></div>
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -197,34 +187,26 @@
         </div>
         
         <div class="cta-container">
-            <a href="tesoreria.html" class="btn-portal">Acceder a Tesorería (SIT)</a>
-            <a href="historia.html" class="btn-portal btn-secondary">Nuestra Historia</a>
+            <a href="tesoreria.html" class="btn-portal">Tesorería (SIT)</a>
+            <a href="historia.html" class="btn-portal btn-secondary">Historia</a>
+            <a href="logias.html" class="btn-portal btn-secondary">Logias</a>
         </div>
     </section>
 
     <footer>
         <p>A.·. L.·. G.·. A.·. D.·. U.·.</p>
-        <p>Muy Respetable Gran Logia de Tamaulipas de AA.·. FF.·. y AA.·. MM.·.<br>&copy; 2026</p>
+        <p>Muy Respetable Gran Logia de Tamaulipas &copy; 2026</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper(".mySwiper", {
             loop: true,
-            effect: "fade", /* Efecto de desvanecimiento elegante */
+            effect: "fade",
             fadeEffect: { crossFade: true },
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
+            autoplay: { delay: 3500, disableOnInteraction: false },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
         });
     </script>
 </body>
