@@ -34,6 +34,7 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
+        /* Login Card */
         .login-card {
             max-width: 400px;
             margin: 80px auto;
@@ -64,6 +65,8 @@
             box-sizing: border-box;
         }
 
+        input::placeholder { color: rgba(230, 241, 255, 0.4); }
+
         button.btn-principal {
             width: 100%;
             background-color: var(--dorado);
@@ -84,6 +87,7 @@
             transform: scale(1.02);
         }
 
+        /* Panel Interno */
         #panel {
             display: none;
             max-width: 1000px;
@@ -92,6 +96,7 @@
             padding: 30px;
             border-radius: 10px;
             border: 1px solid var(--dorado-oscuro);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .panel-header {
@@ -112,11 +117,15 @@
             font-family: 'Cinzel';
             font-size: 0.75rem;
             font-weight: bold;
+            transition: 0.3s;
         }
+
+        .btn-reporte:hover { opacity: 0.8; }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            color: var(--texto-suave);
         }
 
         th {
@@ -137,6 +146,7 @@
             font-size: 0.75rem;
             font-weight: bold;
             color: white;
+            text-transform: uppercase;
         }
 
         .PAGADO { background-color: var(--exito); }
@@ -156,19 +166,19 @@
     <div id="login-screen" class="login-card">
         <img src="logo_moderno.jpg" alt="Gran Logia de Tamaulipas" class="logo-img">
         <h2>Tesorería GLT</h2>
-        <div id="loader" style="margin-bottom:15px; font-size:0.8rem;">Conectando con Gran Tesorería...</div>
+        <div id="loader" style="margin-bottom:15px; font-size:0.8rem; color: var(--dorado-oscuro);">Conectando con Gran Tesorería...</div>
         
         <input type="text" id="logia-id" placeholder="No. de Logia">
         <input type="password" id="logia-pass" placeholder="Clave de Acceso">
-        <button class="btn-principal" onclick="verificarAcceso()">INGRESAR</button>
+        <button class="btn-principal" onclick="verificarAcceso()">INGRESAR AL TEMPLO</button>
     </div>
 
     <div id="panel">
         <div class="panel-header">
             <h2 id="nombre-display" style="margin:0;"></h2>
             <div style="display:flex; gap:10px;">
-                <a id="link-reporte" href="TU_LINK_DE_FORMULARIO_AQUI" target="_blank" class="btn-reporte">REPORTAR PAGO ⬆</a>
-                <button onclick="location.reload()" style="background:#444; color:white; border:none; padding:10px 15px; cursor:pointer; font-family:'Cinzel';">SALIR</button>
+                <a id="link-reporte" href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" target="_blank" class="btn-reporte">REPORTAR PAGO ⬆</a>
+                <button onclick="location.reload()" style="background:#444; color:white; border:none; padding:10px 15px; cursor:pointer; font-family:'Cinzel'; border-radius:4px;">SALIR</button>
             </div>
         </div>
         <table>
@@ -181,11 +191,12 @@
             </thead>
             <tbody id="tabla-datos"></tbody>
         </table>
+        <p style="text-align:center; margin-top:20px; font-style:italic; font-size:0.8rem; color:var(--dorado-oscuro);">"La exactitud en nuestras obligaciones fortalece las columnas de nuestro Templo."</p>
     </div>
 
     <footer>
         <p>A.·. L.·. G.·. A.·. D.·. U.·.</p>
-        <p>Muy Respetable Gran Logia de Tamaulipas</p>
+        <p>Muy Respetable Gran Logia de Tamaulipas &copy; 2026</p>
     </footer>
 
     <script>
@@ -196,8 +207,9 @@
             try {
                 const response = await fetch(CSV_URL);
                 const data = await response.text();
-                // Limpieza de datos: divide por filas y limpia espacios
-                const filas = data.split(/\r?\n/).slice(1);
+                // Limpia saltos de línea y separa por filas
+                const filas = data.split(/\r?\n/).slice(1); 
+                
                 database = filas.map(f => {
                     const c = f.split(",");
                     return {
@@ -208,10 +220,13 @@
                         monto: (c[4] || "").trim(),
                         estado: (c[5] || "").trim().toUpperCase()
                     };
-                }).filter(item => item.id !== ""); // Ignora filas vacías
+                }).filter(item => item.id !== ""); 
+
                 document.getElementById('loader').innerText = "Sistema Listo ✔";
+                document.getElementById('loader').style.color = "#27ae60";
             } catch (e) {
                 document.getElementById('loader').innerText = "Error de conexión ❌";
+                document.getElementById('loader').style.color = "#c0392b";
             }
         }
 
@@ -219,20 +234,23 @@
             const user = document.getElementById('logia-id').value.trim().toLowerCase();
             const pass = document.getElementById('logia-pass').value.trim().toLowerCase();
 
-            // Admin
+            // Acceso Gran Tesorero
             if (user === "admin" && pass === "tampico2026") {
                 renderizar(database, "PANEL GRAN TESORERÍA");
                 return;
             }
 
-            // Logia (Busca coincidencia exacta ignorando mayúsculas)
-            const match = database.find(l => l.id.toLowerCase() === user && l.pass.toLowerCase() === pass);
+            // Búsqueda de Logia con limpieza de datos
+            const match = database.find(l => 
+                l.id.toLowerCase() === user && 
+                l.pass.toLowerCase() === pass
+            );
 
             if (match) {
                 const misRegistros = database.filter(l => l.id.toLowerCase() === user);
                 renderizar(misRegistros, match.nombre);
             } else {
-                alert("Credenciales incorrectas. Verifica tu número y clave.");
+                alert("Credenciales incorrectas. Verifique su número de logia y clave.");
             }
         }
 
@@ -245,7 +263,7 @@
                 <tr>
                     <td>${l.mes}</td>
                     <td>${l.monto}</td>
-                    <td><span class="status-badge ${l.estado}">${l.estado}</span></td>
+                    <td><span class="status-badge ${l.estado}">${l.estado || 'PENDIENTE'}</span></td>
                 </tr>
             `).join("");
         }
