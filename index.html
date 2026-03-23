@@ -10,63 +10,186 @@
     
     <style>
         :root {
-            --azul-profundo: #0a192f; --dorado: #f9e29b; --dorado-oscuro: #c5a059; --blanco-suave: #e6f1ff;
+            --azul-profundo: #0a192f;
+            --azul-tarjeta: #112240;
+            --dorado: #f9e29b;
+            --dorado-oscuro: #c5a059;
+            --blanco-suave: #e6f1ff;
         }
 
-        body, html { margin: 0; padding: 0; font-family: 'Lora', serif; background-color: var(--azul-profundo); color: var(--blanco-suave); scroll-behavior: smooth; }
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Lora', serif;
+            background-color: var(--azul-profundo);
+            color: var(--blanco-suave);
+            scroll-behavior: smooth;
+        }
 
-        .hero { min-height: 100vh; background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), url('https://images.unsplash.com/photo-1519074063912-ad2e6d51dd27?q=80&w=1920') no-repeat center center/cover; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 60px 20px; }
+        /* Sección Principal (Hero) */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), 
+                        url('https://images.unsplash.com/photo-1519074063912-ad2e6d51dd27?q=80&w=1920') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+        }
 
-        .logo-main { width: 160px; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--dorado)); }
-        h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--dorado); margin: 0; letter-spacing: 3px; }
-        .subtitle { font-family: 'Cinzel', serif; font-size: 1rem; margin: 10px 0 30px; letter-spacing: 4px; color: var(--blanco-suave); }
+        .logo-main {
+            width: 160px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px var(--dorado));
+        }
 
-        /* Estilo Gran Maestro */
-        .gm-portrait { margin-bottom: 30px; }
-        .gm-img { width: 220px; border-radius: 8px; border: 2px solid var(--dorado-oscuro); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .gm-title { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--dorado); margin: 15px 0 5px; }
-        .gm-period { font-size: 0.9rem; color: var(--dorado-oscuro); font-weight: bold; margin: 0; }
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--dorado);
+            margin: 0;
+            letter-spacing: 3px;
+            line-height: 1.2;
+        }
 
-        /* CARRUSEL */
-        .swiper { width: 100%; max-width: 600px; height: 350px; margin: 20px 0 40px; border: 1px solid var(--dorado-oscuro); border-radius: 5px; }
-        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-        .swiper-button-next, .swiper-button-prev { color: var(--dorado) !important; }
-        .swiper-pagination-bullet-active { background: var(--dorado) !important; }
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            margin: 10px 0 40px;
+            letter-spacing: 4px;
+            color: var(--blanco-suave);
+        }
 
-        /* Botones */
-        .cta-container { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .btn-portal { padding: 14px 30px; border: 2px solid var(--dorado); color: var(--dorado); text-decoration: none; font-family: 'Cinzel', serif; font-weight: bold; transition: 0.4s; background: transparent; text-transform: uppercase; font-size: 0.85rem; }
-        .btn-portal:hover { background: var(--dorado); color: var(--azul-profundo); box-shadow: 0 0 15px var(--dorado-oscuro); }
+        /* Retrato del Gran Maestro */
+        .gm-portrait {
+            margin-bottom: 40px;
+        }
 
-        .content-section { padding: 80px 20px; max-width: 900px; margin: 0 auto; text-align: center; }
-        footer { padding: 30px; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.2); color: var(--dorado-oscuro); font-size: 0.8rem; }
+        .gm-img {
+            width: 240px;
+            border-radius: 8px;
+            border: 2px solid var(--dorado-oscuro);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
 
-        @media (max-width: 768px) { h1 { font-size: 1.5rem; } .swiper { height: 250px; } }
+        .gm-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--dorado);
+            margin: 15px 0 5px;
+        }
+
+        .gm-period {
+            font-size: 1rem;
+            color: var(--dorado-oscuro);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Carrusel de Imágenes (Ajustado para 8 fotos) */
+        .swiper {
+            width: 100%;
+            max-width: 700px;
+            height: 450px; /* Un poco más alto para resaltar las fotos */
+            margin: 20px 0 50px;
+            border: 2px solid var(--dorado-oscuro);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Cambiado a contain para no cortar las fotos */
+            background-color: #000;
+        }
+
+        .swiper-button-next, .swiper-button-prev {
+            color: var(--dorado) !important;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: var(--dorado) !important;
+        }
+
+        /* Contenedor de Botones (CTA) */
+        .cta-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .btn-portal {
+            padding: 16px 35px;
+            border: 2px solid var(--dorado);
+            color: var(--dorado);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            transition: 0.4s;
+            background: transparent;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-portal:hover {
+            background: var(--dorado);
+            color: var(--azul-profundo);
+            box-shadow: 0 0 20px var(--dorado-oscuro);
+        }
+
+        .btn-secondary {
+            border-color: rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+            color: var(--dorado-oscuro);
+            font-size: 0.85rem;
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.6rem; }
+            .swiper { height: 300px; }
+            .gm-img { width: 200px; }
+        }
     </style>
 </head>
 <body>
 
     <section class="hero">
-        <img src="logo_moderno.png" alt="Logo GLT" class="logo-main">
+        <img src="logo_moderno.png" alt="Logo Gran Logia de Tamaulipas" class="logo-main">
+        
         <h1>Muy Respetable Gran Logia de Tamaulipas</h1>
         <p class="subtitle">Libertad, Igualdad, Fraternidad</p>
         
         <div class="gm-portrait">
             <img src="gm_retrato.jpg" alt="MRGM Ramiro Ernesto Delgado Garza" class="gm-img">
             <h3 class="gm-title">MRGM Ramiro Ernesto Delgado Garza</h3>
-            <p class="gm-period">2025-2026</p>
+            <p class="gm-period">Ejercio 2025 - 2026</p>
         </div>
 
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="foto1.jpg" alt="Evento 1"></div>
-                <div class="swiper-slide"><img src="foto2.jpg" alt="Evento 2"></div>
-                <div class="swiper-slide"><img src="foto3.jpg" alt="Evento 3"></div>
-                <div class="swiper-slide"><img src="foto4.jpg" alt="Evento 3"></div>
-                <div class="swiper-slide"><img src="foto5.jpg" alt="Evento 3"></div>
-                <div class="swiper-slide"><img src="foto6.jpg" alt="Evento 3"></div>
-                <div class="swiper-slide"><img src="foto7.jpg" alt="Evento 3"></div>
-                <div class="swiper-slide"><img src="foto8.jpg" alt="Evento 3"></div>
+                <div class="swiper-slide"><img src="foto1.jpg" alt="Imagen 1"></div>
+                <div class="swiper-slide"><img src="foto2.jpg" alt="Imagen 2"></div>
+                <div class="swiper-slide"><img src="foto3.jpg" alt="Imagen 3"></div>
+                <div class="swiper-slide"><img src="foto4.jpg" alt="Imagen 4"></div>
+                <div class="swiper-slide"><img src="foto5.jpg" alt="Imagen 5"></div>
+                <div class="swiper-slide"><img src="foto6.jpg" alt="Imagen 6"></div>
+                <div class="swiper-slide"><img src="foto7.jpg" alt="Imagen 7"></div>
+                <div class="swiper-slide"><img src="foto8.jpg" alt="Imagen 8"></div>
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -75,27 +198,33 @@
         
         <div class="cta-container">
             <a href="tesoreria.html" class="btn-portal">Acceder a Tesorería (SIT)</a>
-            <a href="#historia" class="btn-portal" style="border-color: rgba(255,255,255,0.3); color: white;">Nuestra Institución</a>
+            <a href="historia.html" class="btn-portal btn-secondary">Nuestra Historia</a>
         </div>
-    </section>
-
-    <section id="historia" class="content-section">
-        <h2 style="font-family: 'Cinzel'; color: var(--dorado);">Libertad, Igualdad, Fraternidad</h2>
-        <p>Promovemos los más altos valores de fraternidad y servicio a la humanidad bajo la bóveda celeste de nuestro estado.</p>
     </section>
 
     <footer>
         <p>A.·. L.·. G.·. A.·. D.·. U.·.</p>
-        <p>&copy; 2026 Muy Respetable Gran Logia de Tamaulipas</p>
+        <p>Muy Respetable Gran Logia de Tamaulipas de AA.·. FF.·. y AA.·. MM.·.<br>&copy; 2026</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper(".mySwiper", {
             loop: true,
-            autoplay: { delay: 3500, disableOnInteraction: false },
-            pagination: { el: ".swiper-pagination", clickable: true },
-            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            effect: "fade", /* Efecto de desvanecimiento elegante */
+            fadeEffect: { crossFade: true },
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
         });
     </script>
 </body>
