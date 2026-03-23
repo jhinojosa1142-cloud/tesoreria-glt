@@ -7,259 +7,119 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --azul-profundo: #0a192f; 
-            --azul-tarjeta: #112240;    
-            --dorado: #f9e29b;       
-            --dorado-oscuro: #c5a059;      
-            --texto-suave: #e6f1ff;       
-            --exito: #27ae60;
-            --error: #c0392b;
+            --azul-profundo: #0a192f; --azul-tarjeta: #112240; --dorado: #f9e29b;
+            --dorado-oscuro: #c5a059; --texto-suave: #e6f1ff; --exito: #27ae60; --error: #c0392b;
         }
-
-        body {
-            font-family: 'Lora', serif;
-            background-color: var(--azul-profundo);
-            margin: 0;
-            color: var(--texto-suave);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Cinzel', serif;
-            color: var(--dorado);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        /* Login Card */
-        .login-card {
-            max-width: 400px;
-            margin: 80px auto;
-            background-color: var(--azul-tarjeta);
-            padding: 40px;
-            border: 2px solid var(--dorado-oscuro);
-            border-radius: 8px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            text-align: center;
-        }
-
-        .logo-img {
-            width: 180px;
-            height: auto;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.4));
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 12px 0;
-            background-color: rgba(255,255,255,0.05);
-            border: 1px solid var(--dorado-oscuro);
-            border-radius: 4px;
-            color: white;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-        input::placeholder { color: rgba(230, 241, 255, 0.4); }
-
-        button.btn-principal {
-            width: 100%;
-            background-color: var(--dorado);
-            color: var(--azul-profundo);
-            padding: 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'Cinzel';
-            font-weight: bold;
-            font-size: 1rem;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-
-        button.btn-principal:hover {
-            background-color: var(--dorado-oscuro);
-            transform: scale(1.02);
-        }
-
-        /* Panel Interno */
-        #panel {
-            display: none;
-            max-width: 1000px;
-            margin: 40px auto;
-            background-color: var(--azul-tarjeta);
-            padding: 30px;
-            border-radius: 10px;
-            border: 1px solid var(--dorado-oscuro);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--dorado);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-
-        .btn-reporte {
-            background-color: var(--exito);
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-family: 'Cinzel';
-            font-size: 0.75rem;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn-reporte:hover { opacity: 0.8; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            color: var(--texto-suave);
-        }
-
-        th {
-            color: var(--dorado);
-            padding: 15px;
-            text-align: left;
-            border-bottom: 2px solid var(--dorado-oscuro);
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-        }
-
-        .status-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: white;
-            text-transform: uppercase;
-        }
-
-        .PAGADO { background-color: var(--exito); }
-        .PENDIENTE { background-color: var(--error); }
-
-        footer {
-            margin-top: auto;
-            padding: 30px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--dorado-oscuro);
-        }
+        body { font-family: 'Lora', serif; background-color: var(--azul-profundo); margin: 0; color: var(--texto-suave); min-height: 100vh; display: flex; flex-direction: column; }
+        h2 { font-family: 'Cinzel', serif; color: var(--dorado); text-transform: uppercase; text-align: center; }
+        .login-card { max-width: 400px; margin: 60px auto; background: var(--azul-tarjeta); padding: 40px; border: 2px solid var(--dorado-oscuro); border-radius: 8px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .logo-img { width: 180px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.3)); }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(255,255,255,0.05); border: 1px solid var(--dorado-oscuro); border-radius: 4px; color: white; box-sizing: border-box; }
+        button { width: 100%; background: var(--dorado); color: var(--azul-profundo); padding: 15px; border: none; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        button:hover { background: var(--dorado-oscuro); }
+        #panel { display: none; max-width: 900px; margin: 40px auto; background: var(--azul-tarjeta); padding: 30px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--dorado); padding-bottom: 15px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { color: var(--dorado); padding: 12px; text-align: left; border-bottom: 2px solid var(--dorado-oscuro); font-family: 'Cinzel'; }
+        td { padding: 12px; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; color: white; }
+        .PAGADO { background: var(--exito); }
+        .PENDIENTE { background: var(--error); }
+        footer { margin-top: auto; padding: 20px; text-align: center; color: var(--dorado-oscuro); font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
     <div id="login-screen" class="login-card">
-        <img src="logo_moderno.jpg" alt="Gran Logia de Tamaulipas" class="logo-img">
+        <img src="logo_moderno.jpg" alt="GLT" class="logo-img">
         <h2>Tesorería GLT</h2>
-        <div id="loader" style="margin-bottom:15px; font-size:0.8rem; color: var(--dorado-oscuro);">Conectando con Gran Tesorería...</div>
-        
+        <div id="loader" style="font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 10px;">Cargando Gran Bóveda...</div>
         <input type="text" id="logia-id" placeholder="No. de Logia">
         <input type="password" id="logia-pass" placeholder="Clave de Acceso">
-        <button class="btn-principal" onclick="verificarAcceso()">INGRESAR AL TEMPLO</button>
+        <button onclick="intentarEntrar()">INGRESAR</button>
     </div>
 
     <div id="panel">
         <div class="panel-header">
-            <h2 id="nombre-display" style="margin:0;"></h2>
+            <h2 id="nombre-display" style="margin:0; font-size: 1.2rem;"></h2>
             <div style="display:flex; gap:10px;">
-                <a id="link-reporte" href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" target="_blank" class="btn-reporte">REPORTAR PAGO ⬆</a>
-                <button onclick="location.reload()" style="background:#444; color:white; border:none; padding:10px 15px; cursor:pointer; font-family:'Cinzel'; border-radius:4px;">SALIR</button>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" target="_blank" style="background:var(--exito); color:white; padding:10px 15px; text-decoration:none; border-radius:4px; font-family:'Cinzel'; font-size:0.7rem; font-weight:bold;">REPORTAR PAGO</a>
+                <button onclick="location.reload()" style="background:#444; width:auto; padding:10px 15px; margin:0;">SALIR</button>
             </div>
         </div>
         <table>
             <thead>
                 <tr>
-                    <th>Mes / Concepto</th>
+                    <th>Detalle / Mes</th>
                     <th>Monto</th>
                     <th>Estado</th>
                 </tr>
             </thead>
-            <tbody id="tabla-datos"></tbody>
+            <tbody id="tabla-body"></tbody>
         </table>
-        <p style="text-align:center; margin-top:20px; font-style:italic; font-size:0.8rem; color:var(--dorado-oscuro);">"La exactitud en nuestras obligaciones fortalece las columnas de nuestro Templo."</p>
     </div>
 
     <footer>
-        <p>A.·. L.·. G.·. A.·. D.·. U.·.</p>
-        <p>Muy Respetable Gran Logia de Tamaulipas &copy; 2026</p>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Gran Logia de Tamaulipas &copy; 2026</p>
     </footer>
 
     <script>
-        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv";
-        let database = [];
+        // URL corregida a exportación CSV directa
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv";
+        let datosFull = [];
 
         async function cargarDatos() {
             try {
-                const response = await fetch(CSV_URL);
-                const data = await response.text();
-                // Limpia saltos de línea y separa por filas
-                const filas = data.split(/\r?\n/).slice(1); 
+                const res = await fetch(SHEET_URL);
+                const csvText = await res.text();
                 
-                database = filas.map(f => {
+                // Procesamiento ultra-simple: Dividir por líneas y luego por comas
+                const filas = csvText.split(/\r?\n/).filter(line => line.trim() !== "");
+                
+                datosFull = filas.slice(1).map(f => {
                     const c = f.split(",");
+                    const limpiar = (t) => (t || "").replace(/"/g, "").trim();
                     return {
-                        id: (c[0] || "").trim(),
-                        pass: (c[1] || "").trim(),
-                        nombre: (c[2] || "").trim(),
-                        mes: (c[3] || "").trim(),
-                        monto: (c[4] || "").trim(),
-                        estado: (c[5] || "").trim().toUpperCase()
+                        id: limpiar(c[0]),
+                        pass: limpiar(c[1]),
+                        nombre: limpiar(c[2]),
+                        mes: limpiar(c[3]),
+                        monto: limpiar(c[4]),
+                        estado: limpiar(c[5]).toUpperCase()
                     };
-                }).filter(item => item.id !== ""); 
-
-                document.getElementById('loader').innerText = "Sistema Listo ✔";
-                document.getElementById('loader').style.color = "#27ae60";
+                });
+                document.getElementById('loader').innerText = "Conexión Establecida ✔";
             } catch (e) {
-                document.getElementById('loader').innerText = "Error de conexión ❌";
-                document.getElementById('loader').style.color = "#c0392b";
+                document.getElementById('loader').innerText = "Error de Conexión ❌";
             }
         }
 
-        function verificarAcceso() {
-            const user = document.getElementById('logia-id').value.trim().toLowerCase();
-            const pass = document.getElementById('logia-pass').value.trim().toLowerCase();
+        function intentarEntrar() {
+            const u = document.getElementById('logia-id').value.trim().toLowerCase();
+            const p = document.getElementById('logia-pass').value.trim().toLowerCase();
 
-            // Acceso Gran Tesorero
-            if (user === "admin" && pass === "tampico2026") {
-                renderizar(database, "PANEL GRAN TESORERÍA");
+            if (u === "admin" && p === "tampico2026") {
+                render(datosFull, "PANEL ADMINISTRATIVO");
                 return;
             }
 
-            // Búsqueda de Logia con limpieza de datos
-            const match = database.find(l => 
-                l.id.toLowerCase() === user && 
-                l.pass.toLowerCase() === pass
-            );
+            const match = datosFull.find(l => l.id.toLowerCase() === u && l.pass.toLowerCase() === p);
 
             if (match) {
-                const misRegistros = database.filter(l => l.id.toLowerCase() === user);
-                renderizar(misRegistros, match.nombre);
+                const registrosLogia = datosFull.filter(l => l.id.toLowerCase() === u);
+                render(registrosLogia, match.nombre);
             } else {
-                alert("Credenciales incorrectas. Verifique su número de logia y clave.");
+                alert("Credenciales Incorrectas.\nVerifica tu número de logia y contraseña.");
             }
         }
 
-        function renderizar(lista, titulo) {
+        function render(lista, titulo) {
             document.getElementById('login-screen').style.display = "none";
             document.getElementById('panel').style.display = "block";
             document.getElementById('nombre-display').innerText = titulo;
-            const tabla = document.getElementById('tabla-datos');
-            tabla.innerHTML = lista.map(l => `
+            
+            const tbody = document.getElementById('tabla-body');
+            tbody.innerHTML = lista.map(l => `
                 <tr>
                     <td>${l.mes}</td>
                     <td>${l.monto}</td>
