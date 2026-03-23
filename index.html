@@ -5,166 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gran Logia de Tamaulipas - Portal Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
     <style>
         :root {
-            --azul-profundo: #0a192f;
-            --dorado: #f9e29b;
-            --dorado-oscuro: #c5a059;
-            --blanco-suave: #e6f1ff;
+            --azul-profundo: #0a192f; --dorado: #f9e29b; --dorado-oscuro: #c5a059; --blanco-suave: #e6f1ff;
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Lora', serif;
-            background-color: var(--azul-profundo);
-            color: var(--blanco-suave);
-            scroll-behavior: smooth;
-        }
+        body, html { margin: 0; padding: 0; font-family: 'Lora', serif; background-color: var(--azul-profundo); color: var(--blanco-suave); scroll-behavior: smooth; }
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh; /* Cambiado a min-height para acomodar la foto */
-            background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.8)), 
-                        url('https://images.unsplash.com/photo-1519074063912-ad2e6d51dd27?auto=format&fit=crop&q=80&w=1920') no-repeat center center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px 20px;
-        }
+        .hero { min-height: 100vh; background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), url('https://images.unsplash.com/photo-1519074063912-ad2e6d51dd27?q=80&w=1920') no-repeat center center/cover; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 60px 20px; }
 
-        .logo-main {
-            width: 180px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 15px var(--dorado));
-        }
+        .logo-main { width: 160px; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--dorado)); }
+        h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--dorado); margin: 0; letter-spacing: 3px; }
+        .subtitle { font-family: 'Cinzel', serif; font-size: 1rem; margin: 10px 0 30px; letter-spacing: 4px; color: var(--blanco-suave); }
 
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            color: var(--dorado);
-            margin: 0;
-            letter-spacing: 5px;
-            line-height: 1.2;
-        }
+        /* Estilo Gran Maestro */
+        .gm-portrait { margin-bottom: 30px; }
+        .gm-img { width: 220px; border-radius: 8px; border: 2px solid var(--dorado-oscuro); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .gm-title { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--dorado); margin: 15px 0 5px; }
+        .gm-period { font-size: 0.9rem; color: var(--dorado-oscuro); font-weight: bold; margin: 0; }
 
-        p.subtitle {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
-            margin-top: 10px;
-            margin-bottom: 30px; /* Espacio antes de la foto */
-            color: var(--blanco-suave);
-            letter-spacing: 2px;
-        }
+        /* CARRUSEL */
+        .swiper { width: 100%; max-width: 600px; height: 350px; margin: 20px 0 40px; border: 1px solid var(--dorado-oscuro); border-radius: 5px; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .swiper-button-next, .swiper-button-prev { color: var(--dorado) !important; }
+        .swiper-pagination-bullet-active { background: var(--dorado) !important; }
 
-        /* Estilos para la Foto del Gran Maestro */
-        .gm-portrait {
-            margin-bottom: 40px; /* Espacio después de la foto */
-        }
+        /* Botones */
+        .cta-container { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .btn-portal { padding: 14px 30px; border: 2px solid var(--dorado); color: var(--dorado); text-decoration: none; font-family: 'Cinzel', serif; font-weight: bold; transition: 0.4s; background: transparent; text-transform: uppercase; font-size: 0.85rem; }
+        .btn-portal:hover { background: var(--dorado); color: var(--azul-profundo); box-shadow: 0 0 15px var(--dorado-oscuro); }
 
-        .gm-img {
-            width: 250px;
-            height: auto;
-            border-radius: 8px; /* Bordes ligeramente suaves */
-            border: 3px solid var(--dorado-oscuro);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
+        .content-section { padding: 80px 20px; max-width: 900px; margin: 0 auto; text-align: center; }
+        footer { padding: 30px; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.2); color: var(--dorado-oscuro); font-size: 0.8rem; }
 
-        .gm-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: var(--dorado);
-            margin: 15px 0 5px 0;
-            letter-spacing: 1px;
-        }
-
-        .gm-period {
-            font-family: 'Lora', serif;
-            font-size: 1rem;
-            color: var(--dorado-oscuro);
-            margin: 0;
-            font-weight: bold;
-        }
-
-        /* Botones CTA */
-        .cta-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn-portal {
-            padding: 15px 40px;
-            border: 2px solid var(--dorado);
-            color: var(--dorado);
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
-            transition: 0.4s;
-            background: transparent;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        .btn-portal:hover {
-            background: var(--dorado);
-            color: var(--azul-profundo);
-            box-shadow: 0 0 20px var(--dorado-oscuro);
-        }
-
-        /* Info Section */
-        .content-section {
-            padding: 80px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .content-section h2 {
-            font-family: 'Cinzel', serif;
-            color: var(--dorado);
-            border-bottom: 2px solid var(--dorado-oscuro);
-            display: inline-block;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-
-        /* Footer */
-        footer {
-            padding: 40px;
-            text-align: center;
-            border-top: 1px solid rgba(197, 160, 89, 0.2);
-            font-size: 0.85rem;
-            color: var(--dorado-oscuro);
-        }
-
-        /* Ajustes para Móvil */
-        @media (max-width: 768px) {
-            h1 { font-size: 1.6rem; letter-spacing: 3px; }
-            .hero { padding: 60px 15px; }
-            .logo-main { width: 150px; }
-            .gm-img { width: 200px; }
-            .gm-title { font-size: 1rem; }
-        }
+        @media (max-width: 768px) { h1 { font-size: 1.5rem; } .swiper { height: 250px; } }
     </style>
 </head>
 <body>
 
     <section class="hero">
-        <img src="logo_moderno.png" alt="Logo Muy Respetable Gran Logia de Tamaulipas" class="logo-main">
-        
+        <img src="logo_moderno.png" alt="Logo GLT" class="logo-main">
         <h1>Muy Respetable Gran Logia de Tamaulipas</h1>
-        
         <p class="subtitle">Libertad, Igualdad, Fraternidad</p>
         
         <div class="gm-portrait">
             <img src="gm_retrato.jpg" alt="MRGM Ramiro Ernesto Delgado Garza" class="gm-img">
             <h3 class="gm-title">MRGM Ramiro Ernesto Delgado Garza</h3>
             <p class="gm-period">2025-2026</p>
+        </div>
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="foto1.png" alt="Evento 1"></div>
+                <div class="swiper-slide"><img src="foto2.png" alt="Evento 2"></div>
+                <div class="swiper-slide"><img src="foto3.png" alt="Evento 3"></div>
+                <div class="swiper-slide"><img src="foto4.png" alt="Evento 3"></div>
+                <div class="swiper-slide"><img src="foto5.png" alt="Evento 3"></div>
+                <div class="swiper-slide"><img src="foto6.png" alt="Evento 3"></div>
+                <div class="swiper-slide"><img src="foto7.png" alt="Evento 3"></div>
+                <div class="swiper-slide"><img src="foto8.png" alt="Evento 3"></div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
         </div>
         
         <div class="cta-container">
@@ -174,25 +80,23 @@
     </section>
 
     <section id="historia" class="content-section">
-        <h2>Libertad, Igualdad, Fraternidad</h2>
-        <p>Bajo la bóveda celeste de nuestro estado, la Gran Logia de Tamaulipas trabaja incansablemente por el perfeccionamiento moral e intelectual de sus miembros, promoviendo los más altos valores de fraternidad y servicio a la humanidad.</p>
-        
-        <div style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; text-align: left;">
-            <div>
-                <h3 style="color: var(--dorado); font-family: 'Cinzel', serif;">Nuestra Misión</h3>
-                <p>Forjar hombres libres y de buenas costumbres, promoviendo la justicia social y el progreso intelectual, para contribuir al bienestar de la sociedad tamaulipeca.</p>
-            </div>
-            <div>
-                <h3 style="color: var(--dorado); font-family: 'Cinzel', serif;">Nuestra Visión</h3>
-                <p>Ser un referente ético y cultural en el estado, manteniendo vivas las tradiciones de nuestra milenaria orden, adaptándonos a los retos del siglo XXI.</p>
-            </div>
-        </div>
+        <h2 style="font-family: 'Cinzel'; color: var(--dorado);">Libertad, Igualdad, Fraternidad</h2>
+        <p>Promovemos los más altos valores de fraternidad y servicio a la humanidad bajo la bóveda celeste de nuestro estado.</p>
     </section>
 
     <footer>
         <p>A.·. L.·. G.·. A.·. D.·. U.·.</p>
-        <p>&copy; 2026 Muy Respetable Gran Logia de Tamaulipas de AA.·. FF.·. y AA.·. MM.·.</p>
+        <p>&copy; 2026 Muy Respetable Gran Logia de Tamaulipas</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: { delay: 3500, disableOnInteraction: false },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+        });
+    </script>
 </body>
 </html>
