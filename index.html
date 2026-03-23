@@ -7,152 +7,250 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --azul: #0a1421;
-            --oro: #d4af37;
-            --blanco: #ffffff;
+            /* Paleta Masónica Tradicional */
+            --azul-profundo: #0a192f; 
+            --azul-tarjeta: #112240;    
+            --dorado: #f9e29b;       
+            --dorado-oscuro: #c5a059;      
+            --texto-suave: #e6f1ff;       
             --exito: #27ae60;
             --error: #c0392b;
         }
 
-        body { font-family: 'Lora', serif; background: #f0f2f5; margin: 0; color: #333; }
-        h2, h3 { font-family: 'Cinzel', serif; }
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--azul-profundo);
+            margin: 0;
+            color: var(--texto-suave);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-        /* Login */
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--dorado);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Contenedor de Login */
         .login-card {
             max-width: 400px;
-            margin: 100px auto;
-            background: white;
+            margin: 80px auto;
+            background-color: var(--azul-tarjeta);
             padding: 40px;
-            border-top: 6px solid var(--oro);
+            border: 2px solid var(--dorado-oscuro);
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
             text-align: center;
+        }
+
+        .logo-img {
+            width: 140px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.4));
         }
 
         input {
             width: 100%;
             padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
+            margin: 12px 0;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--dorado-oscuro);
             border-radius: 4px;
+            color: white;
+            font-size: 1rem;
             box-sizing: border-box;
         }
 
+        input::placeholder { color: rgba(230, 241, 255, 0.4); }
+
         button {
             width: 100%;
-            background: var(--azul);
-            color: var(--oro);
-            padding: 14px;
+            background-color: var(--dorado);
+            color: var(--azul-profundo);
+            padding: 15px;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
             font-family: 'Cinzel';
             font-weight: bold;
-            letter-spacing: 1px;
+            font-size: 1rem;
+            margin-top: 10px;
             transition: 0.3s;
         }
 
-        button:hover { background: #1c2d46; }
+        button:hover {
+            background-color: var(--dorado-oscuro);
+            transform: scale(1.02);
+        }
 
         /* Panel de Resultados */
-        #panel { display: none; max-width: 1000px; margin: 50px auto; background: white; padding: 30px; border-radius: 8px; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 25px; }
-        th { background: var(--azul); color: var(--oro); padding: 15px; text-align: left; }
-        td { padding: 15px; border-bottom: 1px solid #eee; }
+        #panel {
+            display: none;
+            max-width: 1000px;
+            margin: 40px auto;
+            background-color: var(--azul-tarjeta);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--dorado-oscuro);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: white; }
-        .Pagado { background: var(--exito); }
-        .Pendiente { background: var(--error); }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--dorado);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
 
-        .loader { font-size: 0.8rem; color: #666; margin-bottom: 15px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--texto-suave);
+        }
+
+        th {
+            background-color: rgba(0,0,0,0.3);
+            color: var(--dorado);
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid var(--dorado-oscuro);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .Pagado { background-color: var(--exito); }
+        .Pendiente { background-color: var(--error); }
+
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--dorado-oscuro);
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .loader-msg { font-size: 0.85rem; margin-bottom: 15px; color: var(--dorado-oscuro); }
+
+        @media (max-width: 600px) {
+            .panel-header { flex-direction: column; gap: 15px; }
+            td, th { padding: 10px; font-size: 0.85rem; }
+        }
     </style>
 </head>
 <body>
 
     <div id="login-screen" class="login-card">
-        <img src="logo_moderno.png" alt="GLT" style="width: 120px; margin-bottom: 20px;">
+        <img src="logo_moderno.png" alt="Gran Logia de Tamaulipas" class="logo-img">
         <h2>Tesorería GLT</h2>
-        <div id="loader-msg" class="loader">Sincronizando con Gran Tesorería...</div>
+        <div id="loader" class="loader-msg">Sincronizando con la Gran Bóveda...</div>
         
-        <input type="text" id="logia-id" placeholder="Número de Logia">
+        <input type="text" id="logia-id" placeholder="No. de Logia">
         <input type="password" id="logia-pass" placeholder="Clave de Acceso">
         <button onclick="verificarAcceso()">INGRESAR AL TEMPLO</button>
     </div>
 
-    <div id="panel">
-        <div style="display:flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--oro); padding-bottom: 10px;">
-            <h2 id="nombre-display"></h2>
-            <button onclick="location.reload()" style="width: auto; padding: 8px 15px; font-size: 0.7rem; background: #666;">SALIR</button>
+    <div id="panel" class="container">
+        <div class="panel-header">
+            <h2 id="nombre-display" style="margin:0;"></h2>
+            <button onclick="location.reload()" style="width:auto; padding: 10px 20px; background:#444; color:white; font-size: 0.7rem;">CERRAR SESIÓN</button>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th>Logia</th>
-                    <th>Mes</th>
+                    <th>Concepto / Mes</th>
                     <th>Monto</th>
-                    <th>Estado</th>
+                    <th>Estado Actual</th>
                 </tr>
             </thead>
             <tbody id="tabla-datos"></tbody>
         </table>
-        <p style="margin-top: 20px; font-size: 0.8rem; font-style: italic; color: #777;">
-            * Si detecta alguna discrepancia, favor de comunicarse a la Gran Secretaría en Tampico.
+        
+        <p style="margin-top: 30px; font-size: 0.85rem; color: var(--dorado-oscuro); text-align: center; font-style: italic;">
+            "La exactitud en nuestras obligaciones fortalece las columnas de nuestro Templo."
         </p>
     </div>
 
+    <footer>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.</p>
+        <p>Muy Respetable Gran Logia de Tamaulipas &copy; 2026</p>
+    </footer>
+
     <script>
-        // REEMPLAZA ESTO CON TU LINK DE "PUBLICAR COMO CSV"
+        // Enlace CSV de tu Google Sheet
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv";
 
-        let db = [];
+        let database = [];
 
-        async function iniciarSistema() {
+        async function cargarSistema() {
             try {
                 const response = await fetch(CSV_URL);
                 const data = await response.text();
-                const filas = data.split("\n").slice(1); // Ignorar encabezados
+                // Procesar filas (omitir encabezado)
+                const filas = data.split("\n").slice(1);
                 
-                db = filas.map(linea => {
-                    const columnas = linea.split(",");
+                database = filas.map(f => {
+                    const c = f.split(",");
                     return {
-                        id: columnas[0]?.trim(),
-                        pass: columnas[1]?.trim(),
-                        nombre: columnas[2]?.trim(),
-                        mes: columnas[3]?.trim(),
-                        monto: columnas[4]?.trim(),
-                        estado: columnas[5]?.trim()
+                        id: c[0]?.trim(),
+                        pass: c[1]?.trim(),
+                        nombre: c[2]?.trim(),
+                        mes: c[3]?.trim(),
+                        monto: c[4]?.trim(),
+                        estado: c[5]?.trim()
                     };
                 });
-                document.getElementById('loader-msg').innerText = "Sistema Conectado ✔";
-                document.getElementById('loader-msg').style.color = "green";
+                document.getElementById('loader').innerText = "Sistema Conectado ✔";
+                document.getElementById('loader').style.color = "#27ae60";
             } catch (err) {
-                document.getElementById('loader-msg').innerText = "Error de conexión con la base de datos.";
-                document.getElementById('loader-msg').style.color = "red";
+                document.getElementById('loader').innerText = "Error de conexión con Tesorería ❌";
+                document.getElementById('loader').style.color = "#c0392b";
             }
         }
 
         function verificarAcceso() {
-            const user = document.getElementById('logia-id').value;
-            const pass = document.getElementById('logia-pass').value;
+            const userInput = document.getElementById('logia-id').value.trim();
+            const passInput = document.getElementById('logia-pass').value.trim();
 
-            // Lógica de Administrador (Gran Tesorero)
-            if (user === "admin" && pass === "TAMPICO2024") { // Cambia esta clave admin
-                renderizarPantalla("PANEL GLOBAL - GRAN TESORERÍA", db);
+            // Acceso Administrador (Gran Tesorero)
+            if (userInput === "admin" && passInput === "TAMPICO2026") {
+                renderizarPanel("PANEL GLOBAL - GRAN TESORERÍA", database);
                 return;
             }
 
-            // Lógica de Logia Individual
-            const match = db.find(item => item.id === user && item.pass === pass);
+            // Acceso Logia
+            const match = database.find(l => l.id === userInput && l.pass === passInput);
 
             if (match) {
-                renderizarPantalla(match.nombre, [match]);
+                // Filtrar todos los registros que pertenezcan a ese ID (por si hay varios meses)
+                const registros = database.filter(l => l.id === userInput);
+                renderizarPanel(match.nombre, registros);
             } else {
-                alert("Credenciales no válidas. Verifique su número de logia y contraseña.");
+                alert("Credenciales incorrectas. Favor de verificar.");
             }
         }
 
-        function renderizarPantalla(titulo, lista) {
+        function renderizarPanel(titulo, lista) {
             document.getElementById('login-screen').style.display = "none";
             document.getElementById('panel').style.display = "block";
             document.getElementById('nombre-display').innerText = titulo;
@@ -160,15 +258,14 @@
             const tabla = document.getElementById('tabla-datos');
             tabla.innerHTML = lista.map(l => `
                 <tr>
-                    <td>${l.nombre}</td>
-                    <td>${l.mes}</td>
-                    <td>${l.monto}</td>
-                    <td><span class="status-badge ${l.estado}">${l.estado.toUpperCase()}</span></td>
+                    <td>${l.mes || 'N/A'}</td>
+                    <td>${l.monto || '---'}</td>
+                    <td><span class="status-badge ${l.estado}">${l.estado ? l.estado.toUpperCase() : 'PENDIENTE'}</span></td>
                 </tr>
             `).join("");
         }
 
-        iniciarSistema();
+        cargarSistema();
     </script>
 </body>
 </html>
