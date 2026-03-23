@@ -15,17 +15,16 @@
         .login-card { max-width: 400px; margin: 60px auto; background: var(--azul-tarjeta); padding: 40px; border: 2px solid var(--dorado-oscuro); border-radius: 8px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .logo-img { width: 180px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.3)); }
         input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(255,255,255,0.05); border: 1px solid var(--dorado-oscuro); border-radius: 4px; color: white; box-sizing: border-box; font-size: 1rem; }
-        button { width: 100%; background: var(--dorado); color: var(--azul-profundo); padding: 15px; border: none; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; text-transform: uppercase; }
-        button:hover { background: var(--dorado-oscuro); }
+        button { width: 100%; background: var(--dorado); color: var(--azul-profundo); padding: 15px; border: none; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
         #panel { display: none; max-width: 900px; margin: 40px auto; background: var(--azul-tarjeta); padding: 30px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
         .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--dorado); padding-bottom: 15px; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { color: var(--dorado); padding: 12px; text-align: left; border-bottom: 2px solid var(--dorado-oscuro); font-family: 'Cinzel'; font-size: 0.9rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th { color: var(--dorado); padding: 12px; text-align: left; border-bottom: 2px solid var(--dorado-oscuro); font-family: 'Cinzel'; }
         td { padding: 12px; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
-        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; color: white; display: inline-block; }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; color: white; }
         .PAGADO { background: var(--exito); }
         .PENDIENTE { background: var(--error); }
-        footer { margin-top: auto; padding: 20px; text-align: center; color: var(--dorado-oscuro); font-size: 0.8rem; border-top: 1px solid rgba(197,160,89,0.1); }
+        footer { margin-top: auto; padding: 20px; text-align: center; color: var(--dorado-oscuro); font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -34,60 +33,61 @@
         <img src="logo_moderno.jpg" alt="GLT" class="logo-img">
         <h2>Tesorería GLT</h2>
         <div id="loader" style="font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 10px;">Sincronizando con Gran Bóveda...</div>
-        <input type="number" id="logia-id" placeholder="Número de Logia">
-        <input type="password" id="logia-pass" placeholder="Contraseña (Número)">
-        <button onclick="intentarEntrar()">INGRESAR AL TEMPLO</button>
+        <input type="text" id="logia-id" placeholder="Número de Logia">
+        <input type="password" id="logia-pass" placeholder="Contraseña">
+        <button onclick="intentarEntrar()">INGRESAR</button>
     </div>
 
     <div id="panel">
         <div class="panel-header">
-            <h2 id="nombre-display" style="margin:0; font-size: 1.1rem; text-align: left;"></h2>
+            <h2 id="nombre-display" style="margin:0; font-size: 1.1rem;"></h2>
             <div style="display:flex; gap:10px;">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" target="_blank" style="background:var(--exito); color:white; padding:10px 15px; text-decoration:none; border-radius:4px; font-family:'Cinzel'; font-size:0.7rem; font-weight:bold; display: flex; align-items: center;">REPORTAR PAGO</a>
-                <button onclick="location.reload()" style="background:#444; width:auto; padding:10px 15px; margin:0; font-size: 0.7rem;">SALIR</button>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" target="_blank" style="background:var(--exito); color:white; padding:10px 15px; text-decoration:none; border-radius:4px; font-family:'Cinzel'; font-size:0.7rem; font-weight:bold;">REPORTAR PAGO</a>
+                <button onclick="location.reload()" style="background:#444; width:auto; padding:10px 15px; margin:0;">SALIR</button>
             </div>
         </div>
         <table>
             <thead>
                 <tr>
-                    <th>Concepto / Mes</th>
+                    <th>Mes</th>
                     <th>Monto</th>
-                    <th>Estado Actual</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody id="tabla-body"></tbody>
         </table>
-        <p style="text-align:center; margin-top:30px; font-style:italic; font-size:0.8rem; color:var(--dorado-oscuro);">"La exactitud en nuestras obligaciones fortalece las columnas de nuestro Templo."</p>
     </div>
 
     <footer>
-        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Muy Respetable Gran Logia de Tamaulipas &copy; 2026</p>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Gran Logia de Tamaulipas &copy; 2026</p>
     </footer>
 
     <script>
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv";
-        let datosFull = [];
+        let database = [];
 
         async function cargarDatos() {
             try {
-                const res = await fetch(SHEET_URL);
+                const res = await fetch(SHEET_URL + "&cache=" + new Date().getTime());
                 const csvText = await res.text();
-                const filas = csvText.split(/\r?\n/).filter(line => line.trim() !== "");
                 
-                datosFull = filas.slice(1).map(f => {
-                    const c = f.split(",");
+                // DETECCIÓN AUTOMÁTICA DE SEPARADOR (Coma o Punto y Coma)
+                const lineas = csvText.split(/\r?\n/).filter(l => l.trim() !== "");
+                const separador = lineas[0].indexOf(';') > -1 ? ';' : ',';
+                
+                database = lineas.slice(1).map(f => {
+                    const c = f.split(separador);
                     const limpiar = (t) => (t || "").replace(/"/g, "").trim();
                     return {
-                        id: limpiar(c[0]),
-                        pass: limpiar(c[1]),
-                        nombre: limpiar(c[2]),
-                        mes: limpiar(c[3]),
-                        monto: limpiar(c[4]),
-                        estado: limpiar(c[5]).toUpperCase()
+                        id: limpiar(c[0]),     // Columna A
+                        pass: limpiar(c[1]),   // Columna B
+                        nombre: limpiar(c[2]), // Columna C
+                        mes: limpiar(c[3]),    // Columna D
+                        monto: limpiar(c[4]),  // Columna E
+                        estado: limpiar(c[5]).toUpperCase() // Columna F
                     };
                 });
-                document.getElementById('loader').innerText = "Sistema Conectado ✔";
-                document.getElementById('loader').style.color = "#27ae60";
+                document.getElementById('loader').innerText = "Conexión Establecida ✔";
             } catch (e) {
                 document.getElementById('loader').innerText = "Error de Conexión ❌";
             }
@@ -97,22 +97,22 @@
             const u = document.getElementById('logia-id').value.trim();
             const p = document.getElementById('logia-pass').value.trim();
 
-            // Acceso Admin
-            if (u.toLowerCase() === "admin" && p.toLowerCase() === "tampico2026") {
-                render(datosFull, "PANEL GRAN TESORERÍA");
+            if (u.toLowerCase() === "admin" && p === "tampico2026") {
+                render(database, "PANEL GRAN TESORERÍA");
                 return;
             }
 
-            // Acceso Logia (Compara el número ingresado con las columnas A y B del Excel)
-            const match = datosFull.find(l => 
-                (l.id === u && l.pass === p)
+            // Búsqueda insensible a mayúsculas/minúsculas y espacios
+            const match = database.find(l => 
+                String(l.id).toLowerCase() === u.toLowerCase() && 
+                String(l.pass).toLowerCase() === p.toLowerCase()
             );
 
             if (match) {
-                const registrosLogia = datosFull.filter(l => l.id === u);
-                render(registrosLogia, match.nombre);
+                const registros = database.filter(l => String(l.id).toLowerCase() === u.toLowerCase());
+                render(registros, match.nombre);
             } else {
-                alert("Credenciales Incorrectas.\nAsegúrese de que el número de logia sea el mismo en ambos campos.");
+                alert("No se encontró la logia o la clave es incorrecta.");
             }
         }
 
@@ -120,7 +120,6 @@
             document.getElementById('login-screen').style.display = "none";
             document.getElementById('panel').style.display = "block";
             document.getElementById('nombre-display').innerText = titulo;
-            
             const tbody = document.getElementById('tabla-body');
             tbody.innerHTML = lista.map(l => `
                 <tr>
