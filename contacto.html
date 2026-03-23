@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Gran Logia de Tamaulipas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul-profundo: #0a192f;
+            --azul-tarjeta: #112240;
+            --dorado: #f9e29b;
+            --dorado-oscuro: #c5a059;
+            --blanco-suave: #e6f1ff;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--azul-profundo);
+            color: var(--blanco-suave);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--dorado-oscuro);
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(10, 25, 47, 0.9));
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--dorado);
+            margin: 0;
+            letter-spacing: 3px;
+            font-size: 2rem;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .contact-card {
+            background: var(--azul-tarjeta);
+            border: 1px solid var(--dorado-oscuro);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            color: var(--dorado);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .contact-card h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--dorado);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .email-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .email-list li {
+            margin-bottom: 10px;
+        }
+
+        .email-list a, .phone-link {
+            color: var(--blanco-suave);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .email-list a:hover, .phone-link:hover {
+            color: var(--dorado);
+        }
+
+        .address-txt {
+            line-height: 1.6;
+            font-size: 1.1rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .btn-regresar {
+            display: inline-block;
+            margin: 40px 0;
+            color: var(--dorado-oscuro);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .btn-regresar:hover {
+            color: var(--dorado);
+            border-bottom: 1px solid var(--dorado);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            color: var(--dorado-oscuro);
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .full-width {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo_moderno.png" width="60" alt="Logo GLT" style="margin-bottom:15px; filter: drop-shadow(0 0 5px var(--dorado));">
+        <h1>Contacto</h1>
+    </header>
+
+    <div class="container">
+        
+        <div class="contact-grid">
+            <div class="contact-card">
+                <span class="section-icon">✉️</span>
+                <h2>Correos Electrónicos</h2>
+                <ul class="email-list">
+                    <li><a href="mailto:granlogiatam@hotmail.com">granlogiatam@hotmail.com</a></li>
+                    <li><a href="mailto:granlogiatam@yahoo.com.mx">granlogiatam@yahoo.com.mx</a></li>
+                    <li><a href="mailto:granlogiatam@granlogiadetamaulipas.org">granlogiatam@granlogiadetamaulipas.org</a></li>
+                </ul>
+            </div>
+
+            <div class="contact-card">
+                <span class="section-icon">📞</span>
+                <h2>Teléfono Directo</h2>
+                <a href="tel:+528332170715" class="phone-link">+52 833 217 0715</a>
+                <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">Atención en Horario de Oficina</p>
+            </div>
+
+            <div class="contact-card full-width">
+                <span class="section-icon">🏛️</span>
+                <h2>Sede de la Muy Respetable Gran Logia</h2>
+                <p class="address-txt">
+                    Encino no. 100, Col. Aguila, CP 89230<br>
+                    Tampico, Tamaulipas. México.
+                </p>
+            </div>
+        </div>
+
+        <center>
+            <a href="index.html" class="btn-regresar">← REGRESAR AL PORTAL</a>
+        </center>
+    </div>
+
+    <footer>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>© 2026 Muy Respetable Gran Logia de Tamaulipas</p>
+    </footer>
+
+</body>
+</html>
