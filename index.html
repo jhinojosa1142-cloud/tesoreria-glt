@@ -14,18 +14,18 @@
         h2 { font-family: 'Cinzel', serif; color: var(--dorado); text-transform: uppercase; text-align: center; }
         .login-card { max-width: 400px; margin: 60px auto; background: var(--azul-tarjeta); padding: 40px; border: 2px solid var(--dorado-oscuro); border-radius: 8px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .logo-img { width: 180px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.3)); }
-        input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(255,255,255,0.05); border: 1px solid var(--dorado-oscuro); border-radius: 4px; color: white; box-sizing: border-box; }
-        button { width: 100%; background: var(--dorado); color: var(--azul-profundo); padding: 15px; border: none; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(255,255,255,0.05); border: 1px solid var(--dorado-oscuro); border-radius: 4px; color: white; box-sizing: border-box; font-size: 1rem; }
+        button { width: 100%; background: var(--dorado); color: var(--azul-profundo); padding: 15px; border: none; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; text-transform: uppercase; }
         button:hover { background: var(--dorado-oscuro); }
         #panel { display: none; max-width: 900px; margin: 40px auto; background: var(--azul-tarjeta); padding: 30px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
         .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--dorado); padding-bottom: 15px; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th { color: var(--dorado); padding: 12px; text-align: left; border-bottom: 2px solid var(--dorado-oscuro); font-family: 'Cinzel'; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { color: var(--dorado); padding: 12px; text-align: left; border-bottom: 2px solid var(--dorado-oscuro); font-family: 'Cinzel'; font-size: 0.9rem; }
         td { padding: 12px; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
-        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; color: white; }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; color: white; display: inline-block; }
         .PAGADO { background: var(--exito); }
         .PENDIENTE { background: var(--error); }
-        footer { margin-top: auto; padding: 20px; text-align: center; color: var(--dorado-oscuro); font-size: 0.8rem; }
+        footer { margin-top: auto; padding: 20px; text-align: center; color: var(--dorado-oscuro); font-size: 0.8rem; border-top: 1px solid rgba(197,160,89,0.1); }
     </style>
 </head>
 <body>
@@ -33,38 +33,38 @@
     <div id="login-screen" class="login-card">
         <img src="logo_moderno.jpg" alt="GLT" class="logo-img">
         <h2>Tesorería GLT</h2>
-        <div id="loader" style="font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 10px;">Cargando Gran Bóveda...</div>
-        <input type="text" id="logia-id" placeholder="No. de Logia">
-        <input type="password" id="logia-pass" placeholder="Clave de Acceso">
-        <button onclick="intentarEntrar()">INGRESAR</button>
+        <div id="loader" style="font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 10px;">Sincronizando con Gran Bóveda...</div>
+        <input type="number" id="logia-id" placeholder="Número de Logia">
+        <input type="password" id="logia-pass" placeholder="Contraseña (Número)">
+        <button onclick="intentarEntrar()">INGRESAR AL TEMPLO</button>
     </div>
 
     <div id="panel">
         <div class="panel-header">
-            <h2 id="nombre-display" style="margin:0; font-size: 1.2rem;"></h2>
+            <h2 id="nombre-display" style="margin:0; font-size: 1.1rem; text-align: left;"></h2>
             <div style="display:flex; gap:10px;">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" target="_blank" style="background:var(--exito); color:white; padding:10px 15px; text-decoration:none; border-radius:4px; font-family:'Cinzel'; font-size:0.7rem; font-weight:bold;">REPORTAR PAGO</a>
-                <button onclick="location.reload()" style="background:#444; width:auto; padding:10px 15px; margin:0;">SALIR</button>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" target="_blank" style="background:var(--exito); color:white; padding:10px 15px; text-decoration:none; border-radius:4px; font-family:'Cinzel'; font-size:0.7rem; font-weight:bold; display: flex; align-items: center;">REPORTAR PAGO</a>
+                <button onclick="location.reload()" style="background:#444; width:auto; padding:10px 15px; margin:0; font-size: 0.7rem;">SALIR</button>
             </div>
         </div>
         <table>
             <thead>
                 <tr>
-                    <th>Detalle / Mes</th>
+                    <th>Concepto / Mes</th>
                     <th>Monto</th>
-                    <th>Estado</th>
+                    <th>Estado Actual</th>
                 </tr>
             </thead>
             <tbody id="tabla-body"></tbody>
         </table>
+        <p style="text-align:center; margin-top:30px; font-style:italic; font-size:0.8rem; color:var(--dorado-oscuro);">"La exactitud en nuestras obligaciones fortalece las columnas de nuestro Templo."</p>
     </div>
 
     <footer>
-        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Gran Logia de Tamaulipas &copy; 2026</p>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Muy Respetable Gran Logia de Tamaulipas &copy; 2026</p>
     </footer>
 
     <script>
-        // URL corregida a exportación CSV directa
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv";
         let datosFull = [];
 
@@ -72,8 +72,6 @@
             try {
                 const res = await fetch(SHEET_URL);
                 const csvText = await res.text();
-                
-                // Procesamiento ultra-simple: Dividir por líneas y luego por comas
                 const filas = csvText.split(/\r?\n/).filter(line => line.trim() !== "");
                 
                 datosFull = filas.slice(1).map(f => {
@@ -88,28 +86,33 @@
                         estado: limpiar(c[5]).toUpperCase()
                     };
                 });
-                document.getElementById('loader').innerText = "Conexión Establecida ✔";
+                document.getElementById('loader').innerText = "Sistema Conectado ✔";
+                document.getElementById('loader').style.color = "#27ae60";
             } catch (e) {
                 document.getElementById('loader').innerText = "Error de Conexión ❌";
             }
         }
 
         function intentarEntrar() {
-            const u = document.getElementById('logia-id').value.trim().toLowerCase();
-            const p = document.getElementById('logia-pass').value.trim().toLowerCase();
+            const u = document.getElementById('logia-id').value.trim();
+            const p = document.getElementById('logia-pass').value.trim();
 
-            if (u === "admin" && p === "tampico2026") {
-                render(datosFull, "PANEL ADMINISTRATIVO");
+            // Acceso Admin
+            if (u.toLowerCase() === "admin" && p.toLowerCase() === "tampico2026") {
+                render(datosFull, "PANEL GRAN TESORERÍA");
                 return;
             }
 
-            const match = datosFull.find(l => l.id.toLowerCase() === u && l.pass.toLowerCase() === p);
+            // Acceso Logia (Compara el número ingresado con las columnas A y B del Excel)
+            const match = datosFull.find(l => 
+                (l.id === u && l.pass === p)
+            );
 
             if (match) {
-                const registrosLogia = datosFull.filter(l => l.id.toLowerCase() === u);
+                const registrosLogia = datosFull.filter(l => l.id === u);
                 render(registrosLogia, match.nombre);
             } else {
-                alert("Credenciales Incorrectas.\nVerifica tu número de logia y contraseña.");
+                alert("Credenciales Incorrectas.\nAsegúrese de que el número de logia sea el mismo en ambos campos.");
             }
         }
 
@@ -121,9 +124,9 @@
             const tbody = document.getElementById('tabla-body');
             tbody.innerHTML = lista.map(l => `
                 <tr>
-                    <td>${l.mes}</td>
-                    <td>${l.monto}</td>
-                    <td><span class="status-badge ${l.estado}">${l.estado || 'PENDIENTE'}</span></td>
+                    <td>${l.mes || 'S/D'}</td>
+                    <td>${l.monto || '---'}</td>
+                    <td><span class="status-badge ${l.estado.includes('PAGADO') ? 'PAGADO' : 'PENDIENTE'}">${l.estado || 'PENDIENTE'}</span></td>
                 </tr>
             `).join("");
         }
