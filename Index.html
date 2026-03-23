@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT - Gran Logia de Tamaulipas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul: #0a1421;
+            --oro: #d4af37;
+            --blanco: #ffffff;
+            --exito: #27ae60;
+            --error: #c0392b;
+        }
+
+        body { font-family: 'Lora', serif; background: #f0f2f5; margin: 0; color: #333; }
+        h2, h3 { font-family: 'Cinzel', serif; }
+
+        /* Login */
+        .login-card {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-top: 6px solid var(--oro);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            background: var(--azul);
+            color: var(--oro);
+            padding: 14px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cinzel';
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        button:hover { background: #1c2d46; }
+
+        /* Panel de Resultados */
+        #panel { display: none; max-width: 1000px; margin: 50px auto; background: white; padding: 30px; border-radius: 8px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 25px; }
+        th { background: var(--azul); color: var(--oro); padding: 15px; text-align: left; }
+        td { padding: 15px; border-bottom: 1px solid #eee; }
+
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: white; }
+        .Pagado { background: var(--exito); }
+        .Pendiente { background: var(--error); }
+
+        .loader { font-size: 0.8rem; color: #666; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen" class="login-card">
+        <img src="logo_moderno.png" alt="GLT" style="width: 120px; margin-bottom: 20px;">
+        <h2>Tesorería GLT</h2>
+        <div id="loader-msg" class="loader">Sincronizando con Gran Tesorería...</div>
+        
+        <input type="text" id="logia-id" placeholder="Número de Logia">
+        <input type="password" id="logia-pass" placeholder="Clave de Acceso">
+        <button onclick="verificarAcceso()">INGRESAR AL TEMPLO</button>
+    </div>
+
+    <div id="panel">
+        <div style="display:flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--oro); padding-bottom: 10px;">
+            <h2 id="nombre-display"></h2>
+            <button onclick="location.reload()" style="width: auto; padding: 8px 15px; font-size: 0.7rem; background: #666;">SALIR</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Logia</th>
+                    <th>Mes</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-datos"></tbody>
+        </table>
+        <p style="margin-top: 20px; font-size: 0.8rem; font-style: italic; color: #777;">
+            * Si detecta alguna discrepancia, favor de comunicarse a la Gran Secretaría en Tampico.
+        </p>
+    </div>
+
+    <script>
+        // REEMPLAZA ESTO CON TU LINK DE "PUBLICAR COMO CSV"
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv";
+
+        let db = [];
+
+        async function iniciarSistema() {
+            try {
+                const response = await fetch(CSV_URL);
+                const data = await response.text();
+                const filas = data.split("\n").slice(1); // Ignorar encabezados
+                
+                db = filas.map(linea => {
+                    const columnas = linea.split(",");
+                    return {
+                        id: columnas[0]?.trim(),
+                        pass: columnas[1]?.trim(),
+                        nombre: columnas[2]?.trim(),
+                        mes: columnas[3]?.trim(),
+                        monto: columnas[4]?.trim(),
+                        estado: columnas[5]?.trim()
+                    };
+                });
+                document.getElementById('loader-msg').innerText = "Sistema Conectado ✔";
+                document.getElementById('loader-msg').style.color = "green";
+            } catch (err) {
+                document.getElementById('loader-msg').innerText = "Error de conexión con la base de datos.";
+                document.getElementById('loader-msg').style.color = "red";
+            }
+        }
+
+        function verificarAcceso() {
+            const user = document.getElementById('logia-id').value;
+            const pass = document.getElementById('logia-pass').value;
+
+            // Lógica de Administrador (Gran Tesorero)
+            if (user === "admin" && pass === "TAMPICO2024") { // Cambia esta clave admin
+                renderizarPantalla("PANEL GLOBAL - GRAN TESORERÍA", db);
+                return;
+            }
+
+            // Lógica de Logia Individual
+            const match = db.find(item => item.id === user && item.pass === pass);
+
+            if (match) {
+                renderizarPantalla(match.nombre, [match]);
+            } else {
+                alert("Credenciales no válidas. Verifique su número de logia y contraseña.");
+            }
+        }
+
+        function renderizarPantalla(titulo, lista) {
+            document.getElementById('login-screen').style.display = "none";
+            document.getElementById('panel').style.display = "block";
+            document.getElementById('nombre-display').innerText = titulo;
+
+            const tabla = document.getElementById('tabla-datos');
+            tabla.innerHTML = lista.map(l => `
+                <tr>
+                    <td>${l.nombre}</td>
+                    <td>${l.mes}</td>
+                    <td>${l.monto}</td>
+                    <td><span class="status-badge ${l.estado}">${l.estado.toUpperCase()}</span></td>
+                </tr>
+            `).join("");
+        }
+
+        iniciarSistema();
+    </script>
+</body>
+</html>
