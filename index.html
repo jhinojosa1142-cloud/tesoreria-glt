@@ -7,43 +7,168 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --azul-profundo: #0a192f; --azul-tarjeta: #112240; --dorado: #f9e29b;
-            --dorado-oscuro: #c5a059; --texto-suave: #e6f1ff; --exito: #27ae60; --error: #c0392b;
+            --azul-profundo: #0a192f; 
+            --azul-tarjeta: #112240;    
+            --dorado: #f9e29b;       
+            --dorado-oscuro: #c5a059;      
+            --texto-suave: #e6f1ff;       
+            --exito: #27ae60;
+            --error: #c0392b;
         }
-        body { font-family: 'Lora', serif; background-color: var(--azul-profundo); margin: 0; color: var(--texto-suave); min-height: 100vh; display: flex; flex-direction: column; }
-        h2 { font-family: 'Cinzel', serif; color: var(--dorado); text-transform: uppercase; text-align: center; }
-        .login-card { max-width: 400px; margin: 60px auto; background: var(--azul-tarjeta); padding: 40px; border: 2px solid var(--dorado-oscuro); border-radius: 8px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
-        .logo-img { width: 170px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 0 8px rgba(249, 226, 155, 0.3)); }
-        input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(255,255,255,0.05); border: 1px solid var(--dorado-oscuro); border-radius: 4px; color: white; box-sizing: border-box; font-size: 1rem; }
-        button { width: 100%; background: var(--dorado); color: var(--azul-profundo); padding: 15px; border: none; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        #panel { display: none; max-width: 900px; margin: 40px auto; background: var(--azul-tarjeta); padding: 30px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--dorado); padding-bottom: 15px; margin-bottom: 25px; }
-        table { width: 100%; border-collapse: collapse; }
-        th { color: var(--dorado); padding: 12px; text-align: left; border-bottom: 2px solid var(--dorado-oscuro); font-family: 'Cinzel'; font-size: 0.85rem; }
-        td { padding: 12px; border-bottom: 1px solid rgba(197, 160, 89, 0.1); font-size: 0.95rem; }
-        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; color: white; text-transform: uppercase; }
-        .PAGADO { background: var(--exito); }
-        .PENDIENTE { background: var(--error); }
-        footer { margin-top: auto; padding: 25px; text-align: center; color: var(--dorado-oscuro); font-size: 0.75rem; border-top: 1px solid rgba(197,160,89,0.1); }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--azul-profundo);
+            margin: 0;
+            color: var(--texto-suave);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--dorado);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .login-card {
+            max-width: 400px;
+            margin: 80px auto;
+            background-color: var(--azul-tarjeta);
+            padding: 40px;
+            border: 2px solid var(--dorado-oscuro);
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+
+        .logo-img {
+            width: 180px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.4));
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--dorado-oscuro);
+            border-radius: 4px;
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        button.btn-principal {
+            width: 100%;
+            background-color: var(--dorado);
+            color: var(--azul-profundo);
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cinzel';
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        button.btn-principal:hover {
+            background-color: var(--dorado-oscuro);
+            transform: scale(1.02);
+        }
+
+        #panel {
+            display: none;
+            max-width: 1000px;
+            margin: 40px auto;
+            background-color: var(--azul-tarjeta);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--dorado-oscuro);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--dorado);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .btn-reporte {
+            background-color: var(--exito);
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: 'Cinzel';
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            color: var(--dorado);
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid var(--dorado-oscuro);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .PAGADO { background-color: var(--exito); }
+        .PENDIENTE { background-color: var(--error); }
+
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--dorado-oscuro);
+        }
     </style>
 </head>
 <body>
 
     <div id="login-screen" class="login-card">
-        <img src="logo_moderno.jpg" alt="GLT" class="logo-img">
+        <img src="logo_moderno.jpg" alt="Gran Logia de Tamaulipas" class="logo-img">
         <h2>Tesorería GLT</h2>
-        <div id="loader" style="font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 10px;">Conectando...</div>
-        <input type="text" id="logia-id" placeholder="Número de Logia">
-        <input type="password" id="logia-pass" placeholder="Confirmar Número">
-        <button onclick="intentarEntrar()">INGRESAR</button>
+        <div id="loader" style="margin-bottom:15px; font-size:0.8rem;">Conectando con Gran Tesorería...</div>
+        
+        <input type="text" id="logia-id" placeholder="No. de Logia">
+        <input type="password" id="logia-pass" placeholder="Clave de Acceso">
+        <button class="btn-principal" onclick="verificarAcceso()">INGRESAR</button>
     </div>
 
     <div id="panel">
         <div class="panel-header">
-            <h2 id="nombre-display" style="margin:0; font-size: 1.1rem; text-align: left;"></h2>
+            <h2 id="nombre-display" style="margin:0;"></h2>
             <div style="display:flex; gap:10px;">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" target="_blank" style="background:var(--exito); color:white; padding:10px 15px; text-decoration:none; border-radius:4px; font-family:'Cinzel'; font-size:0.7rem; font-weight:bold; display:flex; align-items:center;">REPORTAR PAGO</a>
-                <button onclick="location.reload()" style="background:#444; width:auto; padding:10px 15px; margin:0; font-size: 0.7rem;">SALIR</button>
+                <a id="link-reporte" href="TU_LINK_DE_FORMULARIO_AQUI" target="_blank" class="btn-reporte">REPORTAR PAGO ⬆</a>
+                <button onclick="location.reload()" style="background:#444; color:white; border:none; padding:10px 15px; cursor:pointer; font-family:'Cinzel';">SALIR</button>
             </div>
         </div>
         <table>
@@ -54,72 +179,73 @@
                     <th>Estado</th>
                 </tr>
             </thead>
-            <tbody id="tabla-body"></tbody>
+            <tbody id="tabla-datos"></tbody>
         </table>
     </div>
 
     <footer>
-        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Gran Logia de Tamaulipas &copy; 2026</p>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.</p>
+        <p>Muy Respetable Gran Logia de Tamaulipas</p>
     </footer>
 
     <script>
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv";
-        let rawData = [];
+        let database = [];
 
         async function cargarDatos() {
             try {
-                const res = await fetch(CSV_URL + "&cb=" + Date.now());
-                const text = await res.text();
-                // Separar por líneas y limpiar celdas de comillas y espacios
-                rawData = text.split(/\r?\n/).filter(l => l.trim() !== "").map(fila => {
-                    return fila.split(/[,;]/).map(celda => celda.replace(/"/g, "").trim());
-                });
+                const response = await fetch(CSV_URL);
+                const data = await response.text();
+                // Limpieza de datos: divide por filas y limpia espacios
+                const filas = data.split(/\r?\n/).slice(1);
+                database = filas.map(f => {
+                    const c = f.split(",");
+                    return {
+                        id: (c[0] || "").trim(),
+                        pass: (c[1] || "").trim(),
+                        nombre: (c[2] || "").trim(),
+                        mes: (c[3] || "").trim(),
+                        monto: (c[4] || "").trim(),
+                        estado: (c[5] || "").trim().toUpperCase()
+                    };
+                }).filter(item => item.id !== ""); // Ignora filas vacías
                 document.getElementById('loader').innerText = "Sistema Listo ✔";
             } catch (e) {
-                document.getElementById('loader').innerText = "Error de Red ❌";
+                document.getElementById('loader').innerText = "Error de conexión ❌";
             }
         }
 
-        function intentarEntrar() {
-            const user = document.getElementById('logia-id').value.trim();
-            const pass = document.getElementById('logia-pass').value.trim();
+        function verificarAcceso() {
+            const user = document.getElementById('logia-id').value.trim().toLowerCase();
+            const pass = document.getElementById('logia-pass').value.trim().toLowerCase();
 
-            if (user.toLowerCase() === "admin" && pass === "tampico2026") {
-                const todas = rawData.slice(1).map(c => crearObjeto(c));
-                render(todas, "ADMINISTRACIÓN GLOBAL");
+            // Admin
+            if (user === "admin" && pass === "tampico2026") {
+                renderizar(database, "PANEL GRAN TESORERÍA");
                 return;
             }
 
-            // BUSQUEDA FLEXIBLE: Buscamos una fila donde la columna 0 y 1 coincidan con el input
-            const filaEncontrada = rawData.slice(1).find(c => 
-                c[0] === user && c[1] === pass
-            );
+            // Logia (Busca coincidencia exacta ignorando mayúsculas)
+            const match = database.find(l => l.id.toLowerCase() === user && l.pass.toLowerCase() === pass);
 
-            if (filaEncontrada) {
-                const misRegistros = rawData.slice(1).filter(c => c[0] === user).map(c => crearObjeto(c));
-                render(misRegistros, filaEncontrada[2]);
+            if (match) {
+                const misRegistros = database.filter(l => l.id.toLowerCase() === user);
+                renderizar(misRegistros, match.nombre);
             } else {
-                alert("No se encontró el acceso.\nVerifica que escribiste el mismo número en ambos campos.");
+                alert("Credenciales incorrectas. Verifica tu número y clave.");
             }
         }
 
-        function crearObjeto(c) {
-            return {
-                mes: c[3] || "---",
-                monto: c[4] || "---",
-                estado: (c[5] || "PENDIENTE").toUpperCase()
-            };
-        }
-
-        function render(lista, titulo) {
+        function renderizar(lista, titulo) {
             document.getElementById('login-screen').style.display = "none";
             document.getElementById('panel').style.display = "block";
             document.getElementById('nombre-display').innerText = titulo;
-            document.getElementById('tabla-body').innerHTML = lista.map(l => `
+            const tabla = document.getElementById('tabla-datos');
+            tabla.innerHTML = lista.map(l => `
                 <tr>
                     <td>${l.mes}</td>
                     <td>${l.monto}</td>
-                    <td><span class="status-badge ${l.estado.includes('PAGADO') ? 'PAGADO' : 'PENDIENTE'}">${l.estado}</span></td>
+                    <td><span class="status-badge ${l.estado}">${l.estado}</span></td>
                 </tr>
             `).join("");
         }
