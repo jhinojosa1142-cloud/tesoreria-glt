@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuadro de Logias - GLT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --azul-profundo: #0a192f; 
+            --azul-tarjeta: #112240; 
+            --dorado: #f9e29b; 
+            --dorado-oscuro: #c5a059; 
+            --blanco-suave: #e6f1ff; 
+        }
+        body { font-family: 'Lora', serif; background-color: var(--azul-profundo); color: var(--blanco-suave); margin: 0; }
+        
+        header { padding: 40px 20px; text-align: center; border-bottom: 2px solid var(--dorado-oscuro); background: rgba(0,0,0,0.3); }
+        h1 { font-family: 'Cinzel', serif; color: var(--dorado); margin: 0; letter-spacing: 2px; font-size: 1.8rem; }
+        
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        
+        .search-box { margin-bottom: 30px; text-align: center; }
+        #buscador { 
+            padding: 15px; 
+            width: 100%; 
+            max-width: 500px; 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid var(--dorado-oscuro); 
+            color: white; 
+            border-radius: 30px; 
+            font-family: 'Lora';
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+        #buscador:focus { box-shadow: 0 0 15px rgba(249, 226, 155, 0.2); border-color: var(--dorado); }
+
+        .tabla-wrapper { overflow-x: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        table { width: 100%; border-collapse: collapse; background: var(--azul-tarjeta); }
+        th { background: var(--dorado-oscuro); color: var(--azul-profundo); padding: 15px; font-family: 'Cinzel'; font-size: 0.75rem; text-transform: uppercase; }
+        td { padding: 15px; border-bottom: 1px solid rgba(197, 160, 89, 0.1); font-size: 0.9rem; }
+        tr:hover { background: rgba(249, 226, 155, 0.05); }
+
+        .no-col { font-weight: bold; color: var(--dorado); width: 60px; text-align: center; }
+        .oriente-col { font-style: italic; color: var(--dorado-oscuro); }
+
+        .btn-regresar { display: inline-block; margin: 40px 0; color: var(--dorado); text-decoration: none; border: 1px solid var(--dorado); padding: 12px 25px; font-family: 'Cinzel'; font-size: 0.8rem; transition: 0.4s; letter-spacing: 2px; }
+        .btn-regresar:hover { background: var(--dorado); color: var(--azul-profundo); }
+        
+        footer { text-align: center; padding: 40px; font-size: 0.8rem; color: var(--dorado-oscuro); border-top: 1px solid rgba(197,160,89,0.1); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo_moderno.png" width="70" alt="Logo GLT" style="margin-bottom:15px;">
+        <h1>Cuadro de Logias Jurisdiccionadas</h1>
+    </header>
+
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="buscador" onkeyup="filtrarLogias()" placeholder="🔍 Buscar por ciudad, nombre o número...">
+        </div>
+
+        <div class="tabla-wrapper">
+            <table id="tablaLogias">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Nombre de la Respetable Logia Simbólica</th>
+                        <th>Oriente (Ciudad)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="no-col">1</td><td>VICTRIX</td><td class="oriente-col">CD. TAMPICO</td></tr>
+                    <tr><td class="no-col">2</td><td>CONSTELACIÓN ANDRES ARAUJO ARAUJO</td><td class="oriente-col">CD. TAMPICO</td></tr>
+                    <tr><td class="no-col">3</td><td>JUSTICIA</td><td class="oriente-col">CD. TAMPICO</td></tr>
+                    <tr><td class="no-col">4</td><td>PERSEVERANCIA</td><td class="oriente-col">CD. MADERO</td></tr>
+                    <tr><td class="no-col">7</td><td>VICTORIA</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">8</td><td>HIJOS DE LA LUZ</td><td class="oriente-col">CD. TAMPICO</td></tr>
+                    <tr><td class="no-col">9</td><td>NOBLEZA</td><td class="oriente-col">CD. TAMPICO</td></tr>
+                    <tr><td class="no-col">10</td><td>LUZ DEL NORTE</td><td class="oriente-col">CD. MATAMOROS</td></tr>
+                    <tr><td class="no-col">12</td><td>REDENCIÓN</td><td class="oriente-col">CD. NUEVO LAREDO</td></tr>
+                    <tr><td class="no-col">14</td><td>AURORA BOREA</td><td class="oriente-col">CD. MATAMOROS</td></tr>
+                    <tr><td class="no-col">15</td><td>EVOLUCIÓN</td><td class="oriente-col">CD. EL BARRETAL</td></tr>
+                    <tr><td class="no-col">16</td><td>RENACIMIENTO</td><td class="oriente-col">CD. TAMPICO</td></tr>
+                    <tr><td class="no-col">17</td><td>MEDIODÍA</td><td class="oriente-col">CD. COMALES</td></tr>
+                    <tr><td class="no-col">19</td><td>ORION</td><td class="oriente-col">CD. NUEVO LAREDO</td></tr>
+                    <tr><td class="no-col">20</td><td>CITLALI</td><td class="oriente-col">CD. SAN FERNANDO</td></tr>
+                    <tr><td class="no-col">22</td><td>FRANCISCO I. MADERO</td><td class="oriente-col">CD. MIER</td></tr>
+                    <tr><td class="no-col">23</td><td>TOLERANCIA</td><td class="oriente-col">CD. REYNOSA</td></tr>
+                    <tr><td class="no-col">24</td><td>XICOTENCATL</td><td class="oriente-col">CD. XICOTENCATL</td></tr>
+                    <tr><td class="no-col">25</td><td>OBREROS DE LA LUZ</td><td class="oriente-col">CD. S. JIMENEZ</td></tr>
+                    <tr><td class="no-col">26</td><td>PROF. MIGUEL SAENZ GONZALEZ</td><td class="oriente-col">CD. MATAMOROS</td></tr>
+                    <tr><td class="no-col">27</td><td>URANIA</td><td class="oriente-col">CD. V. GONZALEZ</td></tr>
+                    <tr><td class="no-col">28</td><td>HERMES</td><td class="oriente-col">CD. TAMPICO</td></tr>
+                    <tr><td class="no-col">30</td><td>GRAL. FELIPE ÁNGELES</td><td class="oriente-col">CD. TAMPICO</td></tr>
+                    <tr><td class="no-col">32</td><td>VALLE HERMOSO</td><td class="oriente-col">CD. VALLE HERMOSO</td></tr>
+                    <tr><td class="no-col">34</td><td>5 DE FEBRERO</td><td class="oriente-col">CD. MANTE</td></tr>
+                    <tr><td class="no-col">35</td><td>LIC. FORTUNATO DE LEIJA</td><td class="oriente-col">CD. VILLA ALDAMA</td></tr>
+                    <tr><td class="no-col">37</td><td>ALBA</td><td class="oriente-col">CD. NUEVO LAREDO</td></tr>
+                    <tr><td class="no-col">38</td><td>REDENCIÓN</td><td class="oriente-col">CD. NUEVO LAREDO</td></tr>
+                    <tr><td class="no-col">40</td><td>FÉNIX</td><td class="oriente-col">CD. REYNOSA</td></tr>
+                    <tr><td class="no-col">42</td><td>MIGUEL HIDALGO</td><td class="oriente-col">CD. MIGUEL ALEMAN</td></tr>
+                    <tr><td class="no-col">43</td><td>LIC. TEÓDULO MONTEMAYOR</td><td class="oriente-col">CD. ANAHUAC</td></tr>
+                    <tr><td class="no-col">44</td><td>PLAN DE AYUTLA</td><td class="oriente-col">CD. MANTE</td></tr>
+                    <tr><td class="no-col">45</td><td>CONSTITUCCIÓN DE 1857</td><td class="oriente-col">CD. REYNOSA</td></tr>
+                    <tr><td class="no-col">46</td><td>MELCHOR OCAMPO</td><td class="oriente-col">CD. OCAMPO</td></tr>
+                    <tr><td class="no-col">47</td><td>MONTE NEBO TRECE</td><td class="oriente-col">CD. MADERO</td></tr>
+                    <tr><td class="no-col">49</td><td>DR. FELIPE PÉREZ GARZA</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">50</td><td>GRAL. PEDRO JOSÉ MÉNDEZ</td><td class="oriente-col">CD. REYNOSA</td></tr>
+                    <tr><td class="no-col">52</td><td>ESTRELLA POLAR</td><td class="oriente-col">CD. GVO. D. ORDAZ</td></tr>
+                    <tr><td class="no-col">54</td><td>LIC. FIDENCIO TREJO FLORES</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">55</td><td>JOSÉ ARRESE</td><td class="oriente-col">CD. MATAMOROS</td></tr>
+                    <tr><td class="no-col">57</td><td>SANTIAGO SOLIS GOMEZ</td><td class="oriente-col">CD. MATAMOROS</td></tr>
+                    <tr><td class="no-col">58</td><td>PITAGORAS</td><td class="oriente-col">CD. RIO BRAVO</td></tr>
+                    <tr><td class="no-col">59</td><td>HERMANOS DEL TRABAJO</td><td class="oriente-col">CD. XICOTENCATL</td></tr>
+                    <tr><td class="no-col">61</td><td>PROFR. JOSÉ MA. SÁNCHEZ GARCIA</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">62</td><td>SERVANDO CANALES</td><td class="oriente-col">CD. VALEDECES</td></tr>
+                    <tr><td class="no-col">64</td><td>PDTE. LÁZARO CÁRDENAS</td><td class="oriente-col">CD. MADERO</td></tr>
+                    <tr><td class="no-col">65</td><td>JOSÉ MA. MORELOS Y PAVÓN</td><td class="oriente-col">CD. ANTIGUO MORELOS</td></tr>
+                    <tr><td class="no-col">67</td><td>GRAL. MARIANO ABASOLO</td><td class="oriente-col">CD. ANTIGUO MORELOS</td></tr>
+                    <tr><td class="no-col">71</td><td>GRAL. PLUTARCO ELIAS CALLES</td><td class="oriente-col">CD. MANTE</td></tr>
+                    <tr><td class="no-col">72</td><td>CONCIENCIA REVOLUCIONARIA</td><td class="oriente-col">CD. MADERO</td></tr>
+                    <tr><td class="no-col">74</td><td>ACACIA</td><td class="oriente-col">CD. VILLA MAINERO</td></tr>
+                    <tr><td class="no-col">75</td><td>ARQ. ARMANDO LOPEZ POMPA</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">77</td><td>AMISTAD LIBERAL</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">79</td><td>CEDROS DEL LIBANO</td><td class="oriente-col">CD. NUEVO LAREDO</td></tr>
+                    <tr><td class="no-col">80</td><td>ARTESANOS DE ALTAMIRA SIETE</td><td class="oriente-col">CD. ALTAMIRA</td></tr>
+                    <tr><td class="no-col">81</td><td>VICTORIA LUZ</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">83</td><td>GRAL. PEDRO J. MÉNDEZ LUZ</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">84</td><td>GRAL. VICENTE GUERRERO</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">90</td><td>JOSÉ MARTÍ</td><td class="oriente-col">CD. PROGRESO</td></tr>
+                    <tr><td class="no-col">91</td><td>GRAL. ASCENCIÓN GÓMEZ</td><td class="oriente-col">CD. V. GUEMEZ</td></tr>
+                    <tr><td class="no-col">92</td><td>ANDRES ARAUJO ARAUJO</td><td class="oriente-col">CD. VILLAGRAN</td></tr>
+                    <tr><td class="no-col">96</td><td>EDUARDO NÚÑEZ TEIJEIRO</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">97</td><td>LIC. EMILIO PORTES GIL</td><td class="oriente-col">CD. REYNOSA</td></tr>
+                    <tr><td class="no-col">99</td><td>VERDADERO CAMBIO DE 1985</td><td class="oriente-col">CD. MADERO</td></tr>
+                    <tr><td class="no-col">100</td><td>LEYES DE REFORMA</td><td class="oriente-col">CD. NUEVO LAREDO</td></tr>
+                    <tr><td class="no-col">102</td><td>FE, ESPERANZA Y CARIDAD</td><td class="oriente-col">CD. SOTO LA MARINA</td></tr>
+                    <tr><td class="no-col">103</td><td>DR. BELISARIO DOMÍNGUEZ P</td><td class="oriente-col">CD. ALTAMIRA</td></tr>
+                    <tr><td class="no-col">104</td><td>ARMONÍA</td><td class="oriente-col">CD. VALLE HERMOSO</td></tr>
+                    <tr><td class="no-col">105</td><td>REVOLUCIÓN 88</td><td class="oriente-col">CD. REYNOSA</td></tr>
+                    <tr><td class="no-col">107</td><td>LUIS FLORES ARIAS</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                    <tr><td class="no-col">108</td><td>EMIGDIO L. ILIZALITURRI</td><td class="oriente-col">CD. MANTE</td></tr>
+                    <tr><td class="no-col">109</td><td>ARMONÍA Y FRATERNIDAD</td><td class="oriente-col">CD. REYNOSA</td></tr>
+                    <tr><td class="no-col">111</td><td>IGNACIO RAMÍREZ 68</td><td class="oriente-col">CD. REYNOSA</td></tr>
+                    <tr><td class="no-col">112</td><td>JOSÉ ISLAS URANTE</td><td class="oriente-col">CD. MATAMOROS</td></tr>
+                    <tr><td class="no-col">115</td><td>CABALLEROS DE LA ACACIA</td><td class="oriente-col">CD. MADERO</td></tr>
+                    <tr><td class="no-col">117</td><td>ALPHA Y OMEGA</td><td class="oriente-col">CD. TAMPICO</td></tr>
+                    <tr><td class="no-col">118</td><td>AMERICA 18</td><td class="oriente-col">CD. CAMARGO</td></tr>
+                    <tr><td class="no-col">121</td><td>JAUMAVE</td><td class="oriente-col">CD. JAUMAVE</td></tr>
+                    <tr><td class="no-col">122</td><td>PROMETEO 33</td><td class="oriente-col">CD. SAN CARLOS</td></tr>
+                    <tr><td class="no-col">123</td><td>SIERVO DE LA NACIÓN JOSÉ MARÍA MORELOS</td><td class="oriente-col">CD. VICTORIA</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <center>
+            <a href="index.html" class="btn-regresar">← VOLVER AL PORTAL</a>
+        </center>
+    </div>
+
+    <footer>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>&copy; 2026 Muy Respetable Gran Logia de Tamaulipas</p>
+    </footer>
+
+    <script>
+        function filtrarLogias() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("buscador");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tablaLogias");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
