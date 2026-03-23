@@ -11,21 +11,20 @@
             --dorado-oscuro: #c5a059; --texto-suave: #e6f1ff; --exito: #27ae60; --error: #c0392b;
         }
         body { font-family: 'Lora', serif; background-color: var(--azul-profundo); margin: 0; color: var(--texto-suave); min-height: 100vh; display: flex; flex-direction: column; }
-        h2 { font-family: 'Cinzel', serif; color: var(--dorado); text-transform: uppercase; text-align: center; margin-top: 0; }
-        .login-card { max-width: 400px; margin: 80px auto; background: var(--azul-tarjeta); padding: 40px; border: 2px solid var(--dorado-oscuro); border-radius: 8px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
-        .logo-img { width: 180px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.3)); }
+        h2 { font-family: 'Cinzel', serif; color: var(--dorado); text-transform: uppercase; text-align: center; }
+        .login-card { max-width: 400px; margin: 60px auto; background: var(--azul-tarjeta); padding: 40px; border: 2px solid var(--dorado-oscuro); border-radius: 8px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+        .logo-img { width: 170px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 0 8px rgba(249, 226, 155, 0.3)); }
         input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(255,255,255,0.05); border: 1px solid var(--dorado-oscuro); border-radius: 4px; color: white; box-sizing: border-box; font-size: 1rem; }
         button { width: 100%; background: var(--dorado); color: var(--azul-profundo); padding: 15px; border: none; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        button:hover { background: var(--dorado-oscuro); }
         #panel { display: none; max-width: 900px; margin: 40px auto; background: var(--azul-tarjeta); padding: 30px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
         .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--dorado); padding-bottom: 15px; margin-bottom: 25px; }
         table { width: 100%; border-collapse: collapse; }
-        th { color: var(--dorado); padding: 15px; text-align: left; border-bottom: 2px solid var(--dorado-oscuro); font-family: 'Cinzel'; font-size: 0.9rem; }
-        td { padding: 15px; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
-        .status-badge { padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; color: white; text-transform: uppercase; }
+        th { color: var(--dorado); padding: 12px; text-align: left; border-bottom: 2px solid var(--dorado-oscuro); font-family: 'Cinzel'; font-size: 0.85rem; }
+        td { padding: 12px; border-bottom: 1px solid rgba(197, 160, 89, 0.1); font-size: 0.95rem; }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; color: white; text-transform: uppercase; }
         .PAGADO { background: var(--exito); }
         .PENDIENTE { background: var(--error); }
-        footer { margin-top: auto; padding: 30px; text-align: center; color: var(--dorado-oscuro); font-size: 0.8rem; border-top: 1px solid rgba(197, 160, 89, 0.1); }
+        footer { margin-top: auto; padding: 25px; text-align: center; color: var(--dorado-oscuro); font-size: 0.75rem; border-top: 1px solid rgba(197,160,89,0.1); }
     </style>
 </head>
 <body>
@@ -33,10 +32,10 @@
     <div id="login-screen" class="login-card">
         <img src="logo_moderno.jpg" alt="GLT" class="logo-img">
         <h2>Tesorería GLT</h2>
-        <div id="loader" style="font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 10px;">Sincronizando con la Gran Bóveda...</div>
+        <div id="loader" style="font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 10px;">Conectando...</div>
         <input type="text" id="logia-id" placeholder="Número de Logia">
-        <input type="password" id="logia-pass" placeholder="Contraseña">
-        <button onclick="intentarEntrar()">INGRESAR AL TEMPLO</button>
+        <input type="password" id="logia-pass" placeholder="Confirmar Número">
+        <button onclick="intentarEntrar()">INGRESAR</button>
     </div>
 
     <div id="panel">
@@ -57,85 +56,75 @@
             </thead>
             <tbody id="tabla-body"></tbody>
         </table>
-        <p style="text-align:center; margin-top:30px; font-style:italic; font-size:0.8rem; color:var(--dorado-oscuro);">"La exactitud en nuestras obligaciones fortalece las columnas de nuestro Templo."</p>
     </div>
 
     <footer>
-        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Muy Respetable Gran Logia de Tamaulipas &copy; 2026</p>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Gran Logia de Tamaulipas &copy; 2026</p>
     </footer>
 
     <script>
-        // URL de tu Google Sheet (Publicada como CSV)
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv";
-        let baseDeDatos = [];
+        let rawData = [];
 
-        async function cargarSistema() {
+        async function cargarDatos() {
             try {
-                const response = await fetch(CSV_URL + "&t=" + new Date().getTime());
-                const data = await response.text();
-                
-                // Dividir filas y limpiar datos
-                const filas = data.split(/\r?\n/).filter(line => line.trim() !== "");
-                
-                baseDeDatos = filas.slice(1).map(f => {
-                    const c = f.split(","); // Separar por comas
-                    const limpiar = (t) => (t || "").replace(/"/g, "").trim();
-                    return {
-                        id: limpiar(c[0]),      // Columna A (Número Logia)
-                        pass: limpiar(c[1]),    // Columna B (Clave / Número Logia)
-                        nombre: limpiar(c[2]),  // Columna C (Nombre Logia)
-                        mes: limpiar(c[3]),     // Columna D (Mes)
-                        monto: limpiar(c[4]),   // Columna E (Monto)
-                        estado: limpiar(c[5]).toUpperCase() // Columna F (Estado)
-                    };
+                const res = await fetch(CSV_URL + "&cb=" + Date.now());
+                const text = await res.text();
+                // Separar por líneas y limpiar celdas de comillas y espacios
+                rawData = text.split(/\r?\n/).filter(l => l.trim() !== "").map(fila => {
+                    return fila.split(/[,;]/).map(celda => celda.replace(/"/g, "").trim());
                 });
-                document.getElementById('loader').innerText = "Conexión Establecida ✔";
-                document.getElementById('loader').style.color = "#27ae60";
+                document.getElementById('loader').innerText = "Sistema Listo ✔";
             } catch (e) {
-                document.getElementById('loader').innerText = "Error de Conexión ❌";
+                document.getElementById('loader').innerText = "Error de Red ❌";
             }
         }
 
         function intentarEntrar() {
-            const userIn = document.getElementById('logia-id').value.trim().toLowerCase();
-            const passIn = document.getElementById('logia-pass').value.trim().toLowerCase();
+            const user = document.getElementById('logia-id').value.trim();
+            const pass = document.getElementById('logia-pass').value.trim();
 
-            // Acceso de Administrador
-            if (userIn === "admin" && passIn === "tampico2026") {
-                renderizar(baseDeDatos, "PANEL GRAN TESORERÍA");
+            if (user.toLowerCase() === "admin" && pass === "tampico2026") {
+                const todas = rawData.slice(1).map(c => crearObjeto(c));
+                render(todas, "ADMINISTRACIÓN GLOBAL");
                 return;
             }
 
-            // Buscar coincidencia en la base de datos
-            const match = baseDeDatos.find(l => 
-                l.id.toLowerCase() === userIn && 
-                l.pass.toLowerCase() === passIn
+            // BUSQUEDA FLEXIBLE: Buscamos una fila donde la columna 0 y 1 coincidan con el input
+            const filaEncontrada = rawData.slice(1).find(c => 
+                c[0] === user && c[1] === pass
             );
 
-            if (match) {
-                const misPagos = baseDeDatos.filter(l => l.id.toLowerCase() === userIn);
-                renderizar(misPagos, match.nombre);
+            if (filaEncontrada) {
+                const misRegistros = rawData.slice(1).filter(c => c[0] === user).map(c => crearObjeto(c));
+                render(misRegistros, filaEncontrada[2]);
             } else {
-                alert("Acceso Denegado. Verifique que el Número de Logia y Contraseña sean correctos.");
+                alert("No se encontró el acceso.\nVerifica que escribiste el mismo número en ambos campos.");
             }
         }
 
-        function renderizar(lista, titulo) {
+        function crearObjeto(c) {
+            return {
+                mes: c[3] || "---",
+                monto: c[4] || "---",
+                estado: (c[5] || "PENDIENTE").toUpperCase()
+            };
+        }
+
+        function render(lista, titulo) {
             document.getElementById('login-screen').style.display = "none";
             document.getElementById('panel').style.display = "block";
             document.getElementById('nombre-display').innerText = titulo;
-            
-            const tbody = document.getElementById('tabla-body');
-            tbody.innerHTML = lista.map(l => `
+            document.getElementById('tabla-body').innerHTML = lista.map(l => `
                 <tr>
-                    <td>${l.mes || '---'}</td>
-                    <td>${l.monto || '---'}</td>
-                    <td><span class="status-badge ${l.estado.includes('PAGADO') ? 'PAGADO' : 'PENDIENTE'}">${l.estado || 'PENDIENTE'}</span></td>
+                    <td>${l.mes}</td>
+                    <td>${l.monto}</td>
+                    <td><span class="status-badge ${l.estado.includes('PAGADO') ? 'PAGADO' : 'PENDIENTE'}">${l.estado}</span></td>
                 </tr>
             `).join("");
         }
 
-        cargarSistema();
+        cargarDatos();
     </script>
 </body>
 </html>
