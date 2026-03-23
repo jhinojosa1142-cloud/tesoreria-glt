@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia - Gran Logia de Tamaulipas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --azul-profundo: #0a192f; 
+            --dorado: #f9e29b; 
+            --dorado-oscuro: #c5a059; 
+            --blanco-suave: #e6f1ff; 
+        }
+        body { font-family: 'Lora', serif; background-color: var(--azul-profundo); color: var(--blanco-suave); margin: 0; line-height: 1.8; }
+        
+        header { padding: 60px 20px; text-align: center; background: rgba(0,0,0,0.3); border-bottom: 2px solid var(--dorado-oscuro); }
+        .logo-small { width: 100px; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--dorado)); }
+        h1 { font-family: 'Cinzel', serif; color: var(--dorado); font-size: 2.2rem; margin: 0; letter-spacing: 3px; }
+
+        .container { max-width: 850px; margin: 60px auto; padding: 0 30px; text-align: justify; }
+        
+        /* Letra capitular */
+        .primera-letra::first-letter {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            float: left;
+            margin-right: 10px;
+            color: var(--dorado);
+            line-height: 1;
+        }
+
+        h2 { font-family: 'Cinzel', serif; color: var(--dorado); border-bottom: 1px solid var(--dorado-oscuro); padding-bottom: 10px; margin-top: 50px; text-align: center; }
+        
+        .destacado {
+            background: rgba(249, 226, 155, 0.05);
+            border-left: 4px solid var(--dorado);
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        .cuadro-honor {
+            border: 1px solid var(--dorado-oscuro);
+            padding: 25px;
+            margin: 40px 0;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(17, 34, 64, 0.5), transparent);
+        }
+
+        .logias-lista {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            font-family: 'Cinzel', serif;
+            color: var(--dorado);
+        }
+
+        .btn-regresar { 
+            display: inline-block; 
+            margin: 60px 0; 
+            color: var(--dorado); 
+            text-decoration: none; 
+            border: 1px solid var(--dorado); 
+            padding: 12px 25px; 
+            font-family: 'Cinzel'; 
+            font-size: 0.8rem; 
+            transition: 0.4s; 
+            letter-spacing: 2px;
+        }
+        .btn-regresar:hover { background: var(--dorado); color: var(--azul-profundo); box-shadow: 0 0 15px var(--dorado); }
+
+        footer { text-align: center; padding: 40px; font-size: 0.8rem; color: var(--dorado-oscuro); border-top: 1px solid rgba(197,160,89,0.1); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo_moderno.png" alt="Logo GLT" class="logo-small">
+        <h1>Crónica de la Fundación</h1>
+    </header>
+
+    <div class="container">
+        
+        <p class="primera-letra">
+            El 4 de mayo de 1909, se reunieron en el <strong>“Templo de la virtud y el amor fraternal”</strong>, según reza el Acta de Fundación, ubicado en el segundo piso de una construcción de madera en el solar donado a la "Sociedad Civil Omega", en la emblemática esquina de las calles Carranza y Fray Andrés de Olmos. El piso inferior, ocupado entonces por una Biblioteca sostenida por dicha Sociedad Omega, fue el recinto donde germinó la voluntad de fundar una Potencia independiente para el Gobierno del Simbolismo en el Estado.
+        </p>
+
+        <div class="destacado">
+            Participaron en este acto solemne los hermanos pertenecientes a las logias <strong>Victrix</strong>, <strong>Bernardo Reyes</strong> y <strong>Justicia</strong> del Oriente de Tampico, todas ellas portadoras de cartas patentes otorgadas originalmente por la Gran Logia Unida Mexicana de Veracruz.
+        </div>
+
+        <h2>Solemne Instalación</h2>
+        <p>
+            El 5 de mayo de 1909 a las 20:30 hrs, los hermanos se congregaron nuevamente para consolidar la nueva potencia masónica bajo el nombre oficial de: <br>
+            <center><strong style="color:var(--dorado); font-family:'Cinzel';">“Gran Logia de Libres y Aceptados Masones de Tamaulipas”</strong></center>
+        </p>
+
+        <p>
+            Se acordó adoptar la Constitución, Estatutos y leyes vigentes de la Gran Logia Unida Mexicana de Veracruz. Tras un proceso electivo de dignidades, se alcanzó un momento histórico para la masonería regional:
+        </p>
+
+        <div class="cuadro-honor">
+            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px;">Primer Gran Maestro Electo</span>
+            <h3 style="font-size: 1.8rem; margin: 10px 0;">V.·.H.·. Teódulo Montemayor</h3>
+            <p>Declarando solemne y legítimamente instalada la Gran Logia para el gobierno del simbolismo en el estado.</p>
+        </div>
+
+        <h2>Logias Constituyentes</h2>
+        <p>En ese acto fundacional se expidieron las primeras cartas patentes, confiriendo el honor de ser Logias Constituyentes a:</p>
+        
+        <div class="logias-lista">
+            <div>✙ Victrix # 1</div>
+            <div>✙ Bernardo Reyes # 2</div>
+            <div>✙ Justicia # 3</div>
+        </div>
+
+        <p style="margin-top: 40px;">
+            Finalmente, el reconocimiento territorial se formalizó cuando la Gran Logia Unida Mexicana y de LL. y AA. MM. del Gran Oriente de Veracruz acordó, el 31 de marzo de 1910, ceder la jurisdicción territorial, haciendo entrega de la nueva Carta Patente definitiva el **5 de mayo de 1910**.
+        </p>
+
+        <center>
+            <a href="index.html" class="btn-regresar">← VOLVER AL PORTAL</a>
+        </center>
+    </div>
+
+    <footer>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Muy Respetable Gran Logia de Tamaulipas &copy; 2026</p>
+    </footer>
+
+</body>
+</html>
