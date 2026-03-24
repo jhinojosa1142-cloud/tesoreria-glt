@@ -3,91 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pasaporte Digital | GLT</title>
+    <title>Pasaporte Digital | Gran Logia de Tamaulipas</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <style>
-        :root { --azul: #0a192f; --tarjeta: #112240; --dorado: #f9e29b; --dorado-osc: #c5a059; --blanco: #e6f1ff; --verde: #2ecc71; }
-        body { font-family: 'Lora', serif; background: var(--azul); color: var(--blanco); margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-        
-        .credencial { width: 100%; max-width: 340px; background: linear-gradient(135deg, #112240 0%, #0a192f 100%); border: 2px solid var(--dorado-osc); border-radius: 20px; padding: 25px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); text-align: center; position: relative; }
-        
-        .header { border-bottom: 1px solid rgba(197, 160, 89, 0.3); padding-bottom: 10px; margin-bottom: 15px; }
-        .logo-glt { width: 50px; filter: drop-shadow(0 0 5px var(--dorado)); }
-        h2 { font-family: 'Cinzel'; font-size: 0.75rem; color: var(--dorado); margin: 5px 0 0; letter-spacing: 1px; }
+        :root {
+            --azul-profundo: #0a192f;
+            --azul-tarjeta: #112240;
+            --dorado: #f9e29b;
+            --dorado-oscuro: #c5a059;
+            --blanco: #e6f1ff;
+            --verde-aplomo: #2ecc71;
+        }
 
-        .foto-wrap { width: 110px; height: 110px; margin: 10px auto; border-radius: 50%; border: 3px solid var(--dorado-osc); overflow: hidden; background: var(--azul); display: flex; align-items: center; justify-content: center; }
-        .foto-img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .no-foto { font-size: 3.5rem; color: var(--dorado-osc); opacity: 0.5; }
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--azul-profundo);
+            color: var(--blanco);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
+        }
 
-        .nombre { font-family: 'Cinzel'; font-size: 1.1rem; color: white; margin: 10px 0 2px; text-transform: uppercase; }
-        
-        /* ESTILO PARA EL GRADO */
-        .grado { font-family: 'Cinzel'; font-size: 0.8rem; color: var(--dorado); font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; }
-        
-        .logia { font-size: 0.75rem; color: var(--dorado-osc); margin-bottom: 10px; }
-        
-        #qrcode { background: white; padding: 10px; display: inline-block; border-radius: 10px; border: 2px solid var(--dorado-osc); margin: 10px 0; }
-        #qrcode img { width: 110px !important; height: 110px !important; }
+        /* --- CREDENCIAL --- */
+        .credencial {
+            width: 100%;
+            max-width: 340px;
+            background: linear-gradient(135deg, #112240 0%, #0a192f 100%);
+            border: 2px solid var(--dorado-oscuro);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-        .status { background: rgba(46, 204, 113, 0.1); color: var(--verde); border: 1px solid var(--verde); padding: 4px 12px; border-radius: 50px; font-family: 'Cinzel'; font-size: 0.6rem; font-weight: bold; }
+        .header {
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .logo-glt { width: 55px; filter: drop-shadow(0 0 5px var(--dorado)); }
         
-        .btn { width: 100%; max-width: 340px; padding: 14px; margin-top: 15px; border-radius: 8px; text-decoration: none; font-family: 'Cinzel'; font-size: 0.7rem; font-weight: bold; text-align: center; cursor: pointer; display: block; box-sizing: border-box; }
-        .btn-print { background: var(--dorado-osc); color: var(--azul); border: none; }
-        .btn-out { color: var(--dorado-osc); border: 1px solid var(--dorado-osc); margin-top: 10px; }
+        h2 { 
+            font-family: 'Cinzel'; 
+            font-size: 0.75rem; 
+            color: var(--dorado); 
+            margin: 8px 0 0;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        /* --- FOTOGRAFÍA --- */
+        .foto-wrap {
+            width: 115px;
+            height: 115px;
+            margin: 10px auto;
+            border-radius: 50%;
+            border: 3px solid var(--dorado-oscuro);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            overflow: hidden;
+            background-color: var(--azul-profundo);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .foto-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .no-foto-icon {
+            font-size: 3.5rem;
+            color: var(--dorado-oscuro);
+            opacity: 0.5;
+        }
+
+        .nombre-hermano { 
+            font-family: 'Cinzel'; 
+            font-size: 1.15rem; 
+            color: white; 
+            margin: 10px 0 2px; 
+            text-transform: uppercase;
+        }
+
+        .grado-hermano {
+            font-family: 'Cinzel';
+            font-size: 0.85rem;
+            color: var(--dorado);
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .logia-hermano { 
+            font-size: 0.75rem; 
+            color: var(--dorado-oscuro); 
+            margin-bottom: 10px; 
+            letter-spacing: 1px;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 10px;
+            display: inline-block;
+            border-radius: 10px;
+            margin: 10px 0;
+            border: 2px solid var(--dorado-oscuro);
+        }
+
+        .badge-status {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--verde-aplomo);
+            border: 1px solid var(--verde-aplomo);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-family: 'Cinzel';
+            font-size: 0.6rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        /* --- BOTONES --- */
+        .acciones { margin-top: 25px; width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
+        
+        .btn-action { 
+            padding: 14px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-family: 'Cinzel'; 
+            font-size: 0.75rem; 
+            font-weight: bold; 
+            text-align: center; 
+            transition: 0.3s; 
+            cursor: pointer; 
+        }
+
+        .btn-descargar { background: var(--dorado-oscuro); color: var(--azul-profundo); border: none; }
+        .btn-descargar:hover { background: var(--dorado); transform: translateY(-2px); }
+        
+        .btn-salir { color: var(--dorado-oscuro); border: 1px solid var(--dorado-oscuro); }
+        .btn-salir:hover { background: rgba(197, 160, 89, 0.1); }
+
+        @media print {
+            .acciones { display: none; }
+            body { background: white; padding: 0; }
+            .credencial { border: none; box-shadow: none; margin: 0 auto; -webkit-print-color-adjust: exact; }
+        }
     </style>
 </head>
 <body>
+
     <div class="credencial">
         <div class="header">
-            <img src="logo_moderno.png" class="logo-glt">
-            <h2>MUY RESPETABLE GRAN LOGIA DE TAMAULIPAS</h2>
+            <img src="logo_moderno.png" alt="Logo" class="logo-glt">
+            <h2>MUY RESPETABLE GRAN LOGIA<br>DE TAMAULIPAS</h2>
         </div>
+
         <div class="foto-wrap">
-            <img src="" id="foto" class="foto-img">
-            <div id="icon" class="no-foto">👤</div>
+            <img src="" alt="Foto" id="disp-foto" class="foto-img">
+            <div id="disp-no-foto" class="no-foto-icon">👤</div>
         </div>
-        <div class="nombre" id="nom">CARGANDO...</div>
-        
-        <div class="grado" id="gra">---</div>
-        
-        <div class="logia" id="log">---</div>
+
+        <div class="nombre-hermano" id="disp-nombre">CARGANDO...</div>
+        <div class="grado-hermano" id="disp-grado">---</div>
+        <div class="logia-hermano" id="disp-logia">---</div>
+
         <div id="qrcode"></div>
-        <div class="status">EN APLOMO 2026</div>
+
+        <div>
+            <div class="badge-status">ESTADO: EN APLOMO 2026</div>
+        </div>
+
+        <div style="margin-top: 15px; font-size: 0.5rem; color: var(--dorado-oscuro); letter-spacing: 2px;">
+            S.·. F.·. U.·.
+        </div>
     </div>
 
-    <a onclick="window.print()" class="btn btn-print">📥 GUARDAR CREDENCIAL</a>
-    <a href="index.html" onclick="sessionStorage.clear()" class="btn btn-out">CERRAR SESIÓN</a>
+    <div class="acciones">
+        <a href="javascript:void(0)" class="btn-action btn-descargar" onclick="window.print()"> 
+            📥 GUARDAR / IMPRIMIR CREDENCIAL 
+        </a>
+        <a href="index.html" class="btn-action btn-salir" onclick="sessionStorage.clear()"> 
+            CERRAR SESIÓN SEGURA 
+        </a>
+    </div>
 
     <script>
         window.onload = function() {
+            // 1. Recuperamos los datos del sessionStorage
             const data = JSON.parse(sessionStorage.getItem('hermanoValidado'));
-            if (!data) { window.location.href = "identificacion.html"; return; }
 
-            // Llenado de textos
-            document.getElementById('nom').innerText = data.nombre_completo || "SIN NOMBRE";
-            
-            // CORRECCIÓN DEL GRADO: Asegúrate que tu columna se llame "grado" en minúsculas en el Excel
-            document.getElementById('gra').innerText = data.grado || "GRADO NO REGISTRADO";
-            
-            document.getElementById('log').innerText = `${data.logia_nombre || 'Logia'} #${data.numero_logia || '0'}`;
+            // 2. Seguridad: Si no hay datos, lo regresamos al login
+            if (!data) {
+                window.location.href = "identificacion.html";
+                return;
+            }
 
-            // Lógica para la foto
+            // 3. Llenamos los campos de la tarjeta
+            document.getElementById('disp-nombre').innerText = data.nombre_completo || "HERMANO SIN NOMBRE";
+            document.getElementById('disp-grado').innerText = data.grado || "GRADO NO REGISTRADO";
+
+            // --- Lógica Inteligente para la Logia (Evita el # 0) ---
+            let nombreLogia = data.logia_nombre || "Logia No Especificada";
+            let numeroLogia = data.numero_logia ? data.numero_logia.toString().trim() : "";
+            
+            // Solo ponemos el # si hay un número válido y no es "0"
+            if (numeroLogia !== "" && numeroLogia !== "0" && numeroLogia !== "undefined") {
+                document.getElementById('disp-logia').innerText = `${nombreLogia} #${numeroLogia}`;
+            } else {
+                document.getElementById('disp-logia').innerText = nombreLogia;
+            }
+
+            // 4. Lógica de Fotografía (PostImg Direct Link)
+            const imgElement = document.getElementById('disp-foto');
+            const noFotoElement = document.getElementById('disp-no-foto');
+
             if (data.url_fotografia && data.url_fotografia.trim() !== "") {
-                const img = document.getElementById('foto');
-                img.src = data.url_fotografia.trim();
-                img.style.display = 'block';
-                document.getElementById('icon').style.display = 'none';
-                img.onerror = function() {
-                    img.style.display = 'none';
-                    document.getElementById('icon').style.display = 'block';
+                imgElement.src = data.url_fotografia.trim();
+                imgElement.onload = function() {
+                    imgElement.style.display = 'block';
+                    noFotoElement.style.display = 'none';
+                };
+                imgElement.onerror = function() {
+                    imgElement.style.display = 'none';
+                    noFotoElement.style.display = 'block';
                 };
             }
 
-            // Generar QR
+            // 5. Generar Código QR
+            const idAfiliacion = data.numero_afiliacion || "0000";
+            const contenidoQR = `VALID:${idAfiliacion}|${data.nombre_completo}`;
+            
             new QRCode(document.getElementById("qrcode"), {
-                text: `VALID:${data.numero_afiliacion}|${data.nombre_completo}|${data.grado}`,
-                width: 110, height: 110, colorDark : "#0a192f", colorLight : "#ffffff"
+                text: contenidoQR,
+                width: 115,
+                height: 115,
+                colorDark : "#0a192f",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
             });
         };
     </script>
