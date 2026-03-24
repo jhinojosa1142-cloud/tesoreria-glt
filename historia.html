@@ -21,6 +21,9 @@
             color: var(--blanco-suave);
             margin: 0;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* --- NAVEGACIÓN UNIFORME --- */
@@ -37,6 +40,8 @@
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
         .sidebar a:hover { color: var(--dorado); background: rgba(249, 226, 155, 0.05); padding-left: 35px; }
+        .sidebar .closebtn { position: absolute; top: 10px; right: 25px; font-size: 36px; color: var(--dorado); cursor: pointer; }
+
         .openbtn {
             font-size: 18px; cursor: pointer; background-color: var(--azul-tarjeta);
             color: var(--dorado); padding: 10px 15px; border: 1px solid var(--dorado-oscuro);
@@ -45,46 +50,46 @@
         }
 
         header {
-            padding: 80px 20px 40px;
+            padding: 80px 20px 30px;
             text-align: center;
             background: linear-gradient(rgba(0,0,0,0.5), transparent);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
         }
 
-        h1 { font-family: 'Cinzel', serif; color: var(--dorado); font-size: 2rem; }
+        h1 { font-family: 'Cinzel', serif; color: var(--dorado); font-size: 2.2rem; margin: 0; }
 
         .content-wrap {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.8;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 30px;
+            flex: 1;
+        }
+
+        .historia-texto {
+            line-height: 1.9;
             text-align: justify;
+            font-size: 1.1rem;
         }
 
-        .era-card {
-            border-left: 2px solid var(--dorado-oscuro);
-            padding-left: 30px;
-            margin-bottom: 50px;
-            position: relative;
+        .historia-texto p { margin-bottom: 25px; }
+
+        .era-divider {
+            display: flex;
+            align-items: center;
+            margin: 40px 0;
+            color: var(--dorado-oscuro);
         }
 
-        .era-card::before {
-            content: '●';
-            position: absolute;
-            left: -9px;
-            top: 0;
-            color: var(--dorado);
-            font-size: 20px;
+        .era-divider::before, .era-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(197, 160, 89, 0.3);
         }
 
-        .era-year {
-            font-family: 'Cinzel', serif;
-            color: var(--dorado);
-            font-size: 1.4rem;
-            display: block;
-            margin-bottom: 10px;
-        }
+        .era-divider span { padding: 0 15px; font-family: 'Cinzel'; font-size: 1.2rem; letter-spacing: 3px; }
 
-        footer { text-align: center; padding: 40px; color: var(--dorado-oscuro); font-size: 0.8rem; }
+        footer { text-align: center; padding: 40px; color: var(--dorado-oscuro); font-size: 0.8rem; border-top: 1px solid rgba(197,160,89,0.1); }
     </style>
 </head>
 <body>
@@ -92,7 +97,11 @@
     <div class="openbtn" onclick="openNav()">☰ MENÚ</div>
 
     <div id="mySidebar" class="sidebar">
-        <div style="position: absolute; top: 10px; right: 25px; font-size: 36px; color: var(--dorado); cursor: pointer;" onclick="closeNav()">×</div>
+        <div class="closebtn" onclick="closeNav()">×</div>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="logo_moderno.png" width="50" alt="Logo">
+            <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado);">Plataforma Hiram</p>
+        </div>
         <a href="index.html"><span>🏠</span> Inicio</a>
         <a href="logias.html"><span>🏛️</span> Cuadro de Logias</a>
         <a href="punto_geometrico.html"><span>📍</span> Punto Geométrico</a>
@@ -102,19 +111,27 @@
     </div>
 
     <header>
-        <h1>Nuestra Historia</h1>
-        <p style="font-family: 'Cinzel'; letter-spacing: 2px;">Tradición y Luz en Tamaulipas</p>
+        <img src="logo_moderno.png" width="80" alt="Logo GLT" style="margin-bottom:15px; filter: drop-shadow(0 0 5px var(--dorado));">
+        <h1>Reseña Histórica</h1>
+        <p style="font-family: 'Cinzel'; letter-spacing: 3px; color: var(--dorado-oscuro); font-size: 0.9rem;">Muy Respetable Gran Logia de Tamaulipas</p>
     </header>
 
     <div class="content-wrap">
-        <div class="era-card">
-            <span class="era-year">Orígenes</span>
-            <p>La Masonería en Tamaulipas ha sido un pilar fundamental en el desarrollo social y cultural del estado, sembrando los valores de Libertad, Igualdad y Fraternidad desde sus primeros pasos en el siglo XIX.</p>
-        </div>
+        <div class="historia-texto">
+            <div class="era-divider"><span>ORÍGENES</span></div>
+            <p>
+                La **Muy Respetable Gran Logia de Antiguos, Libres y Aceptados Masones de Tamaulipas** tiene sus raíces profundamente entrelazadas con la historia misma de nuestro estado. Surgió como una necesidad de unificar los trabajos de los talleres que, con celo y fervor, buscaban el perfeccionamiento del hombre y el progreso de la sociedad tamaulipeca.
+            </p>
 
-        <div class="era-card">
-            <span class="era-year">Consolidación</span>
-            <p>A lo largo de las décadas, la Muy Respetable Gran Logia de Tamaulipas ha unificado los trabajos de los hermanos en los distintos orientes, fortaleciendo la cadena de unión y el perfeccionamiento del hombre.</p>
+            <div class="era-divider"><span>CONSOLIDACIÓN</span></div>
+            <p>
+                A través de los años, nuestra institución ha sido faro de luz en momentos determinantes, contando entre sus filas a hombres ilustres que han forjado el destino de nuestra entidad bajo los sagrados principios de **Libertad, Igualdad y Fraternidad**. La Gran Logia ha sabido evolucionar, manteniendo intactos los Antiguos Límites y la pureza de nuestros rituales, mientras se adapta a los retos de la modernidad.
+            </p>
+
+            <div class="era-divider"><span>ACTUALIDAD</span></div>
+            <p>
+                Hoy, bajo la **Plataforma Hiram**, continuamos nuestra labor de construcción del templo social. Con jurisdicción en todos los orientes del estado, la Gran Logia de Tamaulipas se mantiene como una potencia masónica soberana, reconocida por su regularidad y su inquebrantable compromiso con la Gran Obra y el bienestar de la humanidad.
+            </p>
         </div>
     </div>
 
