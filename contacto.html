@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto - Gran Logia de Tamaulipas</title>
+    <title>Contacto - Plataforma Hiram</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,6 +12,7 @@
             --dorado: #f9e29b;
             --dorado-oscuro: #c5a059;
             --blanco-suave: #e6f1ff;
+            --sidebar-width: 280px;
         }
 
         body {
@@ -22,10 +23,39 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* --- NAVEGACIÓN UNIFORME (SIDEBAR) --- */
+        .sidebar {
+            height: 100%; width: 0; position: fixed; z-index: 1000;
+            top: 0; left: 0; background-color: var(--azul-tarjeta);
+            overflow-x: hidden; transition: 0.5s; padding-top: 60px;
+            border-right: 1px solid var(--dorado-oscuro);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+        }
+
+        .sidebar a {
+            padding: 15px 25px; text-decoration: none; font-family: 'Cinzel', serif;
+            font-size: 0.9rem; color: var(--dorado-oscuro); display: flex;
+            align-items: center; gap: 15px; transition: 0.3s;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .sidebar a:hover { color: var(--dorado); background: rgba(249, 226, 155, 0.05); padding-left: 35px; }
+
+        .sidebar .closebtn { position: absolute; top: 10px; right: 25px; font-size: 36px; color: var(--dorado); cursor: pointer; }
+
+        .openbtn {
+            font-size: 18px; cursor: pointer; background-color: var(--azul-tarjeta);
+            color: var(--dorado); padding: 10px 15px; border: 1px solid var(--dorado-oscuro);
+            position: fixed; top: 15px; left: 15px; z-index: 999; border-radius: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- CONTENIDO --- */
         header {
-            padding: 40px 20px;
+            padding: 60px 20px 40px; /* Padding superior extra por el botón flotante */
             text-align: center;
             border-bottom: 2px solid var(--dorado-oscuro);
             background: linear-gradient(rgba(0,0,0,0.4), rgba(10, 25, 47, 0.9));
@@ -68,65 +98,29 @@
             text-align: center;
         }
 
-        .section-icon {
-            font-size: 2rem;
-            color: var(--dorado);
-            margin-bottom: 15px;
-            display: block;
-        }
+        .section-icon { font-size: 2rem; color: var(--dorado); margin-bottom: 15px; display: block; }
 
         .contact-card h2 {
             font-family: 'Cinzel', serif;
             color: var(--dorado);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        .email-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .email-list li {
-            margin-bottom: 10px;
-        }
-
+        .email-list { list-style: none; padding: 0; margin: 0; }
+        .email-list li { margin-bottom: 10px; }
         .email-list a, .phone-link {
             color: var(--blanco-suave);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: color 0.3s;
         }
 
-        .email-list a:hover, .phone-link:hover {
-            color: var(--dorado);
-        }
+        .email-list a:hover, .phone-link:hover { color: var(--dorado); }
 
-        .address-txt {
-            line-height: 1.6;
-            font-size: 1.1rem;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .btn-regresar {
-            display: inline-block;
-            margin: 40px 0;
-            color: var(--dorado-oscuro);
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            transition: 0.3s;
-            border-bottom: 1px solid transparent;
-        }
-
-        .btn-regresar:hover {
-            color: var(--dorado);
-            border-bottom: 1px solid var(--dorado);
-        }
+        .address-txt { line-height: 1.6; font-size: 1.1rem; max-width: 400px; margin: 0 auto; }
 
         footer {
             text-align: center;
@@ -137,16 +131,28 @@
         }
 
         @media (min-width: 768px) {
-            .contact-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .full-width {
-                grid-column: 1 / -1;
-            }
+            .contact-grid { grid-template-columns: 1fr 1fr; }
+            .full-width { grid-column: 1 / -1; }
         }
     </style>
 </head>
 <body>
+
+    <div class="openbtn" onclick="openNav()">☰ MENÚ</div>
+
+    <div id="mySidebar" class="sidebar">
+        <div class="closebtn" onclick="closeNav()">×</div>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="logo_moderno.png" width="50" alt="Logo">
+            <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado);">Plataforma Hiram</p>
+        </div>
+        <a href="index.html"><span>🏠</span> Inicio</a>
+        <a href="logias.html"><span>🏛️</span> Cuadro de Logias</a>
+        <a href="punto_geometrico.html"><span>📍</span> Punto Geométrico</a>
+        <a href="tesoreria.html"><span>💰</span> Tesorería (SIT)</a>
+        <a href="historia.html"><span>📜</span> Historia</a>
+        <a href="contacto.html"><span>✉️</span> Contáctanos</a>
+    </div>
 
     <header>
         <img src="logo_moderno.png" width="60" alt="Logo GLT" style="margin-bottom:15px; filter: drop-shadow(0 0 5px var(--dorado));">
@@ -154,7 +160,6 @@
     </header>
 
     <div class="container">
-        
         <div class="contact-grid">
             <div class="contact-card">
                 <span class="section-icon">✉️</span>
@@ -170,7 +175,7 @@
                 <span class="section-icon">📞</span>
                 <h2>Teléfono Directo</h2>
                 <a href="tel:+528332170715" class="phone-link">+52 833 217 0715</a>
-                <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">Atención en Horario de Oficina</p>
+                <p style="margin-top: 15px; font-size: 0.8rem; opacity: 0.6;">Horario de Oficina</p>
             </div>
 
             <div class="contact-card full-width">
@@ -182,15 +187,20 @@
                 </p>
             </div>
         </div>
-
-        <center>
-            <a href="index.html" class="btn-regresar">← REGRESAR AL PORTAL</a>
-        </center>
     </div>
 
     <footer>
         <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>© 2026 Muy Respetable Gran Logia de Tamaulipas</p>
     </footer>
 
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "280px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+    </script>
 </body>
 </html>
