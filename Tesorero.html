@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gran Tesorería | Plataforma Hiram</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        :root {
+            --azul-fondo: #0a192f;
+            --azul-card: #112240;
+            --dorado: #f9e29b;
+            --dorado-osc: #c5a059;
+            --blanco: #e6f1ff;
+            --verde: #2ecc71;
+            --rojo: #e74c3c;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--azul-fondo);
+            color: var(--blanco);
+            margin: 0;
+            padding: 20px;
+            background-image: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--dorado-osc);
+            padding-bottom: 25px;
+        }
+
+        .logo-glt { width: 75px; filter: drop-shadow(0 0 8px var(--dorado)); }
+        
+        h1 { 
+            font-family: 'Cinzel'; 
+            color: var(--dorado); 
+            font-size: 1.8rem; 
+            margin: 15px 0 5px;
+            letter-spacing: 2px;
+        }
+        
+        .role-tag {
+            font-family: 'Cinzel';
+            font-size: 0.8rem;
+            color: var(--dorado-osc);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* --- TARJETAS DE RESUMEN --- */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--azul-card);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .stat-card span { 
+            display: block; 
+            font-family: 'Cinzel'; 
+            font-size: 0.7rem; 
+            color: var(--dorado-osc); 
+            margin-bottom: 10px;
+        }
+
+        .stat-card .val { 
+            font-size: 2rem; 
+            font-weight: bold; 
+            color: var(--blanco); 
+        }
+
+        /* --- BUSCADOR --- */
+        .search-container { margin-bottom: 20px; }
+        .search-input {
+            width: 100%;
+            padding: 15px;
+            background: var(--azul-card);
+            border: 1px solid var(--dorado-osc);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            font-family: 'Lora';
+        }
+
+        /* --- TABLA DE LOGIAS --- */
+        .table-wrapper {
+            background: var(--azul-card);
+            border-radius: 12px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            overflow: hidden;
+        }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { 
+            background: rgba(197, 160, 89, 0.1); 
+            color: var(--dorado); 
+            padding: 18px; 
+            font-family: 'Cinzel'; 
+            font-size: 0.8rem; 
+            border-bottom: 1px solid var(--dorado-osc);
+        }
+        td { padding: 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
+
+        .status-pill {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            font-family: 'Cinzel';
+            display: inline-block;
+        }
+
+        .aplomo { background: rgba(46, 204, 113, 0.15); color: var(--verde); border: 1px solid var(--verde); }
+        .mora { background: rgba(231, 76, 60, 0.15); color: var(--rojo); border: 1px solid var(--rojo); }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.4rem; }
+            td, th { padding: 12px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="logo_moderno.png" class="logo-glt" alt="Logo Gran Logia">
+        <h1>Gran Tesorería</h1>
+        <div class="role-tag">Control de Logias Jurisdiccionadas</div>
+    </header>
+
+    <div class="summary-grid">
+        <div class="stat-card">
+            <span>Talleres Totales</span>
+            <div class="val" id="total-val">0</div>
+        </div>
+        <div class="stat-card">
+            <span>En Aplomo</span>
+            <div class="val" id="aplomo-val" style="color: var(--verde);">0</div>
+        </div>
+        <div class="stat-card">
+            <span>En Mora</span>
+            <div class="val" id="mora-val" style="color: var(--rojo);">0</div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar Logia por nombre o número..." onkeyup="filterTable()">
+    </div>
+
+    <div class="table-wrapper">
+        <table id="logiasTable">
+            <thead>
+                <tr>
+                    <th>Nombre de la Logia</th>
+                    <th>Nro.</th>
+                    <th>Último Pago</th>
+                    <th>Estatus Oficial</th>
+                </tr>
+            </thead>
+            <tbody id="tableContent">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // URL del CSV con el listado de Logias y sus estatus
+    const SHEET_URL = "URL_DE_TU_CSV_DE_LOGIAS_AQUI";
+
+    function loadData() {
+        Papa.parse(SHEET_URL, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                const data = results.data;
+                renderTable(data);
+                updateStats(data);
+            }
+        });
+    }
+
+    function renderTable(data) {
+        const tbody = document.getElementById('tableContent');
+        tbody.innerHTML = '';
+
+        data.forEach(item => {
+            if(!item.logia_nombre) return;
+
+            const row = document.createElement('tr');
+            const estatus = (item.estatus || "").toLowerCase();
+            const isAplomo = estatus === 'en aplomo' || estatus === 'pagado';
+            
+            const badgeClass = isAplomo ? 'aplomo' : 'mora';
+            const badgeText = isAplomo ? 'EN APLOMO' : 'EN MORA';
+
+            row.innerHTML = `
+                <td><b>${item.logia_nombre}</b></td>
+                <td>#${item.numero_logia || '--'}</td>
+                <td>${item.fecha_ultimo_pago || 'Sin registro'}</td>
+                <td><span class="status-pill ${badgeClass}">${badgeText}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function updateStats(data) {
+        const total = data.filter(i => i.logia_nombre).length;
+        const aplomo = data.filter(i => {
+            const e = (i.estatus || "").toLowerCase();
+            return e === 'en aplomo' || e === 'pagado';
+        }).length;
+
+        document.getElementById('total-val').innerText = total;
+        document.getElementById('aplomo-val').innerText = aplomo;
+        document.getElementById('mora-val').innerText = total - aplomo;
+    }
+
+    function filterTable() {
+        const input = document.getElementById("searchInput").value.toUpperCase();
+        const rows = document.getElementById("tableContent").getElementsByTagName("tr");
+
+        for (let i = 0; i < rows.length; i++) {
+            const text = rows[i].innerText.toUpperCase();
+            rows[i].style.display = text.indexOf(input) > -1 ? "" : "none";
+        }
+    }
+
+    window.onload = loadData;
+</script>
+
+</body>
+</html>
