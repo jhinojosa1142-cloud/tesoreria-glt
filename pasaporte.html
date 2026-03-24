@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pasaporte Digital | Gran Logia de Tamaulipas</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Hiram App">
+    <link rel="apple-touch-icon" href="logo_moderno.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
@@ -64,8 +69,8 @@
 
         /* --- FOTOGRAFÍA --- */
         .foto-wrap {
-            width: 115px;
-            height: 115px;
+            width: 110px;
+            height: 110px;
             margin: 10px auto;
             border-radius: 50%;
             border: 3px solid var(--dorado-oscuro);
@@ -135,7 +140,37 @@
             display: inline-block;
         }
 
-        /* --- BOTONES --- */
+        /* --- ESTILOS WALLET --- */
+        .wallet-container {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .wallet-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .btn-wallet {
+            height: 35px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-wallet:hover { transform: scale(1.05); }
+
+        .wallet-note {
+            font-size: 0.55rem;
+            color: var(--dorado-oscuro);
+            margin-top: 8px;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        /* --- BOTONES DE ACCIÓN --- */
         .acciones { margin-top: 25px; width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
         
         .btn-action { 
@@ -157,7 +192,7 @@
         .btn-salir:hover { background: rgba(197, 160, 89, 0.1); }
 
         @media print {
-            .acciones { display: none; }
+            .acciones, .wallet-container { display: none; }
             body { background: white; padding: 0; }
             .credencial { border: none; box-shadow: none; margin: 0 auto; -webkit-print-color-adjust: exact; }
         }
@@ -167,16 +202,16 @@
 
     <div class="credencial">
         <div class="header">
-            <img src="logo_moderno.png" alt="Logo" class="logo-glt">
+            <img src="logo_moderno.png" alt="Logo GLT" class="logo-glt">
             <h2>MUY RESPETABLE GRAN LOGIA<br>DE TAMAULIPAS</h2>
         </div>
 
         <div class="foto-wrap">
-            <img src="" alt="Foto" id="disp-foto" class="foto-img">
+            <img src="" alt="Foto Hermano" id="disp-foto" class="foto-img">
             <div id="disp-no-foto" class="no-foto-icon">👤</div>
         </div>
 
-        <div class="nombre-hermano" id="disp-nombre">CARGANDO...</div>
+        <div class="nombre-hermano" id="disp-nombre">Cargando...</div>
         <div class="grado-hermano" id="disp-grado">---</div>
         <div class="logia-hermano" id="disp-logia">---</div>
 
@@ -186,7 +221,19 @@
             <div class="badge-status">ESTADO: EN APLOMO 2026</div>
         </div>
 
-        <div style="margin-top: 15px; font-size: 0.5rem; color: var(--dorado-oscuro); letter-spacing: 2px;">
+        <div class="wallet-container">
+            <div class="wallet-buttons">
+                <a href="javascript:void(0)" onclick="alert('Apple Wallet: Función en desarrollo con el servidor central.')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Add_to_Apple_Wallet_badge.svg/2560px-Add_to_Apple_Wallet_badge.svg.png" class="btn-wallet" alt="Apple Wallet">
+                </a>
+                <a href="javascript:void(0)" onclick="alert('Google Wallet: Función en desarrollo con el servidor central.')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Wallet_Badge.svg/2560px-Google_Wallet_Badge.svg.png" class="btn-wallet" alt="Google Wallet">
+                </a>
+            </div>
+            <p class="wallet-note">Certificación digital pendiente</p>
+        </div>
+
+        <div style="margin-top: 10px; font-size: 0.5rem; color: var(--dorado-oscuro); letter-spacing: 2px;">
             S.·. F.·. U.·.
         </div>
     </div>
@@ -202,54 +249,48 @@
 
     <script>
         window.onload = function() {
-            // 1. Recuperamos los datos del sessionStorage
             const data = JSON.parse(sessionStorage.getItem('hermanoValidado'));
 
-            // 2. Seguridad: Si no hay datos, lo regresamos al login
             if (!data) {
                 window.location.href = "identificacion.html";
                 return;
             }
 
-            // 3. Llenamos los campos de la tarjeta
-            document.getElementById('disp-nombre').innerText = data.nombre_completo || "HERMANO SIN NOMBRE";
-            document.getElementById('disp-grado').innerText = data.grado || "GRADO NO REGISTRADO";
+            // Datos Personales
+            document.getElementById('disp-nombre').innerText = data.nombre_completo || "HERMANO";
+            document.getElementById('disp-grado').innerText = data.grado || "SIN GRADO";
 
-            // --- Lógica Inteligente para la Logia (Evita el # 0) ---
-            let nombreLogia = data.logia_nombre || "Logia No Especificada";
-            let numeroLogia = data.numero_logia ? data.numero_logia.toString().trim() : "";
-            
-            // Solo ponemos el # si hay un número válido y no es "0"
-            if (numeroLogia !== "" && numeroLogia !== "0" && numeroLogia !== "undefined") {
-                document.getElementById('disp-logia').innerText = `${nombreLogia} #${numeroLogia}`;
+            // Lógica de Logia
+            let nomLogia = data.logia_nombre || "Logia";
+            let numLogia = data.numero_logia ? data.numero_logia.toString().trim() : "";
+            if (numLogia !== "" && numLogia !== "0") {
+                document.getElementById('disp-logia').innerText = `${nomLogia} #${numLogia}`;
             } else {
-                document.getElementById('disp-logia').innerText = nombreLogia;
+                document.getElementById('disp-logia').innerText = nomLogia;
             }
 
-            // 4. Lógica de Fotografía (PostImg Direct Link)
-            const imgElement = document.getElementById('disp-foto');
-            const noFotoElement = document.getElementById('disp-no-foto');
+            // Foto desde PostImg
+            const imgEl = document.getElementById('disp-foto');
+            const iconEl = document.getElementById('disp-no-foto');
 
             if (data.url_fotografia && data.url_fotografia.trim() !== "") {
-                imgElement.src = data.url_fotografia.trim();
-                imgElement.onload = function() {
-                    imgElement.style.display = 'block';
-                    noFotoElement.style.display = 'none';
+                imgEl.src = data.url_fotografia.trim();
+                imgEl.onload = function() {
+                    imgEl.style.display = 'block';
+                    iconEl.style.display = 'none';
                 };
-                imgElement.onerror = function() {
-                    imgElement.style.display = 'none';
-                    noFotoElement.style.display = 'block';
+                imgEl.onerror = function() {
+                    imgEl.style.display = 'none';
+                    iconEl.style.display = 'block';
                 };
             }
 
-            // 5. Generar Código QR
-            const idAfiliacion = data.numero_afiliacion || "0000";
-            const contenidoQR = `VALID:${idAfiliacion}|${data.nombre_completo}`;
-            
+            // Generar QR
+            const idQR = data.numero_afiliacion || "0";
             new QRCode(document.getElementById("qrcode"), {
-                text: contenidoQR,
-                width: 115,
-                height: 115,
+                text: `VALID:${idQR}|${data.nombre_completo}|${data.grado}`,
+                width: 110,
+                height: 110,
                 colorDark : "#0a192f",
                 colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.H
