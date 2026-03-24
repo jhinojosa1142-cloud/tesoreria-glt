@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Punto Geométrico - GLT</title>
+    <title>Punto Geométrico - Plataforma Hiram</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,6 +12,7 @@
             --dorado: #f9e29b;
             --dorado-oscuro: #c5a059;
             --blanco-suave: #e6f1ff;
+            --sidebar-width: 280px;
         }
 
         body {
@@ -22,10 +23,38 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* --- NAVEGACIÓN UNIFORME (SIDEBAR) --- */
+        .sidebar {
+            height: 100%; width: 0; position: fixed; z-index: 1000;
+            top: 0; left: 0; background-color: var(--azul-tarjeta);
+            overflow-x: hidden; transition: 0.5s; padding-top: 60px;
+            border-right: 1px solid var(--dorado-oscuro);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+        }
+
+        .sidebar a {
+            padding: 15px 25px; text-decoration: none; font-family: 'Cinzel', serif;
+            font-size: 0.9rem; color: var(--dorado-oscuro); display: flex;
+            align-items: center; gap: 15px; transition: 0.3s;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .sidebar a:hover { color: var(--dorado); background: rgba(249, 226, 155, 0.05); padding-left: 35px; }
+        .sidebar .closebtn { position: absolute; top: 10px; right: 25px; font-size: 36px; color: var(--dorado); cursor: pointer; }
+
+        .openbtn {
+            font-size: 18px; cursor: pointer; background-color: var(--azul-tarjeta);
+            color: var(--dorado); padding: 10px 15px; border: 1px solid var(--dorado-oscuro);
+            position: fixed; top: 15px; left: 15px; z-index: 999; border-radius: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- CONTENIDO --- */
         header {
-            padding: 40px 20px;
+            padding: 60px 20px 40px;
             text-align: center;
             border-bottom: 2px solid var(--dorado-oscuro);
             background: linear-gradient(rgba(0,0,0,0.4), rgba(10, 25, 47, 0.9));
@@ -47,7 +76,6 @@
             flex: 1;
         }
 
-        /* Tarjeta de Ubicación Principal */
         .geo-card {
             background: var(--azul-tarjeta);
             border: 1px solid var(--dorado-oscuro);
@@ -62,15 +90,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Contenedor del Mapa */
         .map-wrapper {
             width: 100%;
             height: 450px;
             border-bottom: 2px solid var(--dorado-oscuro);
-            filter: grayscale(20%) contrast(110%);
         }
 
-        /* Información del Oriente */
         .geo-info {
             padding: 30px;
             background: linear-gradient(to bottom, var(--azul-tarjeta), #0d1b2a);
@@ -85,42 +110,13 @@
             margin-bottom: 20px;
         }
 
-        .logia-titulo {
-            font-family: 'Cinzel', serif;
-            color: var(--dorado);
-            font-size: 1.4rem;
-            margin: 0;
-        }
+        .logia-titulo { font-family: 'Cinzel', serif; color: var(--dorado); font-size: 1.4rem; margin: 0; }
+        .logia-numero { font-family: 'Cinzel', serif; background: var(--dorado-oscuro); color: var(--azul-profundo); padding: 5px 12px; border-radius: 4px; font-weight: bold; }
 
-        .logia-numero {
-            font-family: 'Cinzel', serif;
-            background: var(--dorado-oscuro);
-            color: var(--azul-profundo);
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
+        .detalles-lista { list-style: none; padding: 0; margin: 0 0 30px 0; }
+        .detalles-lista li { margin-bottom: 12px; display: flex; align-items: center; font-size: 1rem; }
+        .detalles-lista span { color: var(--dorado); margin-right: 15px; font-size: 1.2rem; }
 
-        .detalles-lista {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 30px 0;
-        }
-
-        .detalles-lista li {
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            font-size: 1rem;
-        }
-
-        .detalles-lista span {
-            color: var(--dorado);
-            margin-right: 15px;
-            font-size: 1.2rem;
-        }
-
-        /* Botón de Acción */
         .btn-gps {
             display: block;
             text-align: center;
@@ -142,18 +138,6 @@
             box-shadow: 0 0 20px rgba(249, 226, 155, 0.4);
         }
 
-        .btn-regresar {
-            display: inline-block;
-            margin-top: 30px;
-            color: var(--dorado-oscuro);
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            transition: 0.3s;
-        }
-
-        .btn-regresar:hover { color: var(--dorado); }
-
         footer {
             text-align: center;
             padding: 40px;
@@ -165,10 +149,27 @@
         @media (max-width: 768px) {
             .map-wrapper { height: 300px; }
             h1 { font-size: 1.5rem; }
+            .logia-header { flex-direction: column; gap: 10px; text-align: center; }
         }
     </style>
 </head>
 <body>
+
+    <div class="openbtn" onclick="openNav()">☰ MENÚ</div>
+
+    <div id="mySidebar" class="sidebar">
+        <div class="closebtn" onclick="closeNav()">×</div>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="logo_moderno.png" width="50" alt="Logo">
+            <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado);">Plataforma Hiram</p>
+        </div>
+        <a href="index.html"><span>🏠</span> Inicio</a>
+        <a href="logias.html"><span>🏛️</span> Cuadro de Logias</a>
+        <a href="punto_geometrico.html"><span>📍</span> Punto Geométrico</a>
+        <a href="tesoreria.html"><span>💰</span> Tesorería (SIT)</a>
+        <a href="historia.html"><span>📜</span> Historia</a>
+        <a href="contacto.html"><span>✉️</span> Contáctanos</a>
+    </div>
 
     <header>
         <img src="logo_moderno.png" width="60" alt="Logo GLT" style="margin-bottom:15px; filter: drop-shadow(0 0 5px var(--dorado));">
@@ -176,41 +177,45 @@
     </header>
 
     <div class="container">
-        
         <div class="geo-card">
             <div class="map-wrapper">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3694.067341054378!2d-97.86311682414777!3d22.21850124584281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d8fa020e6ab9d3%3A0xfe3191d4d89053fa!2sGran%20Logia%20De%20Tamaulipas!5e0!3m2!1ses-419!2smx!4v1710000000000!5m2!1ses-419!2smx" 
-                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.394602852656!2d-97.8596695!3d22.2274435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d8fad30e6a39d3%3A0x0f319416419053fa!2sGran%20Logia%20De%20Tamaulipas!5e0!3m2!1ses-419!2smx!4v1711111111111!5m2!1ses-419!2smx" 
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
                 </iframe>
             </div>
 
             <div class="geo-info">
                 <div class="logia-header">
                     <h2 class="logia-titulo">Muy Respetable Gran Logia de Tamaulipas</h2>
-                    <span class="logia-numero">SEDE</span>
+                    <span class="logia-numero">SEDE CENTRAL</span>
                 </div>
 
                 <ul class="detalles-lista">
-                    <li><span>📍</span> Calle Encino #100, Col. Águila, CP 89230</li>
+                    <li><span>📍</span> Encino no. 100, Col. Aguila, CP 89230</li>
                     <li><span>🏙️</span> Oriente de Tampico, Tamaulipas</li>
-                    <li><span>📞</span> Tel: (833) 212-2516</li>
+                    <li><span>📞</span> Tel: +52 833 217 0715</li>
                 </ul>
 
-                <a href="https://maps.app.goo.gl/9Z3S6xY" target="_blank" class="btn-gps">
+                <a href="https://maps.app.goo.gl/B9Rz25XG8M7Xo9qS6" target="_blank" class="btn-gps">
                     Traza tu Ruta (GPS)
                 </a>
             </div>
         </div>
-
-        <center>
-            <a href="index.html" class="btn-regresar">← REGRESAR AL PORTAL</a>
-        </center>
     </div>
 
     <footer>
-        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>&copy; 2026 Muy Respetable Gran Logia de Tamaulipas</p>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>© 2026 Muy Respetable Gran Logia de Tamaulipas</p>
     </footer>
 
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "280px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+    </script>
 </body>
 </html>
