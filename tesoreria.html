@@ -3,148 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIT - Gran Logia de Tamaulipas</title>
+    <title>Tesorería SIT - Plataforma Hiram</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --azul-profundo: #0a192f; --azul-tarjeta: #112240; --dorado: #f9e29b;
-            --dorado-oscuro: #c5a059; --texto-suave: #e6f1ff; --exito: #27ae60; --error: #c0392b;
-        }
-        body { font-family: 'Lora', serif; background-color: var(--azul-profundo); margin: 0; color: var(--texto-suave); min-height: 100vh; display: flex; flex-direction: column; }
-        h2 { font-family: 'Cinzel', serif; color: var(--dorado); text-transform: uppercase; text-align: center; }
-        
-        .login-card { max-width: 400px; margin: 60px auto; background: var(--azul-tarjeta); padding: 40px; border: 2px solid var(--dorado-oscuro); border-radius: 8px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        
-        /* CORRECCIÓN DE LOGO */
-        .logo-img { 
-            width: 180px; 
-            height: auto; 
-            margin-bottom: 20px; 
-            filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.3));
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+            --azul-profundo: #0a192f;
+            --azul-tarjeta: #112240;
+            --dorado: #f9e29b;
+            --dorado-oscuro: #c5a059;
+            --blanco-suave: #e6f1ff;
+            --sidebar-width: 280px;
         }
 
-        input { width: 100%; padding: 12px; margin: 10px 0; background: rgba(255,255,255,0.05); border: 1px solid var(--dorado-oscuro); border-radius: 4px; color: white; box-sizing: border-box; font-size: 1rem; }
-        button { width: 100%; background: var(--dorado); color: var(--azul-profundo); padding: 15px; border: none; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        button:hover { background: var(--dorado-oscuro); }
-        
-        #panel { display: none; max-width: 900px; margin: 40px auto; background: var(--azul-tarjeta); padding: 30px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--dorado); padding-bottom: 15px; margin-bottom: 20px; }
-        
-        table { width: 100%; border-collapse: collapse; }
-        th { color: var(--dorado); padding: 12px; text-align: left; border-bottom: 2px solid var(--dorado-oscuro); font-family: 'Cinzel'; }
-        td { padding: 12px; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
-        
-        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; color: white; text-transform: uppercase; }
-        .PAGADO { background: var(--exito); }
-        .PENDIENTE { background: var(--error); }
-        
-        footer { margin-top: auto; padding: 20px; text-align: center; color: var(--dorado-oscuro); font-size: 0.8rem; }
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--azul-profundo);
+            color: var(--blanco-suave);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- NAVEGACIÓN UNIFORME --- */
+        .sidebar {
+            height: 100%; width: 0; position: fixed; z-index: 1000;
+            top: 0; left: 0; background-color: var(--azul-tarjeta);
+            overflow-x: hidden; transition: 0.5s; padding-top: 60px;
+            border-right: 1px solid var(--dorado-oscuro);
+        }
+        .sidebar a {
+            padding: 15px 25px; text-decoration: none; font-family: 'Cinzel', serif;
+            font-size: 0.9rem; color: var(--dorado-oscuro); display: flex;
+            align-items: center; gap: 15px; transition: 0.3s;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+        .sidebar a:hover { color: var(--dorado); background: rgba(249, 226, 155, 0.05); padding-left: 35px; }
+        .openbtn {
+            font-size: 18px; cursor: pointer; background-color: var(--azul-tarjeta);
+            color: var(--dorado); padding: 10px 15px; border: 1px solid var(--dorado-oscuro);
+            position: fixed; top: 15px; left: 15px; z-index: 999; border-radius: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        header { padding: 80px 20px 20px; text-align: center; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; flex: 1; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--azul-tarjeta);
+            border: 1px solid var(--dorado-oscuro);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .card h3 { font-family: 'Cinzel', serif; color: var(--dorado); margin-top: 0; }
+
+        .btn-action {
+            display: block;
+            margin-top: 20px;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--dorado);
+            color: var(--dorado);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            transition: 0.3s;
+        }
+
+        .btn-action:hover { background: var(--dorado); color: var(--azul-profundo); }
+
+        footer { text-align: center; padding: 40px; color: var(--dorado-oscuro); font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <div id="login-screen" class="login-card">
-        <img src="logo_moderno.png" alt="Gran Logia de Tamaulipas" class="logo-img">
-        <h2>Tesorería GRAN LOGIA DE TAMAULILPAS</h2>
-        <div id="loader" style="font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 10px;">Sincronizando con Gran Bóveda...</div>
-        <input type="text" id="logia-id" placeholder="Número de Logia">
-        <input type="password" id="logia-pass" placeholder="Confirmar Número">
-        <button onclick="intentarEntrar()">INGRESAR</button>
+    <div class="openbtn" onclick="openNav()">☰ MENÚ</div>
+
+    <div id="mySidebar" class="sidebar">
+        <div style="position: absolute; top: 10px; right: 25px; font-size: 36px; color: var(--dorado); cursor: pointer;" onclick="closeNav()">×</div>
+        <a href="index.html"><span>🏠</span> Inicio</a>
+        <a href="logias.html"><span>🏛️</span> Cuadro de Logias</a>
+        <a href="punto_geometrico.html"><span>📍</span> Punto Geométrico</a>
+        <a href="tesoreria.html"><span>💰</span> Tesorería (SIT)</a>
+        <a href="historia.html"><span>📜</span> Historia</a>
+        <a href="contacto.html"><span>✉️</span> Contáctanos</a>
     </div>
 
-    <div id="panel">
-        <div class="panel-header">
-            <h2 id="nombre-display" style="margin:0; font-size: 1.1rem;"></h2>
-            <div style="display:flex; gap:10px;">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" target="_blank" style="background:var(--exito); color:white; padding:10px 15px; text-decoration:none; border-radius:4px; font-family:'Cinzel'; font-size:0.7rem; font-weight:bold; display: flex; align-items: center;">REPORTAR PAGO ⬆</a>
-                <button onclick="location.reload()" style="background:#444; width:auto; padding:10px 15px; margin:0; font-size: 0.7rem;">SALIR</button>
+    <header>
+        <h1 style="font-family: 'Cinzel'; color: var(--dorado);">Sistema Integral de Tesorería</h1>
+        <p>Gestión de Cuotas y Credenciales</p>
+    </header>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>Pagos en Línea</h3>
+                <p>Realiza el pago de tus derechos y cuotas de forma segura.</p>
+                <a href="#" class="btn-action">ACCEDER A PAGOS</a>
+            </div>
+            <div class="card">
+                <h3>Estado de Cuenta</h3>
+                <p>Consulta tu historial de aportaciones y saldos vigentes.</p>
+                <a href="#" class="btn-action">VER ESTADO</a>
+            </div>
+            <div class="card">
+                <h3>QR Credentials</h3>
+                <p>Genera y descarga tu credencial digital con código QR.</p>
+                <a href="#" class="btn-action">GENERAR QR</a>
             </div>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Concepto / Mes</th>
-                    <th>Monto</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-body"></tbody>
-        </table>
     </div>
 
     <footer>
-        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>Gran Logia de Tamaulipas &copy; 2026</p>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>© 2026 Muy Respetable Gran Logia de Tamaulipas</p>
     </footer>
 
     <script>
-        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv";
-        let database = [];
-
-        async function cargarDatos() {
-            try {
-                // Forzamos la actualización con un parámetro de tiempo
-                const res = await fetch(SHEET_URL + "&t=" + new Date().getTime());
-                const csvText = await res.text();
-                
-                const filas = csvText.split(/\r?\n/).filter(l => l.trim() !== "");
-                
-                database = filas.slice(1).map(f => {
-                    // Soporte para comas o puntos y comas
-                    const separador = f.includes(';') ? ';' : ',';
-                    const c = f.split(separador);
-                    const limpiar = (t) => (t || "").replace(/"/g, "").trim();
-                    return {
-                        id: limpiar(c[0]),
-                        pass: limpiar(c[1]),
-                        nombre: limpiar(c[2]),
-                        mes: limpiar(c[3]),
-                        monto: limpiar(c[4]),
-                        estado: limpiar(c[5]).toUpperCase()
-                    };
-                });
-                document.getElementById('loader').innerText = "Sistema Sincronizado ✔";
-            } catch (e) {
-                document.getElementById('loader').innerText = "Error de Conexión ❌";
-            }
-        }
-
-        function intentarEntrar() {
-            const u = document.getElementById('logia-id').value.trim();
-            const p = document.getElementById('logia-pass').value.trim();
-
-            if (u.toLowerCase() === "admin" && p === "tampico2026") {
-                render(database, "PANEL GRAN TESORERÍA");
-                return;
-            }
-
-            const match = database.find(l => l.id === u && l.pass === p);
-
-            if (match) {
-                const registros = database.filter(l => l.id === u);
-                render(registros, match.nombre);
-            } else {
-                alert("Credenciales incorrectas.\nVerifica que los datos coincidan con la primera pestaña de tu Excel.");
-            }
-        }
-
-        function render(lista, titulo) {
-            document.getElementById('login-screen').style.display = "none";
-            document.getElementById('panel').style.display = "block";
-            document.getElementById('nombre-display').innerText = titulo;
-            const tbody = document.getElementById('tabla-body');
-            tbody.innerHTML = lista.map(l => `
-                <tr>
-                    <td>${l.mes || '---'}</td>
-                    <td>${l.monto || '---'}</td>
-                    <td><span class="status-badge ${l.estado.includes('PAGADO') ? 'PAGADO' : 'PENDIENTE'}">${l.estado || 'PENDIENTE'}</span></td>
-                </tr>
-            `).join("");
-        }
-
-        cargarDatos();
+        function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
+        function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
     </script>
 </body>
 </html>
