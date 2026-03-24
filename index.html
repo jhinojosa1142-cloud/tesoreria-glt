@@ -30,7 +30,7 @@
             height: 100%;
             width: 0;
             position: fixed;
-            z-index: 1000;
+            z-index: 2000; /* Prioridad máxima */
             top: 0; left: 0;
             background-color: var(--azul-tarjeta);
             overflow-x: hidden;
@@ -55,15 +55,15 @@
 
         /* RESALTADO DEL BOTÓN DE CREDENCIAL */
         .sidebar a.highlight {
-            color: var(--dorado);
+            color: var(--dorado) !important;
             background: rgba(197, 160, 89, 0.15);
-            border-left: 4px solid var(--dorado);
+            border-left: 5px solid var(--dorado);
             font-weight: bold;
         }
 
         .sidebar a:hover {
             color: var(--dorado);
-            background: rgba(249, 226, 155, 0.05);
+            background: rgba(249, 226, 155, 0.1);
             padding-left: 35px;
         }
 
@@ -75,6 +75,7 @@
             cursor: pointer;
         }
 
+        /* Botón de apertura con Z-index alto */
         .openbtn {
             font-size: 25px;
             cursor: pointer;
@@ -105,7 +106,7 @@
         }
 
         .logo-main { width: 120px; margin-top: 40px; filter: drop-shadow(0 0 8px var(--dorado)); }
-        h1 { font-family: 'Cinzel', serif; color: var(--dorado); margin: 20px 0 5px; font-size: 1.8rem; }
+        h1 { font-family: 'Cinzel', serif; color: var(--dorado); margin: 20px 0 5px; font-size: 1.8rem; line-height: 1.2; }
         .subtitle { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.8; margin-bottom: 30px; }
 
         .gm-card {
@@ -120,15 +121,16 @@
 
         .gm-img { width: 100%; border-radius: 5px; border: 1px solid var(--dorado-oscuro); margin-bottom: 15px; }
 
+        /* Ajustes Swiper */
         .swiper { width: 100%; max-width: 800px; height: 400px; margin-bottom: 40px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        footer { margin-top: auto; padding: 20px; color: var(--dorado-oscuro); font-size: 0.8rem; }
+        footer { margin-top: auto; padding: 20px; color: var(--dorado-oscuro); font-size: 0.8rem; letter-spacing: 1px; }
 
         @media (max-width: 768px) {
             h1 { font-size: 1.3rem; }
             .swiper { height: 280px; }
-            .sidebar { width: 100%; left: -100%; transition: 0.5s; } /* Sidebar pantalla completa en móvil */
+            .sidebar { width: 0; }
         }
     </style>
 </head>
@@ -136,13 +138,13 @@
 
     <div id="mySidebar" class="sidebar">
         <div class="closebtn" onclick="closeNav()">×</div>
-        <div style="text-align: center; margin-bottom: 30px;">
+        
+        <div style="text-align: center; margin-bottom: 30px; padding: 0 10px;">
             <img src="logo_moderno.png" width="60" alt="Logo">
             <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado); margin-top: 5px;">PLATAFORMA HIRAM</p>
         </div>
         
         <a href="identificacion.html" class="highlight"><span>🪪</span> Mi Credencial Digital</a>
-        
         <a href="logias.html"><span>🏛️</span> Cuadro de Logias</a>
         <a href="punto_geometrico.html"><span>📍</span> Punto Geométrico</a>
         <a href="tesoreria.html"><span>💰</span> Tesorería (SIT)</a>
@@ -176,38 +178,50 @@
         </div>
 
         <footer>
-            <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>© 2026 Muy Respetable Gran Logia de Tamaulipas</p>
+            <p>A.·. L.·. G.·. A.·. D.·. U.·.</p>
+            <p>© 2026 Muy Respetable Gran Logia de Tamaulipas de AA.·. LL.·. y AA.·. MM.·.</p>
         </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+        // Funciones para abrir y cerrar el menú
         function openNav() {
-            // Manejo de sidebar para móvil y escritorio
+            const sidebar = document.getElementById("mySidebar");
+            const main = document.getElementById("main");
+            
             if(window.innerWidth <= 768) {
-                document.getElementById("mySidebar").style.left = "0";
-                document.getElementById("mySidebar").style.width = "100%";
+                sidebar.style.width = "100%";
             } else {
-                document.getElementById("mySidebar").style.width = "var(--sidebar-width)";
-                document.getElementById("main").style.marginLeft = "var(--sidebar-width)";
+                sidebar.style.width = "var(--sidebar-width)";
+                main.style.marginLeft = "var(--sidebar-width)";
             }
         }
 
         function closeNav() {
-            if(window.innerWidth <= 768) {
-                document.getElementById("mySidebar").style.left = "-100%";
-            } else {
-                document.getElementById("mySidebar").style.width = "0";
-                document.getElementById("main").style.marginLeft = "0";
-            }
+            const sidebar = document.getElementById("mySidebar");
+            const main = document.getElementById("main");
+            
+            sidebar.style.width = "0";
+            main.style.marginLeft = "0";
         }
 
+        // Inicializar el carrusel Swiper
         var swiper = new Swiper(".mySwiper", {
             loop: true,
             effect: "fade",
-            autoplay: { delay: 4500, disableOnInteraction: false },
-            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-            pagination: { el: ".swiper-pagination", clickable: true },
+            autoplay: {
+                delay: 4500,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
         });
     </script>
 </body>
