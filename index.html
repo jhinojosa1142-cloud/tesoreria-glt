@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma Hiram | Gran Logia de Tamaulipas</title>
+    <title>Identificación Masónica | Plataforma Hiram</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
@@ -27,154 +27,100 @@
             min-height: 100vh;
         }
 
-        header {
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-        }
+        header { padding: 40px 20px; text-align: center; }
+        .logo-escudo { width: 80px; filter: drop-shadow(0 0 8px var(--dorado)); margin-bottom: 10px; }
+        h1 { font-family: 'Cinzel', serif; color: var(--dorado); font-size: 1.5rem; margin: 0; }
 
-        .logo-escudo {
-            width: 120px;
-            filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.4));
-            margin-bottom: 15px;
-        }
+        .main-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
 
-        h1 { font-family: 'Cinzel', serif; color: var(--dorado); margin: 0; font-size: 1.8rem; letter-spacing: 2px; }
-        h2 { font-family: 'Cinzel', serif; color: var(--dorado-mate); font-size: 0.9rem; margin: 5px 0 0; letter-spacing: 4px; }
-
-        .main-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        /* CARD DE REGISTRO */
         .registro-card {
             background: var(--azul-card);
             border: 1px solid var(--dorado-mate);
             border-radius: 12px;
-            padding: 40px;
+            padding: 35px;
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
             text-align: center;
         }
 
         .form-group { text-align: left; margin-bottom: 20px; }
         .form-group label {
-            display: block;
-            font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
-            color: var(--dorado-mate);
-            margin-bottom: 8px;
+            display: block; font-family: 'Cinzel', serif; font-size: 0.7rem;
+            color: var(--dorado-mate); margin-bottom: 8px;
         }
 
         input {
-            width: 100%;
-            padding: 12px;
-            background: var(--azul-obscuro);
-            border: 1px solid var(--dorado-mate);
-            border-radius: 4px;
-            color: white;
-            font-family: 'Lora', serif;
-            box-sizing: border-box;
-            outline: none;
+            width: 100%; padding: 12px; background: var(--azul-obscuro);
+            border: 1px solid var(--dorado-mate); border-radius: 4px;
+            color: white; font-family: 'Lora', serif; box-sizing: border-box; outline: none;
         }
-
-        input:focus { border-color: var(--dorado); box-shadow: 0 0 5px rgba(249, 226, 155, 0.3); }
 
         .btn-validar {
-            width: 100%;
-            padding: 15px;
-            background: var(--dorado-mate);
-            color: var(--azul-obscuro);
-            border: none;
-            border-radius: 4px;
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            letter-spacing: 1px;
-            margin-top: 10px;
+            width: 100%; padding: 15px; background: var(--dorado-mate);
+            color: var(--azul-obscuro); border: none; border-radius: 4px;
+            font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
 
-        .btn-validar:hover { background: var(--dorado); transform: translateY(-2px); }
-        .btn-validar:disabled { background: #555; cursor: not-allowed; }
+        .btn-validar:hover { background: var(--dorado); }
 
-        #msg-status {
-            margin-top: 20px;
-            font-size: 0.85rem;
-            padding: 10px;
-            border-radius: 4px;
-            display: none;
-        }
-
-        footer {
-            padding: 20px;
-            text-align: center;
-            font-size: 0.7rem;
-            color: var(--dorado-mate);
-            opacity: 0.7;
+        #msg-status { margin-top: 20px; font-size: 0.85rem; padding: 10px; border-radius: 4px; display: none; }
+        
+        .btn-regresar {
+            display: inline-block; margin-top: 20px; color: var(--dorado-mate);
+            text-decoration: none; font-size: 0.8rem; font-family: 'Cinzel';
         }
     </style>
 </head>
 <body>
 
     <header>
-        <img src="logo_moderno.png" class="logo-escudo" alt="Gran Logia de Tamaulipas">
+        <img src="logo_moderno.png" class="logo-escudo">
         <h1>PLATAFORMA HIRAM</h1>
-        <h2>IDENTIDAD DIGITAL</h2>
     </header>
 
     <div class="main-container">
-        <div class="registro-card" id="cardIdentidad">
-            <h3 style="font-family:'Cinzel'; color:var(--dorado); margin-bottom:25px; font-size:1.1rem;">IDENTIFICACIÓN DE HERMANO</h3>
+        <div class="registro-card">
+            <h3 style="font-family:'Cinzel'; color:var(--dorado); margin-bottom:20px;">VALIDACIÓN DE MIEMBRO</h3>
             
-            <form id="formIdentidad" onsubmit="validarHermano(event)">
+            <form onsubmit="validarHermano(event)">
                 <div class="form-group">
-                    <label>Nombre Completo (Como aparece en Censo)</label>
-                    <input type="text" id="nombreInput" placeholder="Ej: JUAN PEREZ LOPEZ" required autocomplete="off">
+                    <label>Nombre Completo (Sin acentos)</label>
+                    <input type="text" id="nombreInput" placeholder="EJ: JUAN PEREZ LOPEZ" required>
                 </div>
                 
                 <div class="form-group">
-                    <label>Número de Afiliación / ID</label>
-                    <input type="text" id="idInput" placeholder="Ej: 12345" required>
+                    <label>Número de Afiliación</label>
+                    <input type="text" id="idInput" placeholder="ID UNICO" required>
                 </div>
 
-                <button type="submit" id="btnSubmit" class="btn-validar">VERIFICAR IDENTIDAD</button>
+                <button type="submit" id="btnSubmit" class="btn-validar">VERIFICAR CENSO</button>
             </form>
 
             <div id="msg-status"></div>
+
+            <a href="index.html" class="btn-regresar">← VOLVER AL INICIO</a>
         </div>
     </div>
 
-    <footer>
-        <p>Muy Respetable Gran Logia de Tamaulipas de AA.·. LL.·. y AA.·. MM.·.<br>A.·. L.·. G.·. A.·. D.·. U.·.</p>
-    </footer>
-
     <script>
-        // URL de tu CSV de Google Sheets (Sección CENSO_OFICIAL)
-        const URL_CENSO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=1959209005&single=true&output=csv";
+        // USA EL LINK DE TU GOOGLE SHEET AQUÍ
+        const URL_CENSO = "TU_URL_DE_GOOGLE_SHEETS_CSV";
 
         function validarHermano(e) {
             e.preventDefault();
-            
             const nombre = document.getElementById('nombreInput').value.trim().toUpperCase();
             const idAfiliacion = document.getElementById('idInput').value.trim();
             const btn = document.getElementById('btnSubmit');
             const status = document.getElementById('msg-status');
 
             btn.disabled = true;
-            btn.innerText = "BUSCANDO EN CENSO...";
-            status.style.display = 'none';
+            btn.innerText = "BUSCANDO...";
 
             Papa.parse(URL_CENSO, {
                 download: true,
                 header: true,
                 complete: function(results) {
-                    // Buscamos coincidencia exacta en Nombre e ID
                     const hermano = results.data.find(row => 
                         row.nombre_completo.toUpperCase() === nombre && 
                         row.numero_afiliacion === idAfiliacion
@@ -184,28 +130,20 @@
                         status.style.display = 'block';
                         status.style.backgroundColor = "rgba(46, 204, 113, 0.2)";
                         status.style.color = "var(--verde-exito)";
-                        status.innerText = "✓ Identidad confirmada. Bienvenido, Q.·. H.·.";
+                        status.innerText = "✓ Identidad confirmada. Generando Pasaporte...";
                         
-                        // Guardamos datos en sesión para la siguiente página
-                        sessionStorage.setItem('sesionHiram', JSON.stringify(hermano));
+                        // Guardamos datos para pasaporte.html
+                        sessionStorage.setItem('hermanoValidado', JSON.stringify(hermano));
 
-                        // Redirigimos a la página de la Wallet tras 1.5 segundos
-                        setTimeout(() => {
-                            window.location.href = "pasaporte.html";
-                        }, 1500);
-
+                        setTimeout(() => { window.location.href = "pasaporte.html"; }, 1500);
                     } else {
                         status.style.display = 'block';
                         status.style.backgroundColor = "rgba(231, 76, 60, 0.2)";
                         status.style.color = "var(--rojo-error)";
-                        status.innerText = "✕ Datos no encontrados. Verifique su número o contacte a Gran Secretaría.";
+                        status.innerText = "✕ Datos no encontrados en el censo oficial.";
                         btn.disabled = false;
-                        btn.innerText = "VERIFICAR IDENTIDAD";
+                        btn.innerText = "VERIFICAR CENSO";
                     }
-                },
-                error: function() {
-                    alert("Error crítico de conexión con el Censo Digital.");
-                    btn.disabled = false;
                 }
             });
         }
