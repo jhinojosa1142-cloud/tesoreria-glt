@@ -48,6 +48,7 @@
         }
 
         header { padding: 80px 20px 20px; text-align: center; }
+        .logo-main { filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.3)); margin-bottom: 15px; }
 
         .container { max-width: 900px; margin: 0 auto; padding: 20px; flex: 1; }
 
@@ -59,28 +60,36 @@
             border-radius: 12px;
             text-align: center;
             max-width: 400px;
-            margin: 40px auto;
+            margin: 20px auto;
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            animation: fadeIn 0.6s ease-out;
         }
 
-        .login-card h2 { font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 25px; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-card h2 { font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 25px; font-size: 1.4rem; }
 
         .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--dorado-oscuro); }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--dorado-oscuro); font-family: 'Cinzel'; }
         .form-group input {
             width: 100%; padding: 12px; border-radius: 5px; border: 1px solid var(--dorado-oscuro);
             background: rgba(10, 25, 47, 0.7); color: white; outline: none; box-sizing: border-box;
+            transition: 0.3s;
         }
+        .form-group input:focus { border-color: var(--dorado); box-shadow: 0 0 8px rgba(249, 226, 155, 0.2); }
 
         .btn-login {
             width: 100%; padding: 15px; background: var(--dorado-oscuro); color: var(--azul-profundo);
             border: none; border-radius: 5px; font-family: 'Cinzel', serif; font-weight: bold;
-            cursor: pointer; transition: 0.3s;
+            cursor: pointer; transition: 0.3s; letter-spacing: 1px;
         }
-        .btn-login:hover { background: var(--dorado); }
+        .btn-login:hover { background: var(--dorado); transform: scale(1.02); }
 
-        /* --- DASHBOARD (Oculto inicialmente) --- */
-        #dashboard { display: none; }
+        /* --- DASHBOARD --- */
+        #dashboard { display: none; animation: fadeIn 0.6s ease-out; }
 
         .dashboard-grid {
             display: grid;
@@ -95,18 +104,25 @@
             padding: 30px;
             border-radius: 12px;
             text-align: center;
-            transition: transform 0.3s;
+            transition: 0.3s;
         }
-        .card:hover { transform: translateY(-5px); }
+        .card:hover { border-color: var(--dorado); background: rgba(17, 34, 64, 0.8); }
 
-        .card h3 { font-family: 'Cinzel', serif; color: var(--dorado); margin-top: 0; }
+        .card h3 { font-family: 'Cinzel', serif; color: var(--dorado); margin-top: 0; font-size: 1.1rem; }
 
         .btn-action {
             display: block; margin-top: 20px; padding: 12px; background: transparent;
             border: 1px solid var(--dorado); color: var(--dorado); text-decoration: none;
-            font-family: 'Cinzel', serif; transition: 0.3s; font-size: 0.8rem;
+            font-family: 'Cinzel', serif; transition: 0.3s; font-size: 0.8rem; letter-spacing: 1px;
         }
         .btn-action:hover { background: var(--dorado); color: var(--azul-profundo); }
+
+        .welcome-box { 
+            text-align: center; 
+            padding: 20px; 
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2); 
+            margin-bottom: 20px;
+        }
 
         footer { text-align: center; padding: 40px; color: var(--dorado-oscuro); font-size: 0.8rem; border-top: 1px solid rgba(197,160,89,0.1); }
     </style>
@@ -117,6 +133,10 @@
 
     <div id="mySidebar" class="sidebar">
         <div class="closebtn" onclick="closeNav()">×</div>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="logo_moderno.png" width="50" alt="Logo">
+            <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado);">Plataforma Hiram</p>
+        </div>
         <a href="index.html">🏠 Inicio</a>
         <a href="logias.html">🏛️ Cuadro de Logias</a>
         <a href="punto_geometrico.html">📍 Punto Geométrico</a>
@@ -126,49 +146,61 @@
     </div>
 
     <header>
-        <h1 style="font-family: 'Cinzel'; color: var(--dorado);">SIT - Tesorería</h1>
-        <p>Sistema Integral de Tesorería de la Gran Logia de Tamaulipas</p>
+        <img src="logo_moderno.png" width="100" class="logo-main" alt="Logo GLT">
+        <h1 style="font-family: 'Cinzel'; color: var(--dorado); margin: 10px 0 5px 0;">SIT - Tesorería</h1>
+        <p style="font-size: 0.9rem; color: var(--dorado-oscuro); font-family: 'Cinzel'; letter-spacing: 1px;">Gran Logia de Tamaulipas</p>
     </header>
 
     <div class="container">
         
         <div id="login-section" class="login-card">
-            <h2>Acceso a Logias</h2>
+            <h2>Acceso Privado</h2>
             <div class="form-group">
-                <label>Usuario (Nombre de Logia)</label>
-                <input type="text" id="user" placeholder="Ej: Victrix 1">
+                <label>Nombre de la Logia</label>
+                <input type="text" id="logiaInput" placeholder="Ej: Miguel Hidalgo">
             </div>
             <div class="form-group">
-                <label>Contraseña</label>
-                <input type="password" id="pass" placeholder="••••••••">
+                <label>Número de Logia</label>
+                <input type="text" id="numeroInput" placeholder="Ej: 42">
             </div>
-            <button class="btn-login" onclick="validarAcceso()">INGRESAR AL ESTADO DE CUENTA</button>
-            <p id="error-msg" style="color: #ff6b6b; font-size: 0.8rem; margin-top: 15px; display: none;">Credenciales incorrectas. Verifique su información.</p>
+            <div class="form-group">
+                <label>Contraseña de Acceso</label>
+                <input type="password" id="passInput" placeholder="••••••••">
+            </div>
+            <button class="btn-login" onclick="validarAcceso()">INGRESAR AL SISTEMA</button>
+            <p id="error-msg" style="color: #ff6b6b; font-size: 0.8rem; margin-top: 15px; display: none;">Error: Verifique sus credenciales e intente de nuevo.</p>
         </div>
 
         <div id="dashboard">
-            <h2 style="text-align: center; font-family: 'Cinzel'; color: var(--dorado);">Bienvenida, R.·. L.·. S.·. <span id="logia-name"></span></h2>
+            <div class="welcome-box">
+                <p style="color: var(--dorado-oscuro); font-family: 'Cinzel'; margin-bottom: 5px;">Bienvenida R.·. L.·. S.·.</p>
+                <h2 style="font-family: 'Cinzel'; color: var(--dorado); margin: 0; font-size: 1.8rem;" id="fullLogiaName"></h2>
+            </div>
+
             <div class="dashboard-grid">
                 <div class="card">
                     <h3>Reportar Pago</h3>
-                    <p>Sube tu comprobante bancario para que sea validado por Gran Tesorería.</p>
+                    <p>Sube tu comprobante bancario (Google Forms) para validación inmediata.</p>
                     <a href="TU_LINK_DE_GOOGLE_FORMS" target="_blank" class="btn-action">SUBIR COMPROBANTE</a>
                 </div>
 
                 <div class="card">
                     <h3>Estado de Cuenta</h3>
-                    <p>Consulta tus saldos vigentes y movimientos registrados en el sistema.</p>
-                    <a href="TU_LINK_DE_GOOGLE_SHEET_O_APP_SCRIPT" target="_blank" class="btn-action">VER SALDOS</a>
+                    <p>Consulta saldos y movimientos oficiales desde Google Sheets.</p>
+                    <a href="TU_LINK_DE_GOOGLE_SHEET" target="_blank" class="btn-action">VER SALDOS</a>
                 </div>
 
                 <div class="card">
                     <h3>QR Credentials</h3>
-                    <p>Genera la credencial digital para los miembros de tu taller.</p>
+                    <p>Acceso a la base de datos de credenciales para miembros.</p>
                     <a href="#" class="btn-action">GESTIONAR QR</a>
                 </div>
             </div>
+
             <div style="text-align: center; margin-top: 40px;">
-                <button onclick="logout()" style="background: none; border: 1px solid var(--dorado-oscuro); color: var(--dorado-oscuro); padding: 10px 20px; cursor: pointer; font-family: 'Cinzel';">Cerrar Sesión</button>
+                <button onclick="logout()" style="background: none; border: 1px solid var(--dorado-oscuro); color: var(--dorado-oscuro); padding: 10px 25px; cursor: pointer; font-family: 'Cinzel'; border-radius: 4px; transition: 0.3s;">
+                    Cerrar Sesión de Taller
+                </button>
             </div>
         </div>
 
@@ -182,17 +214,21 @@
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
 
-        // Función temporal para simular el acceso (Aquí conectaríamos con Google Sheets después)
         function validarAcceso() {
-            const user = document.getElementById('user').value;
-            const pass = document.getElementById('pass').value;
+            const nombre = document.getElementById('logiaInput').value;
+            const numero = document.getElementById('numeroInput').value;
+            const pass = document.getElementById('passInput').value;
 
-            // Simulación simple: Si el usuario no está vacío, deja entrar. 
-            // En el futuro, haremos un fetch a una Google App Script que lea tu Sheet.
-            if(user !== "" && pass !== "") {
+            // Validación básica para prototipo
+            if(nombre !== "" && numero !== "" && pass !== "") {
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
-                document.getElementById('logia-name').innerText = user.toUpperCase();
+                
+                // Formateamos el nombre como pediste: Nombre + # + Numero
+                document.getElementById('fullLogiaName').innerText = nombre + " #" + numero;
+                
+                // Limpiar error si existía
+                document.getElementById('error-msg').style.display = 'none';
             } else {
                 document.getElementById('error-msg').style.display = 'block';
             }
@@ -201,6 +237,8 @@
         function logout() {
             document.getElementById('login-section').style.display = 'block';
             document.getElementById('dashboard').style.display = 'none';
+            // Limpiar campos por seguridad
+            document.getElementById('passInput').value = "";
         }
     </script>
 </body>
