@@ -1,23 +1,275 @@
-<div class="dashboard-grid">
-    <div class="card">
-        <div style="font-size: 2.5rem; margin-bottom: 15px;">📥</div>
-        <h3 style="font-family:'Cinzel'; font-size:1.1rem; color:var(--dorado);">Reportar Pago</h3>
-        <p style="font-size: 0.85rem; color: var(--blanco-suave); opacity: 0.8; min-height: 45px;">
-            Suba su captura de transferencia o depósito bancario para validación de Gran Tesorería.
-        </p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" 
-           target="_blank" 
-           class="btn-action">
-           ENVIAR COMPROBANTE
-        </a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT - Tesorería | Plataforma Hiram</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        :root {
+            --azul-profundo: #0a192f;
+            --azul-tarjeta: #112240;
+            --dorado: #f9e29b;
+            --dorado-oscuro: #c5a059;
+            --blanco-suave: #e6f1ff;
+            --verde-aplomo: #2ecc71;
+            --rojo-desplomado: #e74c3c;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--azul-profundo);
+            color: var(--blanco-suave);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        .sidebar {
+            height: 100%; width: 0; position: fixed; z-index: 1000;
+            top: 0; left: 0; background-color: var(--azul-tarjeta);
+            overflow-x: hidden; transition: 0.5s; padding-top: 60px;
+            border-right: 1px solid var(--dorado-oscuro);
+        }
+        .sidebar a {
+            padding: 15px 25px; text-decoration: none; font-family: 'Cinzel', serif;
+            font-size: 0.9rem; color: var(--dorado-oscuro); display: flex;
+            align-items: center; gap: 15px; transition: 0.3s;
+        }
+        .sidebar a:hover { color: var(--dorado); background: rgba(249, 226, 155, 0.05); }
+        .sidebar .closebtn { position: absolute; top: 10px; right: 25px; font-size: 36px; color: var(--dorado); cursor: pointer; }
+
+        .openbtn {
+            font-size: 18px; cursor: pointer; background-color: var(--azul-tarjeta);
+            color: var(--dorado); padding: 10px 15px; border: 1px solid var(--dorado-oscuro);
+            position: fixed; top: 15px; left: 15px; z-index: 999; border-radius: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        header { padding: 60px 20px 20px; text-align: center; }
+        .logo-main { filter: drop-shadow(0 0 10px rgba(249, 226, 155, 0.3)); margin-bottom: 10px; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; flex: 1; }
+
+        /* --- LOGIN --- */
+        .login-card {
+            background: var(--azul-tarjeta);
+            border: 1px solid var(--dorado-oscuro);
+            padding: 40px; border-radius: 12px; text-align: center;
+            max-width: 400px; margin: 20px auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            animation: fadeIn 0.8s ease;
+        }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--dorado-oscuro); font-family: 'Cinzel'; }
+        .form-group input {
+            width: 100%; padding: 12px; border-radius: 5px; border: 1px solid var(--dorado-oscuro);
+            background: rgba(10, 25, 47, 0.7); color: white; outline: none; box-sizing: border-box;
+        }
+        .btn-login {
+            width: 100%; padding: 15px; background: var(--dorado-oscuro); color: var(--azul-profundo);
+            border: none; border-radius: 5px; font-family: 'Cinzel', serif; font-weight: bold;
+            cursor: pointer; transition: 0.3s; letter-spacing: 1px;
+        }
+        .btn-login:hover { background: var(--dorado); transform: scale(1.02); }
+
+        /* --- DASHBOARD --- */
+        #dashboard { display: none; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .banner-estado {
+            background: var(--azul-tarjeta);
+            border: 2px solid var(--dorado-oscuro);
+            border-radius: 15px; padding: 30px; text-align: center;
+            margin-bottom: 30px; transition: 0.5s;
+        }
+        .status-txt { font-family: 'Cinzel'; font-size: 2.2rem; font-weight: bold; margin: 15px 0; letter-spacing: 5px; }
+        
+        /* Colores de Estado */
+        .aplomo { color: var(--verde-aplomo); border-color: var(--verde-aplomo) !important; box-shadow: 0 0 15px rgba(46, 204, 113, 0.2); }
+        .desplomado { color: var(--rojo-desplomado); border-color: var(--rojo-desplomado) !important; box-shadow: 0 0 15px rgba(231, 76, 60, 0.2); }
+
+        .resumen-pago {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; margin-top: 20px; padding-top: 20px;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+        }
+        .resumen-item span { display: block; font-family: 'Cinzel'; font-size: 0.65rem; color: var(--dorado-oscuro); margin-bottom: 5px; }
+        .resumen-item b { font-size: 1.1rem; color: var(--blanco-suave); }
+
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { 
+            background: var(--azul-tarjeta); border: 1px solid var(--dorado-oscuro); 
+            padding: 25px; border-radius: 12px; text-align: center; transition: 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--dorado); }
+        .btn-action {
+            display: block; margin-top: 20px; padding: 12px; border: 1px solid var(--dorado);
+            color: var(--dorado); text-decoration: none; font-family: 'Cinzel', serif;
+            font-size: 0.8rem; transition: 0.3s; border-radius: 4px;
+        }
+        .btn-action:hover { background: var(--dorado); color: var(--azul-profundo); }
+
+        footer { text-align: center; padding: 40px; color: var(--dorado-oscuro); font-size: 0.8rem; border-top: 1px solid rgba(197,160,89,0.1); }
+    </style>
+</head>
+<body>
+
+    <div class="openbtn" onclick="openNav()">☰ MENÚ</div>
+
+    <div id="mySidebar" class="sidebar">
+        <div class="closebtn" onclick="closeNav()">×</div>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="logo_moderno.png" width="50" alt="Logo">
+            <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado);">Plataforma Hiram</p>
+        </div>
+        <a href="index.html">🏠 Inicio</a>
+        <a href="logias.html">🏛️ Cuadro de Logias</a>
+        <a href="tesoreria.html">💰 Tesorería (SIT)</a>
+        <a href="historia.html">📜 Historia</a>
     </div>
 
-    <div class="card">
-        <div style="font-size: 2.5rem; margin-bottom: 15px;">📜</div>
-        <h3 style="font-family:'Cinzel'; font-size:1.1rem; color:var(--dorado);">Auxiliar de Cuenta</h3>
-        <p style="font-size: 0.85rem; color: var(--blanco-suave); opacity: 0.8; min-height: 45px;">
-            Consulte el desglose de sus movimientos, cápitas y derechos de su respectiva logia.
-        </p>
-        <a id="sheetLink" href="#" target="_blank" class="btn-action">CONSULTAR DETALLES</a>
+    <header>
+        <img src="logo_moderno.png" width="100" class="logo-main" alt="Logo Gran Logia">
+        <h1 style="font-family: 'Cinzel'; color: var(--dorado); margin: 0;">SIT - Tesorería</h1>
+        <p style="font-family: 'Cinzel'; font-size: 0.8rem; color: var(--dorado-oscuro); letter-spacing: 2px;">Gran Logia de Tamaulipas</p>
+    </header>
+
+    <div class="container">
+        
+        <div id="login-section" class="login-card">
+            <h2 style="font-family: 'Cinzel'; color: var(--dorado); font-size: 1.2rem; margin-bottom: 25px;">Acceso de Taller</h2>
+            <div class="form-group">
+                <label>Usuario</label>
+                <input type="text" id="userInput" placeholder="Nombre de usuario">
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="passInput" placeholder="••••••••">
+            </div>
+            <button id="loginBtn" class="btn-login" onclick="intentarLogin()">VALIDAR CREDENCIALES</button>
+            <p id="error-msg" style="color: var(--rojo-desplomado); font-size: 0.85rem; margin-top: 15px; display: none;">Usuario o contraseña incorrectos.</p>
+        </div>
+
+        <div id="dashboard">
+            <div class="banner-estado" id="bannerEstado">
+                <p style="font-family: 'Cinzel'; color: var(--dorado-oscuro); margin: 0; font-size: 0.8rem;">ESTADO ACTUAL DE LA LOGIA</p>
+                <h2 id="logiaFullDisplay" style="font-family: 'Cinzel'; color: var(--dorado); margin: 10px 0;"></h2>
+                
+                <div id="statusTxt" class="status-txt">--</div>
+
+                <div class="resumen-pago">
+                    <div class="resumen-item">
+                        <span>MES CORRESPONDIENTE</span>
+                        <b id="mesDisplay">-</b>
+                    </div>
+                    <div class="resumen-item">
+                        <span>CARGOS / CÁPITAS</span>
+                        <b id="cargoDisplay">$0.00</b>
+                    </div>
+                    <div class="resumen-item">
+                        <span>SALDO TOTAL</span>
+                        <b id="saldoDisplay">$0.00</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">📄</div>
+                    <h3 style="font-family: 'Cinzel'; color: var(--dorado); font-size: 1rem;">Reportar Pago</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.8;">Suba su comprobante de pago para validación de Tesorería.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzMxL1YduE6spA93u_ChQGm_ACOZe79byjQXqpIyHtoEaWTw/viewform?usp=header" 
+                       target="_blank" class="btn-action">SUBIR COMPROBANTE</a>
+                </div>
+
+                <div class="card">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">📊</div>
+                    <h3 style="font-family: 'Cinzel'; color: var(--dorado); font-size: 1rem;">Auxiliar de Cuenta</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.8;">Consulte el historial de movimientos y estados financieros.</p>
+                    <a href="#" id="auxiliarBtn" target="_blank" class="btn-action">VER DETALLES</a>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button onclick="location.reload()" style="background: none; border: 1px solid var(--dorado-oscuro); color: var(--dorado-oscuro); padding: 10px 20px; cursor: pointer; font-family: 'Cinzel'; border-radius: 4px;">CERRAR SESIÓN</button>
+            </div>
+        </div>
+
     </div>
-</div>
+
+    <footer>
+        <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>© 2026 Muy Respetable Gran Logia de Tamaulipas</p>
+    </footer>
+
+    <script>
+        // URL del CSV publicado desde tu Google Sheet
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?output=csv';
+
+        function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
+        function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+
+        function intentarLogin() {
+            const u = document.getElementById('userInput').value.trim();
+            const p = document.getElementById('passInput').value.trim();
+            const btn = document.getElementById('loginBtn');
+            const error = document.getElementById('error-msg');
+
+            if(u === "" || p === "") return;
+
+            btn.innerText = "VERIFICANDO...";
+            btn.disabled = true;
+
+            Papa.parse(CSV_URL, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    const data = results.data;
+                    // Buscamos coincidencia en las columnas 'usuario' y 'password'
+                    const logia = data.find(row => row.usuario === u && row.password === p);
+
+                    if (logia) {
+                        mostrarDashboard(logia);
+                    } else {
+                        error.style.display = 'block';
+                        btn.innerText = "VALIDAR CREDENCIALES";
+                        btn.disabled = false;
+                    }
+                },
+                error: function() {
+                    alert("Error al conectar con la base de datos SIT.");
+                    btn.disabled = false;
+                }
+            });
+        }
+
+        function mostrarDashboard(data) {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+
+            // Nombre completo (Nombre de Logia ya incluye el numeral en tu Sheet)
+            document.getElementById('logiaFullDisplay').innerText = data.nombre_logia;
+            document.getElementById('mesDisplay').innerText = data.mes_pago;
+            document.getElementById('cargoDisplay').innerText = "$" + (data.cargos || "0.00");
+            document.getElementById('saldoDisplay').innerText = "$" + data.saldo;
+
+            const banner = document.getElementById('bannerEstado');
+            const status = document.getElementById('statusTxt');
+
+            // Lógica Masónica: Saldo 0 o menor = Aplomo. Saldo > 0 = Desplomado.
+            const saldoNum = parseFloat(data.saldo.replace(',', ''));
+            
+            if (saldoNum <= 0) {
+                status.innerText = "EN APLOMO";
+                banner.className = "banner-estado aplomo";
+            } else {
+                status.innerText = "DESPLOMADO";
+                banner.className = "banner-estado desplomado";
+            }
+        }
+    </script>
+</body>
+</html>
