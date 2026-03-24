@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gran Logia de Tamaulipas | Plataforma Hiram</title>
+    <title>Plataforma Hiram - Gran Logia de Tamaulipas</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
     <style>
         :root {
             --azul-profundo: #0a192f;
@@ -12,154 +14,190 @@
             --dorado: #f9e29b;
             --dorado-oscuro: #c5a059;
             --blanco-suave: #e6f1ff;
+            --sidebar-width: 280px;
         }
 
-        body {
+        body, html {
+            margin: 0; padding: 0;
             font-family: 'Lora', serif;
             background-color: var(--azul-profundo);
             color: var(--blanco-suave);
-            margin: 0;
-            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* --- NAVEGACIÓN --- */
-        nav {
-            background: rgba(10, 25, 47, 0.95);
+        /* --- MENÚ LATERAL (SIDEBAR) --- */
+        .sidebar {
+            height: 100%;
+            width: 0; /* Cerrado por defecto */
+            position: fixed;
+            z-index: 1000;
+            top: 0; left: 0;
+            background-color: var(--azul-tarjeta);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            border-right: 1px solid var(--dorado-oscuro);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--dorado-oscuro);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.3s;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .sidebar a:hover {
+            color: var(--dorado);
+            background: rgba(249, 226, 155, 0.05);
+            padding-left: 35px;
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 10px; right: 25px;
+            font-size: 36px;
+            border: none;
+            cursor: pointer;
+            color: var(--dorado);
+        }
+
+        /* Botón para abrir el menú */
+        .openbtn {
+            font-size: 25px;
+            cursor: pointer;
+            background-color: var(--azul-tarjeta);
+            color: var(--dorado);
+            padding: 10px 15px;
+            border: 1px solid var(--dorado-oscuro);
+            position: fixed;
+            top: 20px; left: 20px;
+            z-index: 999;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .openbtn:hover {
+            background-color: var(--dorado);
+            color: var(--azul-profundo);
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        #main {
+            transition: margin-left .5s;
             padding: 20px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--dorado-oscuro);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-logo { font-family: 'Cinzel'; color: var(--dorado); font-weight: bold; font-size: 1.2rem; text-decoration: none; }
-
-        .nav-links a {
-            color: var(--blanco-suave);
-            text-decoration: none;
-            margin-left: 20px;
-            font-family: 'Cinzel';
-            font-size: 0.8rem;
-            transition: 0.3s;
-        }
-
-        .nav-links a:hover { color: var(--dorado); }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 60vh;
-            display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.8)), url('fondo_masonico.jpg'); /* Reemplaza con tu imagen */
-            background-size: cover;
-            background-position: center;
-            border-bottom: 2px solid var(--dorado-oscuro);
+            min-height: 100vh;
+            background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.8)), 
+                        url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1920') no-repeat center center/cover;
         }
 
-        .hero h1 { font-family: 'Cinzel'; font-size: 2.5rem; color: var(--dorado); margin: 0; letter-spacing: 5px; }
-        .hero p { font-family: 'Cinzel'; font-size: 1rem; color: var(--dorado-oscuro); letter-spacing: 2px; }
+        .logo-main { width: 120px; margin-top: 40px; filter: drop-shadow(0 0 8px var(--dorado)); }
+        h1 { font-family: 'Cinzel', serif; color: var(--dorado); margin: 20px 0 5px; font-size: 1.8rem; }
+        .subtitle { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.8; margin-bottom: 30px; }
 
-        /* --- SECCIÓN DE SERVICIOS (EL CORAZÓN DEL INDEX) --- */
-        .services {
-            max-width: 1000px;
-            margin: -50px auto 50px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 0 20px;
+        .gm-card {
+            background: rgba(17, 34, 64, 0.6);
+            padding: 20px; border-radius: 12px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            margin-bottom: 30px;
+            max-width: 280px;
         }
+        .gm-img { width: 100%; border-radius: 5px; border: 1px solid var(--dorado-oscuro); }
 
-        .service-card {
-            background: var(--azul-tarjeta);
-            border: 1px solid var(--dorado-oscuro);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            transition: 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        /* Ajustes Swiper */
+        .swiper { width: 100%; max-width: 800px; height: 350px; margin-bottom: 40px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        .service-card:hover { transform: translateY(-10px); border-color: var(--dorado); }
+        footer { margin-top: auto; padding: 20px; color: var(--dorado-oscuro); font-size: 0.8rem; }
 
-        .service-card i { font-size: 2.5rem; color: var(--dorado); display: block; margin-bottom: 15px; }
-
-        .service-card h3 { font-family: 'Cinzel'; color: var(--dorado); margin-bottom: 15px; }
-
-        .btn-main {
-            display: inline-block;
-            padding: 12px 25px;
-            background: var(--dorado-oscuro);
-            color: var(--azul-profundo);
-            text-decoration: none;
-            font-family: 'Cinzel';
-            font-weight: bold;
-            border-radius: 4px;
-            transition: 0.3s;
-            margin-top: 15px;
-        }
-
-        .btn-main:hover { background: var(--dorado); transform: scale(1.05); }
-
-        /* --- FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid rgba(197, 160, 89, 0.2);
-            color: var(--dorado-oscuro);
-            font-size: 0.8rem;
+        @media (max-width: 768px) {
+            h1 { font-size: 1.3rem; }
+            .swiper { height: 250px; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="index.html" class="nav-logo">PLATAFORMA HIRAM</a>
-        <div class="nav-links">
-            <a href="historia.html">HISTORIA</a>
-            <a href="logias.html">CUADRO DE LOGIAS</a>
-            <a href="identificacion.html">IDENTIDAD DIGITAL</a>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="logo_moderno.png" width="60" alt="Logo">
+            <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado);">Plataforma Hiram</p>
         </div>
-    </nav>
+        <a href="logias.html"><span>🏛️</span> Cuadro de Logias</a>
+        <a href="punto_geometrico.html"><span>📍</span> Punto Geométrico</a>
+        <a href="tesoreria.html"><span>💰</span> Tesorería (SIT)</a>
+        <a href="historia.html"><span>📜</span> Historia</a>
+        <a href="contacto.html"><span>✉️</span> Contáctanos</a>
+    </div>
 
-    <header class="hero">
-        <img src="logo_moderno.png" width="120" style="margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--dorado));">
-        <h1>MUY RESPETABLE GRAN LOGIA</h1>
-        <p>DE TAMAULIPAS</p>
-    </header>
+    <button class="openbtn" onclick="openNav()">☰</button>
 
-    <main class="services">
-        <div class="service-card">
-            <div style="font-size: 2.5rem; margin-bottom: 10px;">💰</div>
-            <h3>SIT - TESORERÍA</h3>
-            <p style="font-size: 0.9rem; opacity: 0.8;">Acceso para logias para el reporte de cápitas, estados de cuenta y validación de pagos.</p>
-            <a href="tesoreria.html" class="btn-main">ENTRAR A SIT</a>
-        </div>
-
-        <div class="service-card" style="border: 2px solid var(--dorado);">
-            <div style="font-size: 2.5rem; margin-bottom: 10px;">🪪</div>
-            <h3>PASAPORTE DIGITAL</h3>
-            <p style="font-size: 0.9rem; opacity: 0.8;">Identifíquese como Hermano para generar su credencial QR y añadirla a Apple o Google Wallet.</p>
-            <a href="identificacion.html" class="btn-main" style="background: var(--dorado);">GENERAR CREDENCIAL</a>
+    <div id="main">
+        <img src="logo_moderno.png" alt="Logo GLT" class="logo-main">
+        <h1>Muy Respetable Gran Logia de Tamaulipas</h1>
+        <p class="subtitle">Gestión y Fraternidad Digital</p>
+        
+        <div class="gm-card">
+            <img src="gm_retrato.jpg" alt="MRGM" class="gm-img">
+            <div style="color: var(--dorado-oscuro); font-weight: bold; font-size: 0.8rem; margin-top: 10px;">M.·. R.·. G.·. M.·.</div>
+            <div style="font-family: 'Cinzel'; color: var(--dorado);">Ramiro Ernesto Delgado Garza</div>
         </div>
 
-        <div class="service-card">
-            <div style="font-size: 2.5rem; margin-bottom: 10px;">🏛️</div>
-            <h3>CUADRO DE LOGIAS</h3>
-            <p style="font-size: 0.9rem; opacity: 0.8;">Consulte la ubicación, horarios y contacto de todas las logias de la jurisdicción de Tamaulipas.</p>
-            <a href="logias.html" class="btn-main">VER DIRECTORIO</a>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="foto1.jpg"></div>
+                <div class="swiper-slide"><img src="foto2.jpg"></div>
+                <div class="swiper-slide"><img src="foto3.jpg"></div>
+                <div class="swiper-slide"><img src="foto4.jpg"></div>
+                <div class="swiper-slide"><img src="foto5.jpg"></div>
+                <div class="swiper-slide"><img src="foto6.jpg"></div>
+                <div class="swiper-slide"><img src="foto7.jpg"></div>
+                <div class="swiper-slide"><img src="foto8.jpg"></div>
+            </div>
+            <div class="swiper-button-next" style="color: var(--dorado);"></div>
+            <div class="swiper-button-prev" style="color: var(--dorado);"></div>
+            <div class="swiper-pagination"></div>
         </div>
-    </main>
 
-    <footer>
-        <p>A.·. L.·. G.·. A.·. D.·. U.·.</p>
-        <p>© 2026 Muy Respetable Gran Logia de Tamaulipas de AA.·. LL.·. y AA.·. MM.·.</p>
-    </footer>
+        <footer>
+            <p>A.·. L.·. G.·. A.·. D.·. U.·.<br>© 2026 Muy Respetable Gran Logia de Tamaulipas</p>
+        </footer>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        /* Funciones del Sidebar */
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "var(--sidebar-width)";
+            if(window.innerWidth > 768) {
+                document.getElementById("main").style.marginLeft = "var(--sidebar-width)";
+            }
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+
+        /* Swiper inicialización */
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            effect: "fade",
+            autoplay: { delay: 4000 },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            pagination: { el: ".swiper-pagination", clickable: true },
+        });
+    </script>
 </body>
 </html>
