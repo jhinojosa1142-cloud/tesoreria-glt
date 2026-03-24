@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuadro de Logias - GLT</title>
+    <title>Cuadro de Logias - Plataforma Hiram</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -12,10 +12,51 @@
             --dorado: #f9e29b; 
             --dorado-oscuro: #c5a059; 
             --blanco-suave: #e6f1ff; 
+            --sidebar-width: 280px;
         }
-        body { font-family: 'Lora', serif; background-color: var(--azul-profundo); color: var(--blanco-suave); margin: 0; }
+
+        body { 
+            font-family: 'Lora', serif; 
+            background-color: var(--azul-profundo); 
+            color: var(--blanco-suave); 
+            margin: 0; 
+            overflow-x: hidden;
+        }
         
-        header { padding: 40px 20px; text-align: center; border-bottom: 2px solid var(--dorado-oscuro); background: rgba(0,0,0,0.3); }
+        /* --- NAVEGACIÓN UNIFORME (SIDEBAR) --- */
+        .sidebar {
+            height: 100%; width: 0; position: fixed; z-index: 1000;
+            top: 0; left: 0; background-color: var(--azul-tarjeta);
+            overflow-x: hidden; transition: 0.5s; padding-top: 60px;
+            border-right: 1px solid var(--dorado-oscuro);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+        }
+
+        .sidebar a {
+            padding: 15px 25px; text-decoration: none; font-family: 'Cinzel', serif;
+            font-size: 0.9rem; color: var(--dorado-oscuro); display: flex;
+            align-items: center; gap: 15px; transition: 0.3s;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .sidebar a:hover { color: var(--dorado); background: rgba(249, 226, 155, 0.05); padding-left: 35px; }
+        .sidebar .closebtn { position: absolute; top: 10px; right: 25px; font-size: 36px; color: var(--dorado); cursor: pointer; }
+
+        .openbtn {
+            font-size: 18px; cursor: pointer; background-color: var(--azul-tarjeta);
+            color: var(--dorado); padding: 10px 15px; border: 1px solid var(--dorado-oscuro);
+            position: fixed; top: 15px; left: 15px; z-index: 999; border-radius: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- CONTENIDO DE LA TABLA --- */
+        header { 
+            padding: 60px 20px 40px; 
+            text-align: center; 
+            border-bottom: 2px solid var(--dorado-oscuro); 
+            background: rgba(0,0,0,0.3); 
+        }
+
         h1 { font-family: 'Cinzel', serif; color: var(--dorado); margin: 0; letter-spacing: 2px; font-size: 1.8rem; }
         
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
@@ -30,7 +71,6 @@
         .tabla-wrapper { overflow-x: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         table { width: 100%; border-collapse: collapse; background: var(--azul-tarjeta); }
         
-        /* Alineación General de Encabezados */
         th { 
             background: var(--dorado-oscuro); 
             color: var(--azul-profundo); 
@@ -38,27 +78,36 @@
             font-family: 'Cinzel'; 
             font-size: 0.8rem; 
             text-transform: uppercase;
-            text-align: center; /* Centrado por defecto */
+            text-align: center; 
         }
 
-        /* Alineación de Celdas */
         td { padding: 15px; border-bottom: 1px solid rgba(197, 160, 89, 0.1); font-size: 0.95rem; text-align: center; }
-        
-        /* Columna de Nombre (Alineada a la izquierda) */
         .col-nombre { text-align: left !important; padding-left: 25px; }
 
         tr:hover { background: rgba(249, 226, 155, 0.1); }
-
         .numero-logia { color: var(--dorado); font-weight: bold; font-family: 'Cinzel', serif; }
         .oriente-txt { font-style: italic; color: var(--dorado-oscuro); }
 
-        .btn-regresar { display: inline-block; margin: 40px 0; color: var(--dorado); text-decoration: none; border: 1px solid var(--dorado); padding: 12px 25px; font-family: 'Cinzel'; font-size: 0.8rem; transition: 0.4s; }
-        .btn-regresar:hover { background: var(--dorado); color: var(--azul-profundo); }
-        
         footer { text-align: center; padding: 40px; font-size: 0.8rem; color: var(--dorado-oscuro); border-top: 1px solid rgba(197,160,89,0.1); }
     </style>
 </head>
 <body>
+
+    <div class="openbtn" onclick="openNav()">☰ MENÚ</div>
+
+    <div id="mySidebar" class="sidebar">
+        <div class="closebtn" onclick="closeNav()">×</div>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="logo_moderno.png" width="50" alt="Logo">
+            <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado);">Plataforma Hiram</p>
+        </div>
+        <a href="index.html"><span>🏠</span> Inicio</a>
+        <a href="logias.html"><span>🏛️</span> Cuadro de Logias</a>
+        <a href="punto_geometrico.html"><span>📍</span> Punto Geométrico</a>
+        <a href="tesoreria.html"><span>💰</span> Tesorería (SIT)</a>
+        <a href="historia.html"><span>📜</span> Historia</a>
+        <a href="contacto.html"><span>✉️</span> Contáctanos</a>
+    </div>
 
     <header>
         <img src="logo_moderno.png" width="70" alt="Logo GLT" style="margin-bottom:15px;">
@@ -83,90 +132,10 @@
                     <tr><td class="col-nombre">VICTRIX</td><td><span class="numero-logia"># 1</span></td><td class="oriente-txt">CD. TAMPICO</td></tr>
                     <tr><td class="col-nombre">CONSTELACIÓN ANDRES ARAUJO ARAUJO</td><td><span class="numero-logia"># 2</span></td><td class="oriente-txt">CD. TAMPICO</td></tr>
                     <tr><td class="col-nombre">JUSTICIA</td><td><span class="numero-logia"># 3</span></td><td class="oriente-txt">CD. TAMPICO</td></tr>
-                    <tr><td class="col-nombre">PERSEVERANCIA</td><td><span class="numero-logia"># 4</span></td><td class="oriente-txt">CD. MADERO</td></tr>
-                    <tr><td class="col-nombre">VICTORIA</td><td><span class="numero-logia"># 7</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">HIJOS DE LA LUZ</td><td><span class="numero-logia"># 8</span></td><td class="oriente-txt">CD. TAMPICO</td></tr>
-                    <tr><td class="col-nombre">NOBLEZA</td><td><span class="numero-logia"># 9</span></td><td class="oriente-txt">CD. TAMPICO</td></tr>
-                    <tr><td class="col-nombre">LUZ DEL NORTE</td><td><span class="numero-logia"># 10</span></td><td class="oriente-txt">CD. MATAMOROS</td></tr>
-                    <tr><td class="col-nombre">REDENCIÓN</td><td><span class="numero-logia"># 12</span></td><td class="oriente-txt">CD. NUEVO LAREDO</td></tr>
-                    <tr><td class="col-nombre">AURORA BOREA</td><td><span class="numero-logia"># 14</span></td><td class="oriente-txt">CD. MATAMOROS</td></tr>
-                    <tr><td class="col-nombre">EVOLUCIÓN</td><td><span class="numero-logia"># 15</span></td><td class="oriente-txt">CD. EL BARRETAL</td></tr>
-                    <tr><td class="col-nombre">RENACIMIENTO</td><td><span class="numero-logia"># 16</span></td><td class="oriente-txt">CD. TAMPICO</td></tr>
-                    <tr><td class="col-nombre">MEDIODÍA</td><td><span class="numero-logia"># 17</span></td><td class="oriente-txt">CD. COMALES</td></tr>
-                    <tr><td class="col-nombre">ORION</td><td><span class="numero-logia"># 19</span></td><td class="oriente-txt">CD. NUEVO LAREDO</td></tr>
-                    <tr><td class="col-nombre">CITLALI</td><td><span class="numero-logia"># 20</span></td><td class="oriente-txt">CD. SAN FERNANDO</td></tr>
-                    <tr><td class="col-nombre">FRANCISCO I. MADERO</td><td><span class="numero-logia"># 22</span></td><td class="oriente-txt">CD. MIER</td></tr>
-                    <tr><td class="col-nombre">TOLERANCIA</td><td><span class="numero-logia"># 23</span></td><td class="oriente-txt">CD. REYNOSA</td></tr>
-                    <tr><td class="col-nombre">XICOTENCATL</td><td><span class="numero-logia"># 24</span></td><td class="oriente-txt">CD. XICOTENCATL</td></tr>
-                    <tr><td class="col-nombre">OBREROS DE LA LUZ</td><td><span class="numero-logia"># 25</span></td><td class="oriente-txt">CD. S. JIMENEZ</td></tr>
-                    <tr><td class="col-nombre">PROF. MIGUEL SAENZ GONZALEZ</td><td><span class="numero-logia"># 26</span></td><td class="oriente-txt">CD. MATAMOROS</td></tr>
-                    <tr><td class="col-nombre">URANIA</td><td><span class="numero-logia"># 27</span></td><td class="oriente-txt">CD. V. GONZALEZ</td></tr>
-                    <tr><td class="col-nombre">HERMES</td><td><span class="numero-logia"># 28</span></td><td class="oriente-txt">CD. TAMPICO</td></tr>
-                    <tr><td class="col-nombre">GRAL. FELIPE ÁNGELES</td><td><span class="numero-logia"># 30</span></td><td class="oriente-txt">CD. TAMPICO</td></tr>
-                    <tr><td class="col-nombre">VALLE HERMOSO</td><td><span class="numero-logia"># 32</span></td><td class="oriente-txt">CD. VALLE HERMOSO</td></tr>
-                    <tr><td class="col-nombre">5 DE FEBRERO</td><td><span class="numero-logia"># 34</span></td><td class="oriente-txt">CD. MANTE</td></tr>
-                    <tr><td class="col-nombre">LIC. FORTUNATO DE LEIJA</td><td><span class="numero-logia"># 35</span></td><td class="oriente-txt">CD. VILLA ALDAMA</td></tr>
-                    <tr><td class="col-nombre">ALBA</td><td><span class="numero-logia"># 37</span></td><td class="oriente-txt">CD. NUEVO LAREDO</td></tr>
-                    <tr><td class="col-nombre">REDENCIÓN</td><td><span class="numero-logia"># 38</span></td><td class="oriente-txt">CD. NUEVO LAREDO</td></tr>
-                    <tr><td class="col-nombre">FÉNIX</td><td><span class="numero-logia"># 40</span></td><td class="oriente-txt">CD. REYNOSA</td></tr>
                     <tr><td class="col-nombre">MIGUEL HIDALGO</td><td><span class="numero-logia"># 42</span></td><td class="oriente-txt">CD. MIGUEL ALEMAN</td></tr>
-                    <tr><td class="col-nombre">LIC. TEÓDULO MONTEMAYOR</td><td><span class="numero-logia"># 43</span></td><td class="oriente-txt">CD. ANAHUAC</td></tr>
-                    <tr><td class="col-nombre">PLAN DE AYUTLA</td><td><span class="numero-logia"># 44</span></td><td class="oriente-txt">CD. MANTE</td></tr>
-                    <tr><td class="col-nombre">CONSTITUCCIÓN DE 1857</td><td><span class="numero-logia"># 45</span></td><td class="oriente-txt">CD. REYNOSA</td></tr>
-                    <tr><td class="col-nombre">MELCHOR OCAMPO</td><td><span class="numero-logia"># 46</span></td><td class="oriente-txt">CD. OCAMPO</td></tr>
-                    <tr><td class="col-nombre">MONTE NEBO TRECE</td><td><span class="numero-logia"># 47</span></td><td class="oriente-txt">CD. MADERO</td></tr>
-                    <tr><td class="col-nombre">DR. FELIPE PÉREZ GARZA</td><td><span class="numero-logia"># 49</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">GRAL. PEDRO JOSÉ MÉNDEZ</td><td><span class="numero-logia"># 50</span></td><td class="oriente-txt">CD. REYNOSA</td></tr>
-                    <tr><td class="col-nombre">ESTRELLA POLAR</td><td><span class="numero-logia"># 52</span></td><td class="oriente-txt">CD. GVO. D. ORDAZ</td></tr>
-                    <tr><td class="col-nombre">LIC. FIDENCIO TREJO FLORES</td><td><span class="numero-logia"># 54</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">JOSÉ ARRESE</td><td><span class="numero-logia"># 55</span></td><td class="oriente-txt">CD. MATAMOROS</td></tr>
-                    <tr><td class="col-nombre">SANTIAGO SOLIS GOMEZ</td><td><span class="numero-logia"># 57</span></td><td class="oriente-txt">CD. MATAMOROS</td></tr>
-                    <tr><td class="col-nombre">PITAGORAS</td><td><span class="numero-logia"># 58</span></td><td class="oriente-txt">CD. RIO BRAVO</td></tr>
-                    <tr><td class="col-nombre">HERMANOS DEL TRABAJO</td><td><span class="numero-logia"># 59</span></td><td class="oriente-txt">CD. XICOTENCATL</td></tr>
-                    <tr><td class="col-nombre">PROFR. JOSÉ MA. SÁNCHEZ GARCIA</td><td><span class="numero-logia"># 61</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">SERVANDO CANALES</td><td><span class="numero-logia"># 62</span></td><td class="oriente-txt">CD. VALEDECES</td></tr>
-                    <tr><td class="col-nombre">PDTE. LÁZARO CÁRDENAS</td><td><span class="numero-logia"># 64</span></td><td class="oriente-txt">CD. MADERO</td></tr>
-                    <tr><td class="col-nombre">JOSÉ MA. MORELOS Y PAVÓN</td><td><span class="numero-logia"># 65</span></td><td class="oriente-txt">CD. ANTIGUO MORELOS</td></tr>
-                    <tr><td class="col-nombre">GRAL. MARIANO ABASOLO</td><td><span class="numero-logia"># 67</span></td><td class="oriente-txt">CD. ANTIGUO MORELOS</td></tr>
-                    <tr><td class="col-nombre">GRAL. PLUTARCO ELIAS CALLES</td><td><span class="numero-logia"># 71</span></td><td class="oriente-txt">CD. MANTE</td></tr>
-                    <tr><td class="col-nombre">CONCIENCIA REVOLUCIONARIA</td><td><span class="numero-logia"># 72</span></td><td class="oriente-txt">CD. MADERO</td></tr>
-                    <tr><td class="col-nombre">ACACIA</td><td><span class="numero-logia"># 74</span></td><td class="oriente-txt">CD. VILLA MAINERO</td></tr>
-                    <tr><td class="col-nombre">ARQ. ARMANDO LOPEZ POMPA</td><td><span class="numero-logia"># 75</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">AMISTAD LIBERAL</td><td><span class="numero-logia"># 77</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">CEDROS DEL LIBANO</td><td><span class="numero-logia"># 79</span></td><td class="oriente-txt">CD. NUEVO LAREDO</td></tr>
-                    <tr><td class="col-nombre">ARTESANOS DE ALTAMIRA SIETE</td><td><span class="numero-logia"># 80</span></td><td class="oriente-txt">CD. ALTAMIRA</td></tr>
-                    <tr><td class="col-nombre">VICTORIA LUZ</td><td><span class="numero-logia"># 81</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">GRAL. PEDRO J. MÉNDEZ LUZ</td><td><span class="numero-logia"># 83</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">GRAL. VICENTE GUERRERO</td><td><span class="numero-logia"># 84</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">JOSÉ MARTÍ</td><td><span class="numero-logia"># 90</span></td><td class="oriente-txt">CD. PROGRESO</td></tr>
-                    <tr><td class="col-nombre">GRAL. ASCENCIÓN GÓMEZ</td><td><span class="numero-logia"># 91</span></td><td class="oriente-txt">CD. V. GUEMEZ</td></tr>
-                    <tr><td class="col-nombre">ANDRES ARAUJO ARAUJO</td><td><span class="numero-logia"># 92</span></td><td class="oriente-txt">CD. VILLAGRAN</td></tr>
-                    <tr><td class="col-nombre">EDUARDO NÚÑEZ TEIJEIRO</td><td><span class="numero-logia"># 96</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">LIC. EMILIO PORTES GIL</td><td><span class="numero-logia"># 97</span></td><td class="oriente-txt">CD. REYNOSA</td></tr>
-                    <tr><td class="col-nombre">VERDADERO CAMBIO DE 1985</td><td><span class="numero-logia"># 99</span></td><td class="oriente-txt">CD. MADERO</td></tr>
-                    <tr><td class="col-nombre">LEYES DE REFORMA</td><td><span class="numero-logia"># 100</span></td><td class="oriente-txt">CD. NUEVO LAREDO</td></tr>
-                    <tr><td class="col-nombre">FE, ESPERANZA Y CARIDAD</td><td><span class="numero-logia"># 102</span></td><td class="oriente-txt">CD. SOTO LA MARINA</td></tr>
-                    <tr><td class="col-nombre">DR. BELISARIO DOMÍNGUEZ P</td><td><span class="numero-logia"># 103</span></td><td class="oriente-txt">CD. ALTAMIRA</td></tr>
-                    <tr><td class="col-nombre">ARMONÍA</td><td><span class="numero-logia"># 104</span></td><td class="oriente-txt">CD. VALLE HERMOSO</td></tr>
-                    <tr><td class="col-nombre">REVOLUCIÓN 88</td><td><span class="numero-logia"># 105</span></td><td class="oriente-txt">CD. REYNOSA</td></tr>
-                    <tr><td class="col-nombre">LUIS FLORES ARIAS</td><td><span class="numero-logia"># 107</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                    <tr><td class="col-nombre">EMIGDIO L. ILIZALITURRI</td><td><span class="numero-logia"># 108</span></td><td class="oriente-txt">CD. MANTE</td></tr>
-                    <tr><td class="col-nombre">ARMONÍA Y FRATERNIDAD</td><td><span class="numero-logia"># 109</span></td><td class="oriente-txt">CD. REYNOSA</td></tr>
-                    <tr><td class="col-nombre">IGNACIO RAMÍREZ 68</td><td><span class="numero-logia"># 111</span></td><td class="oriente-txt">CD. REYNOSA</td></tr>
-                    <tr><td class="col-nombre">JOSÉ ISLAS URANTE</td><td><span class="numero-logia"># 112</span></td><td class="oriente-txt">CD. MATAMOROS</td></tr>
-                    <tr><td class="col-nombre">CABALLEROS DE LA ACACIA</td><td><span class="numero-logia"># 115</span></td><td class="oriente-txt">CD. MADERO</td></tr>
-                    <tr><td class="col-nombre">ALPHA Y OMEGA</td><td><span class="numero-logia"># 117</span></td><td class="oriente-txt">CD. TAMPICO</td></tr>
-                    <tr><td class="col-nombre">AMERICA 18</td><td><span class="numero-logia"># 118</span></td><td class="oriente-txt">CD. CAMARGO</td></tr>
-                    <tr><td class="col-nombre">JAUMAVE</td><td><span class="numero-logia"># 121</span></td><td class="oriente-txt">CD. JAUMAVE</td></tr>
-                    <tr><td class="col-nombre">PROMETEO 33</td><td><span class="numero-logia"># 122</span></td><td class="oriente-txt">CD. SAN CARLOS</td></tr>
-                    <tr><td class="col-nombre">SIERVO DE LA NACIÓN JOSÉ MARÍA MORELOS</td><td><span class="numero-logia"># 123</span></td><td class="oriente-txt">CD. VICTORIA</td></tr>
-                </tbody>
+                    </tbody>
             </table>
         </div>
-
-        <center>
-            <a href="index.html" class="btn-regresar">← VOLVER AL PORTAL</a>
-        </center>
     </div>
 
     <footer>
@@ -174,6 +143,14 @@
     </footer>
 
     <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "280px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
         function filtrarLogias() {
             var input, filter, table, tr, td, i, j, txtValue;
             input = document.getElementById("buscador");
