@@ -2,136 +2,78 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Pasaporte Digital | Plataforma Hiram</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
+    <title>Validación de Credencial - Plataforma Hiram</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --azul-profundo: #0a192f;
-            --azul-tarjeta: #112240;
-            --dorado: #f9e29b;
-            --dorado-oscuro: #c5a059;
-            --blanco: #e6f1ff;
-            --verde-aplomo: #2ecc71;
-        }
-
-        body {
-            font-family: 'Lora', serif;
-            background-color: var(--azul-profundo);
-            color: var(--blanco);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        header { text-align: center; margin-bottom: 30px; }
-        h1 { font-family: 'Cinzel'; color: var(--dorado); font-size: 1.2rem; letter-spacing: 2px; }
-
-        /* --- DISEÑO DE LA CREDENCIAL --- */
-        .credencial-container {
-            width: 100%;
-            max-width: 350px;
-            background: linear-gradient(145deg, #112240, #0a192f);
-            border: 2px solid var(--dorado-oscuro);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .credencial-container::before {
-            content: "🏛️";
-            position: absolute;
-            top: -20px; right: -20px;
-            font-size: 8rem;
-            opacity: 0.05;
-            color: var(--dorado);
-        }
-
-        .header-card {
-            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
-        .header-card img { width: 60px; filter: drop-shadow(0 0 5px var(--dorado)); }
-        .header-card h2 { font-family: 'Cinzel'; font-size: 0.8rem; color: var(--dorado); margin: 10px 0 0; }
-
-        .nombre-hermano { font-family: 'Cinzel'; font-size: 1.2rem; color: white; margin: 15px 0 5px; }
-        .logia-hermano { font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 15px; }
-
-        #qrcode {
-            background: white;
-            padding: 12px;
-            display: inline-block;
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-
-        .status-badge {
-            font-family: 'Cinzel';
-            font-size: 0.7rem;
-            font-weight: bold;
-            color: var(--verde-aplomo);
-            border: 1px solid var(--verde-aplomo);
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        /* --- BOTONES WALLET --- */
-        .wallet-buttons {
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .btn-wallet {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-family: 'Cinzel';
-            font-size: 0.8rem;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn-apple { background: black; color: white; border: 1px solid #444; }
-        .btn-google { background: white; color: #3c4043; border: 1px solid #dadce0; }
+        :root { --azul: #0a192f; --dorado: #f9e29b; --blanco: #e6f1ff; }
+        body { background: var(--azul); color: var(--blanco); font-family: 'Lora', serif; display: flex; justify-content: center; padding: 50px 20px; }
+        .container { max-width: 400px; width: 100%; text-align: center; }
+        input { padding: 12px; width: 80%; border-radius: 5px; border: 1px solid var(--dorado); background: transparent; color: white; margin-bottom: 20px; }
+        button { padding: 12px 25px; background: var(--dorado); color: var(--azul); border: none; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; border-radius: 5px; }
         
-        .btn-wallet:hover { transform: scale(1.03); }
-
-        .btn-salir {
-            margin-top: 40px;
-            color: var(--dorado-oscuro);
-            text-decoration: none;
-            font-size: 0.7rem;
-            font-family: 'Cinzel';
-        }
+        /* Estilo de la Credencial Resultado */
+        #resultado { margin-top: 30px; display: none; }
+        .card { border: 2px solid var(--dorado); padding: 20px; border-radius: 15px; background: #112240; position: relative; overflow: hidden; }
+        .card h2 { font-family: 'Cinzel'; color: var(--dorado); font-size: 1.2rem; }
+        .status-badge { background: #27ae60; color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>MI PASAPORTE MASÓNICO</h1>
-    </header>
+<div class="container">
+    <h1 style="font-family: 'Cinzel'; color: var(--dorado);">Identificación</h1>
+    <p>Ingrese su número de ID para generar su credencial digital.</p>
+    
+    <input type="text" id="idHermano" placeholder="Ej: 12345">
+    <br>
+    <button onclick="buscarHermano()">Validar Identidad</button>
 
-    <div class="credencial-container" id="ticket">
-        <div class="header-card">
-            <img src="logo_moderno.png" alt="Logo">
-            <h2>GRAN LOGIA DE TAMAULIPAS</h2>
+    <div id="resultado">
+        <div class="card" id="cardContent">
+            </div>
+    </div>
+</div>
+
+<script>
+    async function buscarHermano() {
+        const id = document.getElementById('idHermano').value;
+        const btn = document.querySelector('button');
+        const resDiv = document.getElementById('resultado');
+        const card = document.getElementById('cardContent');
+
+        if(!id) return alert("Por favor ingrese un ID");
+
+        btn.innerText = "Buscando...";
+        
+        // REEMPLAZA ESTA URL con la que copiaste de Google Apps Script
+        const URL_SCRIPT = "TU_URL_DE_APPS_SCRIPT_AQUI";
+
+        try {
+            const response = await fetch(`${URL_SCRIPT}?id=${id}`);
+            const data = await response.json();
+
+            if(data.encontrado) {
+                resDiv.style.display = "block";
+                card.innerHTML = `
+                    <div class="status-badge">ACTIVO</div>
+                    <h2 id="nombreRes">${data.nombre}</h2>
+                    <p style="color: var(--dorado)">${data.grado}</p>
+                    <hr style="border: 0; border-top: 1px solid rgba(249,226,155,0.3)">
+                    <p style="font-size: 0.9rem;">${data.logia}</p>
+                    <p style="font-size: 0.7rem; opacity: 0.6; margin-top: 20px;">ID VERIFICADO: ${id}</p>
+                `;
+            } else {
+                alert("Hermano no encontrado. Verifique su ID o contacte a Secretaría.");
+                resDiv.style.display = "none";
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error de conexión con la base de datos.");
+        } finally {
+            btn.innerText = "Validar Identidad";
+        }
+    }
+</script>
+
+</body>
+</html>
