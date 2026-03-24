@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Identificación | Plataforma Hiram</title>
+    <title>Acceso | Plataforma Hiram</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
@@ -35,131 +35,52 @@
             padding: 40px; 
             width: 100%; 
             max-width: 400px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
             text-align: center; 
         }
 
-        .logo { width: 80px; margin-bottom: 15px; filter: drop-shadow(0 0 5px var(--dorado)); }
+        .logo { width: 70px; margin-bottom: 10px; filter: drop-shadow(0 0 5px var(--dorado)); }
+        h2 { font-family: 'Cinzel'; color: var(--dorado); margin-bottom: 25px; font-size: 1.3rem; letter-spacing: 2px; }
+        .form-group { text-align: left; margin-bottom: 18px; }
+        label { font-family: 'Cinzel'; font-size: 0.65rem; color: var(--dorado-osc); display: block; margin-bottom: 6px; }
+        input { width: 100%; padding: 12px; background: rgba(10, 25, 47, 0.8); border: 1px solid var(--dorado-osc); border-radius: 6px; color: white; box-sizing: border-box; outline: none; }
         
-        h2 { 
-            font-family: 'Cinzel'; 
-            color: var(--dorado); 
-            margin-bottom: 25px; 
-            font-size: 1.4rem; 
-            letter-spacing: 2px;
-        }
-        
-        .form-group { text-align: left; margin-bottom: 20px; }
-        
-        label { 
-            font-family: 'Cinzel'; 
-            font-size: 0.7rem; 
-            color: var(--dorado-osc); 
-            display: block; 
-            margin-bottom: 8px; 
-            letter-spacing: 1px;
-        }
-
-        input { 
-            width: 100%; 
-            padding: 12px; 
-            background: rgba(10, 25, 47, 0.8); 
-            border: 1px solid var(--dorado-osc); 
-            border-radius: 5px; 
-            color: white; 
-            box-sizing: border-box; 
-            outline: none;
-            transition: 0.3s;
-        }
-
-        input:focus { border-color: var(--dorado); box-shadow: 0 0 10px rgba(249, 226, 155, 0.2); }
-        
-        .btn-validar { 
-            width: 100%; 
-            padding: 15px; 
-            background: var(--dorado-osc); 
-            color: var(--azul); 
-            border: none; 
-            border-radius: 5px; 
-            font-family: 'Cinzel'; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            margin-top: 10px; 
-            letter-spacing: 1px;
-        }
-
+        .btn-validar { width: 100%; padding: 14px; background: var(--dorado-osc); color: var(--azul); border: none; border-radius: 6px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 5px; }
         .btn-validar:hover { background: var(--dorado); transform: translateY(-2px); }
 
-        /* SECCIÓN DE REGISTRO */
-        .registro-box {
-            margin-top: 35px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(197, 160, 89, 0.2);
-        }
+        .registro-footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(197, 160, 89, 0.2); }
+        .btn-registro { display: block; width: 100%; padding: 10px; border: 1px solid var(--dorado-osc); color: var(--dorado-osc); border-radius: 6px; text-decoration: none; font-family: 'Cinzel'; font-size: 0.65rem; transition: 0.3s; box-sizing: border-box; }
 
-        .registro-text { 
-            font-size: 0.75rem; 
-            color: var(--dorado-osc); 
-            margin-bottom: 12px;
-            font-style: italic;
-        }
-
-        .btn-registro { 
-            display: inline-block; 
-            width: 100%; 
-            padding: 12px; 
-            border: 1px solid var(--dorado-osc); 
-            color: var(--dorado-osc); 
-            border-radius: 5px; 
-            text-decoration: none; 
-            font-family: 'Cinzel'; 
-            font-size: 0.7rem; 
-            transition: 0.3s; 
-            box-sizing: border-box;
-            font-weight: bold;
-        }
-
-        .btn-registro:hover { 
-            background: rgba(197, 160, 89, 0.1); 
-            color: var(--dorado); 
-            border-color: var(--dorado);
-        }
-
-        #error-msg { color: #ff6b6b; font-size: 0.8rem; margin-top: 20px; display: none; font-weight: bold; }
-        .loading { display: none; color: var(--dorado); font-size: 0.8rem; margin-top: 20px; }
+        #error-msg { color: #ff6b6b; font-size: 0.75rem; margin-top: 15px; display: none; }
+        .loading { display: none; color: var(--dorado); font-size: 0.75rem; margin-top: 15px; }
     </style>
 </head>
 <body>
     <div class="login-card">
-        <img src="logo_moderno.png" class="logo" alt="Gran Logia">
+        <img src="logo_moderno.png" class="logo">
         <h2>PLATAFORMA HIRAM</h2>
         
         <form id="loginForm">
             <div class="form-group">
-                <label>Nombre Completo (Sin acentos)</label>
-                <input type="text" id="nombreInput" placeholder="EJ: BENITO JUAREZ" required>
+                <label>Nombre Completo</label>
+                <input type="text" id="nombreInput" placeholder="EJ: JUAN PEREZ" required>
             </div>
             <div class="form-group">
-                <label>Número de Afiliación</label>
-                <input type="text" id="idInput" placeholder="ID UNICO" required>
+                <label>Número de Afiliación / Clave</label>
+                <input type="password" id="idInput" placeholder="••••••••" required>
             </div>
-            <button type="submit" class="btn-validar">ACCEDER AL PASAPORTE</button>
+            <button type="submit" class="btn-validar">INICIAR SESIÓN</button>
         </form>
 
-        <div id="loading" class="loading">Consultando el Censo Oficial...</div>
-        <div id="error-msg">✕ Datos no encontrados. Verifique su registro.</div>
+        <div id="loading" class="loading">Validando Credenciales...</div>
+        <div id="error-msg">✕ Datos incorrectos o sin permisos.</div>
 
-        <div class="registro-box">
-            <p class="registro-text">¿No aparece en el sistema?</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScIKB157a3qDNXX087d24WmRrBaC2zmRELpueJE9gcAXa30AA/viewform?usp=header">
-                SOLICITAR REGISTRO Y SUBIR FOTO
-            </a>
+        <div class="registro-footer">
+            <a href="LINK_DE_REGISTRO" target="_blank" class="btn-registro">SOLICITAR REGISTRO</a>
         </div>
     </div>
 
     <script>
-        // PEGA AQUÍ TU LINK CSV DE LA PESTAÑA 'censo_oficial'
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=1959209005&single=true&output=csv";
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -173,19 +94,29 @@
             Papa.parse(SHEET_CSV_URL, {
                 download: true, 
                 header: true, 
-                skipEmptyLines: true,
                 complete: function(results) {
                     document.getElementById('loading').style.display = 'none';
                     
-                    // Buscamos al hermano por nombre e ID
-                    const hermano = results.data.find(r => 
+                    const user = results.data.find(r => 
                         r.nombre_completo && r.nombre_completo.toUpperCase().trim() === nom && 
                         r.numero_afiliacion && r.numero_afiliacion.toString().trim() === id
                     );
 
-                    if (hermano) {
-                        sessionStorage.setItem('hermanoValidado', JSON.stringify(hermano));
-                        window.location.href = "pasaporte.html";
+                    if (user) {
+                        sessionStorage.setItem('hermanoValidado', JSON.stringify(user));
+                        
+                        // --- LÓGICA DE ENRUTAMIENTO POR ROL ---
+                        const rol = (user.rol || "HERMANO").toUpperCase();
+
+                        if (rol === "TESORERO") {
+                            window.location.href = "tesoreria.html";
+                        } 
+                        else if (rol === "SECRETARIO") {
+                            window.location.href = "secretaria.html";
+                        } 
+                        else {
+                            window.location.href = "pasaporte.html";
+                        }
                     } else {
                         document.getElementById('error-msg').style.display = 'block';
                     }
