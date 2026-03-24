@@ -58,97 +58,105 @@
 
         .header-credencial {
             border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        .header-credencial img { width: 60px; filter: drop-shadow(0 0 5px var(--dorado)); }
+        .header-credencial img.logo-glt { width: 50px; filter: drop-shadow(0 0 5px var(--dorado)); }
         .header-credencial h2 { 
             font-family: 'Cinzel'; 
-            font-size: 0.85rem; 
+            font-size: 0.8rem; 
             color: var(--dorado); 
-            margin: 10px 0 0;
+            margin: 5px 0 0;
             letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        /* --- NUEVO ESTILO DE LA FOTOGRAFÍA --- */
+        .foto-container {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            border: 3px solid var(--dorado-oscuro);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            overflow: hidden; /* Corta la imagen en círculo */
+            background-color: var(--azul-profundo); /* Fondo si no carga la foto */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .foto-hermano {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ajusta la foto sin deformarla */
+            display: none; /* Oculta hasta que cargue */
+        }
+
+        /* Icono por defecto si no hay foto */
+        .no-foto-icon {
+            font-size: 3rem;
+            color: var(--dorado-oscuro);
+            opacity: 0.5;
         }
 
         .nombre-hermano { 
             font-family: 'Cinzel'; 
-            font-size: 1.3rem; 
+            font-size: 1.2rem; 
             color: white; 
-            margin: 10px 0 5px; 
+            margin: 5px 0; 
             text-transform: uppercase;
+            line-height: 1.2;
         }
 
         .datos-hermano { 
-            font-size: 0.8rem; 
+            font-size: 0.75rem; 
             color: var(--dorado-oscuro); 
-            margin-bottom: 15px; 
+            margin-bottom: 10px; 
             letter-spacing: 1px;
         }
 
-        /* Contenedor del QR */
+        /* Contenedor del QR mas pequeño para dar espacio */
         #qrcode {
             background: white;
-            padding: 15px;
+            padding: 10px;
             display: inline-block;
-            border-radius: 12px;
-            margin: 15px 0;
-            border: 3px solid var(--dorado-oscuro);
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 2px solid var(--dorado-oscuro);
+        }
+
+        #qrcode img {
+            width: 120px !important;
+            height: 120px !important;
         }
 
         .badge-status {
             background: rgba(46, 204, 113, 0.1);
             color: var(--verde-aplomo);
             border: 1px solid var(--verde-aplomo);
-            padding: 6px 15px;
+            padding: 5px 12px;
             border-radius: 50px;
             font-family: 'Cinzel';
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
             display: inline-block;
-            margin-top: 10px;
         }
 
         /* --- BOTONES DE ACCIÓN --- */
-        .acciones {
-            margin-top: 30px;
-            width: 100%;
-            max-width: 350px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .btn-action {
-            padding: 14px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-family: 'Cinzel';
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-align: center;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .btn-descargar {
-            background: var(--dorado-oscuro);
-            color: var(--azul-profundo);
-            border: none;
-        }
-
+        .acciones { margin-top: 30px; width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 12px; }
+        .btn-action { padding: 14px; border-radius: 8px; text-decoration: none; font-family: 'Cinzel'; font-size: 0.75rem; font-weight: bold; text-align: center; transition: 0.3s; cursor: pointer; }
+        .btn-descargar { background: var(--dorado-oscuro); color: var(--azul-profundo); border: none; }
         .btn-descargar:hover { background: var(--dorado); transform: translateY(-2px); }
-
-        .btn-salir {
-            color: var(--dorado-oscuro);
-            border: 1px solid var(--dorado-oscuro);
-        }
-
+        .btn-salir { color: var(--dorado-oscuro); border: 1px solid var(--dorado-oscuro); }
         .btn-salir:hover { background: rgba(197, 160, 89, 0.1); }
 
-        @media (max-width: 400px) {
-            .credencial { padding: 15px; }
-            .nombre-hermano { font-size: 1.1rem; }
+        /* Ajustes para impresion */
+        @media print {
+            body { background: white; padding: 0; justify-content: flex-start; }
+            .credencial { border: none; box-shadow: none; background: #112240 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 20px auto; }
+            .acciones, header { display: none; }
         }
     </style>
 </head>
@@ -156,8 +164,13 @@
 
     <div class="credencial" id="credencial-virtual">
         <div class="header-credencial">
-            <img src="logo_moderno.png" alt="Logo GLT">
+            <img src="logo_moderno.png" alt="Logo GLT" class="logo-glt">
             <h2>MUY RESPETABLE GRAN LOGIA<br>DE TAMAULIPAS</h2>
+        </div>
+
+        <div class="foto-container">
+            <img src="" alt="Foto Hermano" id="disp-foto" class="foto-hermano">
+            <div id="disp-no-foto" class="no-foto-icon">👤</div>
         </div>
 
         <div class="nombre-hermano" id="disp-nombre">CARGANDO...</div>
@@ -169,18 +182,12 @@
             <div class="badge-status">ESTADO: EN APLOMO 2026</div>
         </div>
 
-        <div style="margin-top: 20px; font-size: 0.5rem; color: var(--dorado-oscuro); letter-spacing: 2px;">
-            S.·. F.·. U.·.
-        </div>
+        <div style="margin-top: 15px; font-size: 0.5rem; color: var(--dorado-oscuro); letter-spacing: 2px;"> S.·. F.·. U.·. </div>
     </div>
 
     <div class="acciones">
-        <a href="javascript:void(0)" class="btn-action btn-descargar" onclick="window.print()">
-            📥 DESCARGAR / IMPRIMIR CREDENCIAL
-        </a>
-        <a href="index.html" class="btn-action btn-salir" onclick="sessionStorage.clear()">
-            CERRAR SESIÓN SEGURA
-        </a>
+        <a href="javascript:void(0)" class="btn-action btn-descargar" onclick="window.print()"> 📥 DESCARGAR / IMPRIMIR CREDENCIAL </a>
+        <a href="index.html" class="btn-action btn-salir" onclick="sessionStorage.clear()"> CERRAR SESIÓN SEGURA </a>
     </div>
 
     <script>
@@ -189,24 +196,43 @@
             const data = JSON.parse(sessionStorage.getItem('hermanoValidado'));
 
             // 2. Seguridad: Si no hay datos, lo regresamos al login
-            if (!data) {
-                window.location.href = "identificacion.html";
-                return;
-            }
+            if (!data) { window.location.href = "identificacion.html"; return; }
 
             // 3. Llenamos los campos de la tarjeta
-            // Nota: Usa los nombres exactos de tus columnas del Google Sheet
             document.getElementById('disp-nombre').innerText = data.nombre_completo;
+            // Asegúrate que tu Sheet tiene las columnas "logia_nombre" y "numero_logia"
             document.getElementById('disp-logia').innerText = data.logia_nombre + " #" + data.numero_logia;
 
+            // --- NUEVA LÓGICA DE FOTOGRAFÍA ---
+            const imgElement = document.getElementById('disp-foto');
+            const noFotoElement = document.getElementById('disp-no-foto');
+
+            // Verificamos si hay una URL válida en la columna "url_fotografia"
+            if (data.url_fotografia && data.url_fotografia.strip != "") {
+                imgElement.src = data.url_fotografia;
+                imgElement.style.display = 'block'; // Mostramos la foto
+                noFotoElement.style.display = 'none'; // Ocultamos el icono por defecto
+                
+                // Manejo de error si la imagen no carga (URL rota, etc)
+                imgElement.onerror = function() {
+                    imgElement.style.display = 'none';
+                    noFotoElement.style.display = 'block';
+                    console.error("No se pudo cargar la imagen desde la URL proporcionada.");
+                };
+            } else {
+                // Si no hay URL, mantenemos el icono por defecto
+                imgElement.style.display = 'none';
+                noFotoElement.style.display = 'block';
+            }
+
             // 4. Generamos el Código QR
-            // El contenido del QR es un resumen de validación
-            const contenidoQR = `GLT-VALID: ${data.numero_afiliacion} | ${data.nombre_completo} | LOGIA: ${data.numero_logia}`;
+            // Reducimos el tamaño del QR para dar espacio a la foto
+            const contenidoQR = `GLT-VALID: ${data.numero_afiliacion} | ${data.nombre_completo}`;
             
             new QRCode(document.getElementById("qrcode"), {
                 text: contenidoQR,
-                width: 150,
-                height: 150,
+                width: 120, // QR un poco más pequeño
+                height: 120,
                 colorDark : "#0a192f",
                 colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.H
