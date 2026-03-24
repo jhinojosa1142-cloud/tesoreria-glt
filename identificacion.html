@@ -28,6 +28,7 @@
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
+            background-image: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
         }
 
         .login-card {
@@ -41,65 +42,73 @@
             text-align: center;
         }
 
-        .logo-small { width: 70px; margin-bottom: 20px; filter: drop-shadow(0 0 5px var(--dorado)); }
+        .logo-small { width: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 5px var(--dorado)); }
         
-        h2 { font-family: 'Cinzel'; color: var(--dorado); margin-bottom: 30px; font-size: 1.2rem; }
+        h2 { font-family: 'Cinzel'; color: var(--dorado); margin-bottom: 5px; font-size: 1.4rem; }
+        p.instruccion { font-size: 0.8rem; color: var(--dorado-oscuro); margin-bottom: 30px; font-family: 'Cinzel'; letter-spacing: 1px; }
 
         .form-group { text-align: left; margin-bottom: 20px; }
-        label { font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-oscuro); display: block; margin-bottom: 8px; }
+        label { font-family: 'Cinzel'; font-size: 0.75rem; color: var(--dorado-oscuro); display: block; margin-bottom: 8px; }
         
         input {
-            width: 100%; padding: 12px; background: rgba(10, 25, 47, 0.7);
+            width: 100%; padding: 14px; background: rgba(10, 25, 47, 0.7);
             border: 1px solid var(--dorado-oscuro); border-radius: 5px;
             color: white; font-family: 'Lora'; box-sizing: border-box; outline: none;
+            font-size: 1rem;
         }
 
-        input:focus { border-color: var(--dorado); box-shadow: 0 0 10px rgba(249, 226, 155, 0.2); }
+        input:focus { border-color: var(--dorado); box-shadow: 0 0 10px rgba(249, 226, 155, 0.3); }
 
         .btn-validar {
-            width: 100%; padding: 15px; background: var(--dorado-oscuro);
+            width: 100%; padding: 16px; background: var(--dorado-oscuro);
             color: var(--azul-profundo); border: none; border-radius: 5px;
             font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s;
-            margin-top: 10px;
+            margin-top: 10px; font-size: 0.9rem; letter-spacing: 1px;
         }
 
         .btn-validar:hover { background: var(--dorado); transform: scale(1.02); }
 
-        #error-msg { color: var(--rojo); font-size: 0.8rem; margin-top: 15px; display: none; }
+        #error-msg { color: var(--rojo); font-size: 0.85rem; margin-top: 15px; display: none; font-weight: bold; }
         
-        .loading-spinner { display: none; margin-top: 15px; color: var(--dorado); font-size: 0.9rem; }
+        .loading-spinner { display: none; margin-top: 15px; color: var(--dorado); font-size: 0.9rem; font-style: italic; }
+        
+        .footer-link { color: var(--dorado-oscuro); text-decoration: none; font-size: 0.7rem; display: block; margin-top: 30px; font-family: 'Cinzel'; opacity: 0.7; }
+        .footer-link:hover { opacity: 1; color: var(--dorado); }
     </style>
 </head>
 <body>
 
     <div class="login-card">
-        <img src="logo_moderno.png" class="logo-small">
-        <h2>IDENTIFICACIÓN DE HERMANO</h2>
+        <img src="logo_moderno.png" class="logo-small" alt="Logo GLT">
+        <h2>IDENTIFICACIÓN</h2>
+        <p class="instruccion">Censo Digital Masónico</p>
         
         <form id="loginForm">
             <div class="form-group">
-                <label>Nombre Completo (Sin acentos)</label>
+                <label>Nombre Completo (Como aparece en el censo)</label>
                 <input type="text" id="nombreInput" placeholder="EJ: JUAN PEREZ" required autocomplete="off">
             </div>
             
             <div class="form-group">
-                <label>Número de Afiliación</label>
-                <input type="text" id="idInput" placeholder="ID UNICO" required autocomplete="off">
+                <label>Número de Afiliación / ID</label>
+                <input type="text" id="idInput" placeholder="SU ID ÚNICO" required autocomplete="off">
             </div>
 
-            <button type="submit" class="btn-validar" id="btnSubmit">VERIFICAR EN CENSO</button>
+            <button type="submit" class="btn-validar" id="btnSubmit">ACCEDER A MI PASAPORTE</button>
         </form>
 
-        <div id="loading" class="loading-spinner">Consultando archivos de la Gran Logia...</div>
-        <div id="error-msg">✕ Datos no encontrados. Verifique su información.</div>
+        <div id="loading" class="loading-spinner">Verificando en los archivos de la Gran Logia...</div>
+        <div id="error-msg">✕ Los datos no coinciden con nuestro censo actual.</div>
         
-        <a href="index.html" style="color: var(--dorado-oscuro); text-decoration: none; font-size: 0.7rem; display: block; margin-top: 30px; font-family: 'Cinzel';">← VOLVER AL INICIO</a>
+        <a href="index.html" class="footer-link">← VOLVER AL PORTAL PRINCIPAL</a>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN ---
-        // 1. En tu Google Sheet ve a Archivo > Compartir > Publicar en la Web.
-        // 2. Selecciona "Valores separados por comas (.csv)".
+        // ==========================================
+        // CONFIGURACIÓN DEL GOOGLE SHEET
+        // ==========================================
+        // 1. En tu Google Sheet: Archivo > Compartir > Publicar en la Web.
+        // 2. Cambia "Página Web" por "Valores separados por comas (.csv)".
         // 3. Pega el enlace generado aquí abajo:
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=1959209005&single=true&output=csv";
 
@@ -111,6 +120,7 @@
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Limpiamos los datos de entrada
             const nombreBusqueda = document.getElementById('nombreInput').value.trim().toUpperCase();
             const idBusqueda = document.getElementById('idInput').value.trim();
 
@@ -118,33 +128,36 @@
             loading.style.display = 'block';
             btnSubmit.disabled = true;
 
+            // PapaParse lee el CSV directamente desde el link de Google
             Papa.parse(SHEET_CSV_URL, {
                 download: true,
                 header: true,
+                skipEmptyLines: true,
                 complete: function(results) {
                     loading.style.display = 'none';
                     btnSubmit.disabled = false;
                     
-                    // Buscamos coincidencia. Asegúrate que las columnas en tu Sheet se llamen exactamente así:
-                    // "nombre_completo" y "numero_afiliacion"
+                    // IMPORTANTE: Asegúrate de que las columnas en tu Excel se llamen exactamente así:
+                    // nombre_completo | numero_afiliacion
                     const hermano = results.data.find(row => 
-                        row.nombre_completo.toUpperCase() === nombreBusqueda && 
-                        row.numero_afiliacion === idBusqueda
+                        row.nombre_completo && row.nombre_completo.trim().toUpperCase() === nombreBusqueda && 
+                        row.numero_afiliacion && row.numero_afiliacion.toString().trim() === idBusqueda
                     );
 
                     if (hermano) {
-                        // Guardamos los datos en la sesión para que pasaporte.html los lea
+                        // Guardamos todos los datos (incluyendo la url_fotografia) en la sesión
                         sessionStorage.setItem('hermanoValidado', JSON.stringify(hermano));
-                        // Redirigimos al pasaporte
+                        // Redirigimos al pasaporte para mostrar la credencial
                         window.location.href = "pasaporte.html";
                     } else {
                         errorMsg.style.display = 'block';
                     }
                 },
-                error: function() {
+                error: function(err) {
                     loading.style.display = 'none';
                     btnSubmit.disabled = false;
-                    alert("Error al conectar con la base de datos de Google Sheets.");
+                    console.error("Error de PapaParse:", err);
+                    alert("Error crítico: No se pudo establecer conexión con la base de datos de Google Sheets. Verifique que el link sea un CSV público.");
                 }
             });
         });
