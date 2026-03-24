@@ -53,11 +53,12 @@
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
 
-        /* Estilo especial para el botón de Credencial en el menú */
+        /* RESALTADO DEL BOTÓN DE CREDENCIAL */
         .sidebar a.highlight {
             color: var(--dorado);
-            background: rgba(197, 160, 89, 0.1);
-            border-left: 3px solid var(--dorado);
+            background: rgba(197, 160, 89, 0.15);
+            border-left: 4px solid var(--dorado);
+            font-weight: bold;
         }
 
         .sidebar a:hover {
@@ -85,7 +86,10 @@
             top: 20px; left: 20px;
             z-index: 999;
             border-radius: 5px;
+            transition: 0.3s;
         }
+
+        .openbtn:hover { background: var(--dorado); color: var(--azul-profundo); }
 
         /* --- CONTENIDO PRINCIPAL --- */
         #main {
@@ -124,6 +128,7 @@
         @media (max-width: 768px) {
             h1 { font-size: 1.3rem; }
             .swiper { height: 280px; }
+            .sidebar { width: 100%; left: -100%; transition: 0.5s; } /* Sidebar pantalla completa en móvil */
         }
     </style>
 </head>
@@ -133,7 +138,7 @@
         <div class="closebtn" onclick="closeNav()">×</div>
         <div style="text-align: center; margin-bottom: 30px;">
             <img src="logo_moderno.png" width="60" alt="Logo">
-            <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado);">Plataforma Hiram</p>
+            <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado); margin-top: 5px;">PLATAFORMA HIRAM</p>
         </div>
         
         <a href="identificacion.html" class="highlight"><span>🪪</span> Mi Credencial Digital</a>
@@ -178,21 +183,29 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         function openNav() {
-            document.getElementById("mySidebar").style.width = "var(--sidebar-width)";
-            if(window.innerWidth > 768) {
+            // Manejo de sidebar para móvil y escritorio
+            if(window.innerWidth <= 768) {
+                document.getElementById("mySidebar").style.left = "0";
+                document.getElementById("mySidebar").style.width = "100%";
+            } else {
+                document.getElementById("mySidebar").style.width = "var(--sidebar-width)";
                 document.getElementById("main").style.marginLeft = "var(--sidebar-width)";
             }
         }
 
         function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
+            if(window.innerWidth <= 768) {
+                document.getElementById("mySidebar").style.left = "-100%";
+            } else {
+                document.getElementById("mySidebar").style.width = "0";
+                document.getElementById("main").style.marginLeft = "0";
+            }
         }
 
         var swiper = new Swiper(".mySwiper", {
             loop: true,
             effect: "fade",
-            autoplay: { delay: 4500 },
+            autoplay: { delay: 4500, disableOnInteraction: false },
             navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
             pagination: { el: ".swiper-pagination", clickable: true },
         });
