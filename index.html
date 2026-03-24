@@ -53,6 +53,13 @@
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
 
+        /* Estilo especial para el botón de Credencial en el menú */
+        .sidebar a.highlight {
+            color: var(--dorado);
+            background: rgba(197, 160, 89, 0.1);
+            border-left: 3px solid var(--dorado);
+        }
+
         .sidebar a:hover {
             color: var(--dorado);
             background: rgba(249, 226, 155, 0.05);
@@ -67,7 +74,6 @@
             cursor: pointer;
         }
 
-        /* Botón para abrir el menú */
         .openbtn {
             font-size: 25px;
             cursor: pointer;
@@ -90,7 +96,7 @@
             align-items: center;
             text-align: center;
             min-height: 100vh;
-            background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.8)), 
+            background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.85)), 
                         url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1920') no-repeat center center/cover;
         }
 
@@ -98,59 +104,26 @@
         h1 { font-family: 'Cinzel', serif; color: var(--dorado); margin: 20px 0 5px; font-size: 1.8rem; }
         .subtitle { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.8; margin-bottom: 30px; }
 
-        /* --- CARDS --- */
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
-            width: 100%;
-            max-width: 900px;
-        }
-
-        .gm-card, .passport-card {
+        .gm-card {
             background: rgba(17, 34, 64, 0.8);
             padding: 25px; 
             border-radius: 12px;
             border: 1px solid rgba(197, 160, 89, 0.4);
-            flex: 1;
-            min-width: 280px;
-            max-width: 350px;
+            max-width: 320px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            transition: 0.3s;
+            margin-bottom: 40px;
         }
-
-        .passport-card:hover { border-color: var(--dorado); transform: translateY(-5px); }
 
         .gm-img { width: 100%; border-radius: 5px; border: 1px solid var(--dorado-oscuro); margin-bottom: 15px; }
 
-        .btn-gold {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: var(--dorado-oscuro);
-            color: var(--azul-profundo);
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
-            font-size: 0.8rem;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-
-        .btn-gold:hover { background: var(--dorado); letter-spacing: 1px; }
-
-        /* Ajustes Swiper */
-        .swiper { width: 100%; max-width: 800px; height: 350px; margin-bottom: 40px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
+        .swiper { width: 100%; max-width: 800px; height: 400px; margin-bottom: 40px; border-radius: 10px; border: 1px solid var(--dorado-oscuro); }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
 
         footer { margin-top: auto; padding: 20px; color: var(--dorado-oscuro); font-size: 0.8rem; }
 
         @media (max-width: 768px) {
             h1 { font-size: 1.3rem; }
-            .swiper { height: 250px; }
-            .sidebar { padding-top: 80px; }
+            .swiper { height: 280px; }
         }
     </style>
 </head>
@@ -162,11 +135,14 @@
             <img src="logo_moderno.png" width="60" alt="Logo">
             <p style="font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado);">Plataforma Hiram</p>
         </div>
-        <a href="identificacion.html"><span>🪪</span> Credencial Digital</a>
+        
+        <a href="identificacion.html" class="highlight"><span>🪪</span> Mi Credencial Digital</a>
+        
         <a href="logias.html"><span>🏛️</span> Cuadro de Logias</a>
         <a href="punto_geometrico.html"><span>📍</span> Punto Geométrico</a>
         <a href="tesoreria.html"><span>💰</span> Tesorería (SIT)</a>
         <a href="historia.html"><span>📜</span> Historia</a>
+        <a href="contacto.html"><span>✉️</span> Contáctanos</a>
     </div>
 
     <button class="openbtn" onclick="openNav()">☰</button>
@@ -176,21 +152,10 @@
         <h1>Muy Respetable Gran Logia de Tamaulipas</h1>
         <p class="subtitle">Gestión y Fraternidad Digital</p>
         
-        <div class="cards-container">
-            <div class="gm-card">
-                <img src="gm_retrato.jpg" alt="MRGM" class="gm-img">
-                <div style="color: var(--dorado-oscuro); font-weight: bold; font-size: 0.7rem; letter-spacing: 1px;">M.·. R.·. G.·. M.·.</div>
-                <div style="font-family: 'Cinzel'; color: var(--dorado); font-size: 1.1rem;">Ramiro Ernesto Delgado Garza</div>
-            </div>
-
-            <div class="passport-card">
-                <div style="font-size: 3rem; margin-bottom: 10px;">🪪</div>
-                <h3 style="font-family: 'Cinzel'; color: var(--dorado); margin: 0 0 10px;">PASAPORTE DIGITAL</h3>
-                <p style="font-size: 0.85rem; opacity: 0.9; line-height: 1.4;">
-                    Hermanos de la jurisdicción: generen su credencial oficial con QR para acceso a eventos y validación de estado.
-                </p>
-                <a href="identificacion.html" class="btn-gold">IDENTIFICARSE</a>
-            </div>
+        <div class="gm-card">
+            <img src="gm_retrato.jpg" alt="MRGM" class="gm-img">
+            <div style="color: var(--dorado-oscuro); font-weight: bold; font-size: 0.7rem; letter-spacing: 1px;">M.·. R.·. G.·. M.·.</div>
+            <div style="font-family: 'Cinzel'; color: var(--dorado); font-size: 1.1rem;">Ramiro Ernesto Delgado Garza</div>
         </div>
 
         <div class="swiper mySwiper">
@@ -227,7 +192,7 @@
         var swiper = new Swiper(".mySwiper", {
             loop: true,
             effect: "fade",
-            autoplay: { delay: 4000 },
+            autoplay: { delay: 4500 },
             navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
             pagination: { el: ".swiper-pagination", clickable: true },
         });
