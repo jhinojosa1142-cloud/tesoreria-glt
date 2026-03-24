@@ -7,42 +7,160 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        :root { --azul: #0a192f; --tarjeta: #112240; --dorado: #f9e29b; --dorado-osc: #c5a059; --blanco: #e6f1ff; }
-        body { font-family: 'Lora', serif; background: var(--azul); color: var(--blanco); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-        .login-card { background: var(--tarjeta); border: 1px solid var(--dorado-osc); border-radius: 15px; padding: 40px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); text-align: center; }
-        .logo { width: 80px; margin-bottom: 10px; filter: drop-shadow(0 0 5px var(--dorado)); }
-        h2 { font-family: 'Cinzel'; color: var(--dorado); margin-bottom: 25px; font-size: 1.3rem; }
+        :root { 
+            --azul: #0a192f; 
+            --tarjeta: #112240; 
+            --dorado: #f9e29b; 
+            --dorado-osc: #c5a059; 
+            --blanco: #e6f1ff; 
+        }
+
+        body { 
+            font-family: 'Lora', serif; 
+            background: var(--azul); 
+            color: var(--blanco); 
+            margin: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            padding: 20px; 
+            background-image: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
+        }
+        
+        .login-card { 
+            background: var(--tarjeta); 
+            border: 1px solid var(--dorado-osc); 
+            border-radius: 15px; 
+            padding: 40px; 
+            width: 100%; 
+            max-width: 400px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            text-align: center; 
+        }
+
+        .logo { width: 80px; margin-bottom: 15px; filter: drop-shadow(0 0 5px var(--dorado)); }
+        
+        h2 { 
+            font-family: 'Cinzel'; 
+            color: var(--dorado); 
+            margin-bottom: 25px; 
+            font-size: 1.4rem; 
+            letter-spacing: 2px;
+        }
+        
         .form-group { text-align: left; margin-bottom: 20px; }
-        label { font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-osc); display: block; margin-bottom: 8px; }
-        input { width: 100%; padding: 12px; background: rgba(10, 25, 47, 0.7); border: 1px solid var(--dorado-osc); border-radius: 5px; color: white; box-sizing: border-box; outline: none; }
-        .btn-validar { width: 100%; padding: 15px; background: var(--dorado-osc); color: var(--azul); border: none; border-radius: 5px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-validar:hover { background: var(--dorado); transform: scale(1.02); }
-        #error-msg { color: #ff4d4d; font-size: 0.8rem; margin-top: 15px; display: none; }
-        .loading { display: none; color: var(--dorado); font-size: 0.8rem; margin-top: 15px; }
+        
+        label { 
+            font-family: 'Cinzel'; 
+            font-size: 0.7rem; 
+            color: var(--dorado-osc); 
+            display: block; 
+            margin-bottom: 8px; 
+            letter-spacing: 1px;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            background: rgba(10, 25, 47, 0.8); 
+            border: 1px solid var(--dorado-osc); 
+            border-radius: 5px; 
+            color: white; 
+            box-sizing: border-box; 
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--dorado); box-shadow: 0 0 10px rgba(249, 226, 155, 0.2); }
+        
+        .btn-validar { 
+            width: 100%; 
+            padding: 15px; 
+            background: var(--dorado-osc); 
+            color: var(--azul); 
+            border: none; 
+            border-radius: 5px; 
+            font-family: 'Cinzel'; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            margin-top: 10px; 
+            letter-spacing: 1px;
+        }
+
+        .btn-validar:hover { background: var(--dorado); transform: translateY(-2px); }
+
+        /* SECCIÓN DE REGISTRO */
+        .registro-box {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .registro-text { 
+            font-size: 0.75rem; 
+            color: var(--dorado-osc); 
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .btn-registro { 
+            display: inline-block; 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid var(--dorado-osc); 
+            color: var(--dorado-osc); 
+            border-radius: 5px; 
+            text-decoration: none; 
+            font-family: 'Cinzel'; 
+            font-size: 0.7rem; 
+            transition: 0.3s; 
+            box-sizing: border-box;
+            font-weight: bold;
+        }
+
+        .btn-registro:hover { 
+            background: rgba(197, 160, 89, 0.1); 
+            color: var(--dorado); 
+            border-color: var(--dorado);
+        }
+
+        #error-msg { color: #ff6b6b; font-size: 0.8rem; margin-top: 20px; display: none; font-weight: bold; }
+        .loading { display: none; color: var(--dorado); font-size: 0.8rem; margin-top: 20px; }
     </style>
 </head>
 <body>
     <div class="login-card">
-        <img src="logo_moderno.png" class="logo">
-        <h2>IDENTIFICACIÓN</h2>
+        <img src="logo_moderno.png" class="logo" alt="Gran Logia">
+        <h2>PLATAFORMA HIRAM</h2>
+        
         <form id="loginForm">
             <div class="form-group">
                 <label>Nombre Completo (Sin acentos)</label>
-                <input type="text" id="nombreInput" placeholder="EJ: JUAN PEREZ" required>
+                <input type="text" id="nombreInput" placeholder="EJ: BENITO JUAREZ" required>
             </div>
             <div class="form-group">
                 <label>Número de Afiliación</label>
                 <input type="text" id="idInput" placeholder="ID UNICO" required>
             </div>
-            <button type="submit" class="btn-validar" id="btnSubmit">VERIFICAR</button>
+            <button type="submit" class="btn-validar">ACCEDER AL PASAPORTE</button>
         </form>
-        <div id="loading" class="loading">Consultando censo...</div>
-        <div id="error-msg">✕ Datos no encontrados. Reintente.</div>
+
+        <div id="loading" class="loading">Consultando el Censo Oficial...</div>
+        <div id="error-msg">✕ Datos no encontrados. Verifique su registro.</div>
+
+        <div class="registro-box">
+            <p class="registro-text">¿No aparece en el sistema?</p>
+            <a href="LINK_DE_TU_GOOGLE_FORM" target="_blank" class="btn-registro">
+                SOLICITAR REGISTRO Y SUBIR FOTO
+            </a>
+        </div>
     </div>
 
     <script>
-        // PEGA AQUÍ TU LINK DE PUBLICACIÓN CSV DE GOOGLE SHEETS
-        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=1959209005&single=true&output=csv";
+        // PEGA AQUÍ TU LINK CSV DE LA PESTAÑA 'censo_oficial'
+        const SHEET_CSV_URL = "URL_DE_TU_CSV_AQUI";
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -53,17 +171,20 @@
             document.getElementById('error-msg').style.display = 'none';
 
             Papa.parse(SHEET_CSV_URL, {
-                download: true, header: true, skipEmptyLines: true,
+                download: true, 
+                header: true, 
+                skipEmptyLines: true,
                 complete: function(results) {
                     document.getElementById('loading').style.display = 'none';
-                    // Buscamos coincidencia en columnas nombre_completo y numero_afiliacion
-                    const h = results.data.find(r => 
+                    
+                    // Buscamos al hermano por nombre e ID
+                    const hermano = results.data.find(r => 
                         r.nombre_completo && r.nombre_completo.toUpperCase().trim() === nom && 
                         r.numero_afiliacion && r.numero_afiliacion.toString().trim() === id
                     );
 
-                    if (h) {
-                        sessionStorage.setItem('hermanoValidado', JSON.stringify(h));
+                    if (hermano) {
+                        sessionStorage.setItem('hermanoValidado', JSON.stringify(hermano));
                         window.location.href = "pasaporte.html";
                     } else {
                         document.getElementById('error-msg').style.display = 'block';
