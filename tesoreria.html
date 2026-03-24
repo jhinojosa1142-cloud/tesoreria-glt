@@ -12,7 +12,6 @@
             --dorado: #f9e29b;
             --dorado-oscuro: #c5a059;
             --blanco-suave: #e6f1ff;
-            --sidebar-width: 280px;
         }
 
         body {
@@ -39,6 +38,8 @@
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
         .sidebar a:hover { color: var(--dorado); background: rgba(249, 226, 155, 0.05); padding-left: 35px; }
+        .sidebar .closebtn { position: absolute; top: 10px; right: 25px; font-size: 36px; color: var(--dorado); cursor: pointer; }
+
         .openbtn {
             font-size: 18px; cursor: pointer; background-color: var(--azul-tarjeta);
             color: var(--dorado); padding: 10px 15px; border: 1px solid var(--dorado-oscuro);
@@ -50,10 +51,42 @@
 
         .container { max-width: 900px; margin: 0 auto; padding: 20px; flex: 1; }
 
+        /* --- SISTEMA DE ACCESO --- */
+        .login-card {
+            background: var(--azul-tarjeta);
+            border: 1px solid var(--dorado-oscuro);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            margin: 40px auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .login-card h2 { font-family: 'Cinzel', serif; color: var(--dorado); margin-bottom: 25px; }
+
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--dorado-oscuro); }
+        .form-group input {
+            width: 100%; padding: 12px; border-radius: 5px; border: 1px solid var(--dorado-oscuro);
+            background: rgba(10, 25, 47, 0.7); color: white; outline: none; box-sizing: border-box;
+        }
+
+        .btn-login {
+            width: 100%; padding: 15px; background: var(--dorado-oscuro); color: var(--azul-profundo);
+            border: none; border-radius: 5px; font-family: 'Cinzel', serif; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-login:hover { background: var(--dorado); }
+
+        /* --- DASHBOARD (Oculto inicialmente) --- */
+        #dashboard { display: none; }
+
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
+            margin-top: 30px;
         }
 
         .card {
@@ -62,25 +95,20 @@
             padding: 30px;
             border-radius: 12px;
             text-align: center;
+            transition: transform 0.3s;
         }
+        .card:hover { transform: translateY(-5px); }
 
         .card h3 { font-family: 'Cinzel', serif; color: var(--dorado); margin-top: 0; }
 
         .btn-action {
-            display: block;
-            margin-top: 20px;
-            padding: 12px;
-            background: transparent;
-            border: 1px solid var(--dorado);
-            color: var(--dorado);
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
-            transition: 0.3s;
+            display: block; margin-top: 20px; padding: 12px; background: transparent;
+            border: 1px solid var(--dorado); color: var(--dorado); text-decoration: none;
+            font-family: 'Cinzel', serif; transition: 0.3s; font-size: 0.8rem;
         }
-
         .btn-action:hover { background: var(--dorado); color: var(--azul-profundo); }
 
-        footer { text-align: center; padding: 40px; color: var(--dorado-oscuro); font-size: 0.8rem; }
+        footer { text-align: center; padding: 40px; color: var(--dorado-oscuro); font-size: 0.8rem; border-top: 1px solid rgba(197,160,89,0.1); }
     </style>
 </head>
 <body>
@@ -88,38 +116,62 @@
     <div class="openbtn" onclick="openNav()">☰ MENÚ</div>
 
     <div id="mySidebar" class="sidebar">
-        <div style="position: absolute; top: 10px; right: 25px; font-size: 36px; color: var(--dorado); cursor: pointer;" onclick="closeNav()">×</div>
-        <a href="index.html"><span>🏠</span> Inicio</a>
-        <a href="logias.html"><span>🏛️</span> Cuadro de Logias</a>
-        <a href="punto_geometrico.html"><span>📍</span> Punto Geométrico</a>
-        <a href="tesoreria.html"><span>💰</span> Tesorería (SIT)</a>
-        <a href="historia.html"><span>📜</span> Historia</a>
-        <a href="contacto.html"><span>✉️</span> Contáctanos</a>
+        <div class="closebtn" onclick="closeNav()">×</div>
+        <a href="index.html">🏠 Inicio</a>
+        <a href="logias.html">🏛️ Cuadro de Logias</a>
+        <a href="punto_geometrico.html">📍 Punto Geométrico</a>
+        <a href="tesoreria.html">💰 Tesorería (SIT)</a>
+        <a href="historia.html">📜 Historia</a>
+        <a href="contacto.html">✉️ Contáctanos</a>
     </div>
 
     <header>
-        <h1 style="font-family: 'Cinzel'; color: var(--dorado);">Sistema Integral de Tesorería</h1>
-        <p>Gestión de Cuotas y Credenciales</p>
+        <h1 style="font-family: 'Cinzel'; color: var(--dorado);">SIT - Tesorería</h1>
+        <p>Sistema Integral de Tesorería de la Gran Logia de Tamaulipas</p>
     </header>
 
     <div class="container">
-        <div class="dashboard-grid">
-            <div class="card">
-                <h3>Pagos en Línea</h3>
-                <p>Realiza el pago de tus derechos y cuotas de forma segura.</p>
-                <a href="#" class="btn-action">ACCEDER A PAGOS</a>
+        
+        <div id="login-section" class="login-card">
+            <h2>Acceso a Logias</h2>
+            <div class="form-group">
+                <label>Usuario (Nombre de Logia)</label>
+                <input type="text" id="user" placeholder="Ej: Victrix 1">
             </div>
-            <div class="card">
-                <h3>Estado de Cuenta</h3>
-                <p>Consulta tu historial de aportaciones y saldos vigentes.</p>
-                <a href="#" class="btn-action">VER ESTADO</a>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="pass" placeholder="••••••••">
             </div>
-            <div class="card">
-                <h3>QR Credentials</h3>
-                <p>Genera y descarga tu credencial digital con código QR.</p>
-                <a href="#" class="btn-action">GENERAR QR</a>
+            <button class="btn-login" onclick="validarAcceso()">INGRESAR AL ESTADO DE CUENTA</button>
+            <p id="error-msg" style="color: #ff6b6b; font-size: 0.8rem; margin-top: 15px; display: none;">Credenciales incorrectas. Verifique su información.</p>
+        </div>
+
+        <div id="dashboard">
+            <h2 style="text-align: center; font-family: 'Cinzel'; color: var(--dorado);">Bienvenida, R.·. L.·. S.·. <span id="logia-name"></span></h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Reportar Pago</h3>
+                    <p>Sube tu comprobante bancario para que sea validado por Gran Tesorería.</p>
+                    <a href="TU_LINK_DE_GOOGLE_FORMS" target="_blank" class="btn-action">SUBIR COMPROBANTE</a>
+                </div>
+
+                <div class="card">
+                    <h3>Estado de Cuenta</h3>
+                    <p>Consulta tus saldos vigentes y movimientos registrados en el sistema.</p>
+                    <a href="TU_LINK_DE_GOOGLE_SHEET_O_APP_SCRIPT" target="_blank" class="btn-action">VER SALDOS</a>
+                </div>
+
+                <div class="card">
+                    <h3>QR Credentials</h3>
+                    <p>Genera la credencial digital para los miembros de tu taller.</p>
+                    <a href="#" class="btn-action">GESTIONAR QR</a>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <button onclick="logout()" style="background: none; border: 1px solid var(--dorado-oscuro); color: var(--dorado-oscuro); padding: 10px 20px; cursor: pointer; font-family: 'Cinzel';">Cerrar Sesión</button>
             </div>
         </div>
+
     </div>
 
     <footer>
@@ -129,6 +181,27 @@
     <script>
         function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+
+        // Función temporal para simular el acceso (Aquí conectaríamos con Google Sheets después)
+        function validarAcceso() {
+            const user = document.getElementById('user').value;
+            const pass = document.getElementById('pass').value;
+
+            // Simulación simple: Si el usuario no está vacío, deja entrar. 
+            // En el futuro, haremos un fetch a una Google App Script que lea tu Sheet.
+            if(user !== "" && pass !== "") {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                document.getElementById('logia-name').innerText = user.toUpperCase();
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+        }
     </script>
 </body>
 </html>
