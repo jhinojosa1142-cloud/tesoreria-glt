@@ -52,11 +52,11 @@
         <div class="calc-grid">
             <div class="calc-item">
                 <label>HH:. con Derecho a Post Mortem</label>
-                <input type="number" id="pm_con" value="0" oninput="calcularTotal()">
+                <input type="number" id="hh_con" value="0" oninput="calcularTotal()">
             </div>
             <div class="calc-item">
                 <label>HH:. sin Derecho a Post Mortem</label>
-                <input type="number" id="pm_sin" value="0" oninput="calcularTotal()">
+                <input type="number" id="hh_sin" value="0" oninput="calcularTotal()">
             </div>
 
             <div class="calc-item">
@@ -104,7 +104,7 @@
 
 <script>
     // --- COSTOS PREDEFINIDOS (Ajusta estos valores según tus leyes) ---
-    const COSTOS = { pm_con: 250, pm_sin: 150, iniciacion: 1200, aumento: 800, exaltacion: 1000 };
+    const COSTOS = { hh_con: 250, hh_sin: 150, iniciacion: 1200, aumento: 800, exaltacion: 1000 };
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzokPx7OVMi9-RFxQ3xSBsQbuuffNu7BE-ssDcT2QCnIN0l81iazl7OXvUNvoa5SNW-_A/exec";
 
@@ -125,14 +125,14 @@
         let descParts = [];
 
         // Cálculos base
-        const val_pm_con = document.getElementById('pm_con').value * COSTOS.pm_con;
-        const val_pm_sin = document.getElementById('pm_sin').value * COSTOS.pm_sin;
+        const val_hh_con = document.getElementById('hh_con').value * COSTOS.hh_con;
+        const val_hh_sin = document.getElementById('hh_sin').value * COSTOS.hh_sin;
         const val_i = document.getElementById('grado_1').value * COSTOS.iniciacion;
         const val_a = document.getElementById('grado_2').value * COSTOS.aumento;
         const val_e = document.getElementById('grado_3').value * COSTOS.exaltacion;
 
-        if(val_pm_con > 0) { total += val_pm_con; descParts.push(`PM Con(${document.getElementById('pm_con').value})`); }
-        if(val_pm_sin > 0) { total += val_pm_sin; descParts.push(`PM Sin(${document.getElementById('pm_sin').value})`); }
+        if(val_hh_con > 0) { total += val_hh_con; descParts.push(`hh Con(${document.getElementById('hh_con').value})`); }
+        if(val_hh_sin > 0) { total += val_hh_sin; descParts.push(`hh Sin(${document.getElementById('hh_sin').value})`); }
         if(val_i > 0) { total += val_i; descParts.push(`Iniciación(${document.getElementById('grado_1').value})`); }
         if(val_a > 0) { total += val_a; descParts.push(`Aumento(${document.getElementById('grado_2').value})`); }
         if(val_e > 0) { total += val_e; descParts.push(`Exaltación(${document.getElementById('grado_3').value})`); }
