@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gran Tesorería | Panel de Control</title>
+    <title>Gran Tesorería | Panel Administrativo</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
@@ -28,123 +28,83 @@
 
         .container { max-width: 1100px; margin: 0 auto; }
 
-        /* --- ENCABEZADO CON LOGO --- */
+        /* --- ENCABEZADO --- */
         header {
             text-align: center;
             margin-bottom: 30px;
             border-bottom: 2px solid var(--dorado-osc);
             padding-bottom: 20px;
         }
+        .logo-encabezado { width: 100px; filter: drop-shadow(0 0 10px var(--dorado)); margin-bottom: 10px; }
+        h1 { font-family: 'Cinzel'; color: var(--dorado); font-size: 1.8rem; margin: 0; letter-spacing: 2px; }
+        .sub-titulo { font-family: 'Cinzel'; font-size: 0.8rem; color: var(--dorado-osc); letter-spacing: 4px; }
 
-        .logo-encabezado { 
-            width: 120px; 
-            margin-bottom: 15px;
-            filter: drop-shadow(0 0 10px var(--dorado));
-        }
-        
-        h1 { 
-            font-family: 'Cinzel'; 
-            color: var(--dorado); 
-            font-size: 2rem; 
-            margin: 0;
-            letter-spacing: 3px;
-        }
-        
-        .sub-titulo {
-            font-family: 'Cinzel';
-            font-size: 0.9rem;
-            color: var(--dorado-osc);
-            letter-spacing: 5px;
-            margin-top: 5px;
-        }
-
-        /* --- DASHBOARD STATS --- */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        /* --- FORMULARIO DE CARGOS --- */
+        .admin-box {
+            background: var(--azul-card);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--dorado-osc);
             margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .admin-box h3 { font-family: 'Cinzel'; color: var(--dorado); margin-top: 0; font-size: 1rem; border-bottom: 1px solid rgba(197, 160, 89, 0.2); padding-bottom: 10px; }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
 
-        .stat-card {
-            background: var(--azul-card);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            text-align: center;
+        input, select {
+            background: rgba(10, 25, 47, 0.8);
+            border: 1px solid var(--dorado-osc);
+            padding: 12px;
+            color: white;
+            border-radius: 6px;
+            outline: none;
+            font-family: 'Lora';
         }
-
-        .stat-card span { display: block; font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-osc); margin-bottom: 10px; }
-        .stat-card .val { font-size: 2.2rem; font-weight: bold; }
-
-        /* --- TABLA --- */
-        .table-wrapper {
-            background: var(--azul-card);
-            border-radius: 12px;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            overflow: hidden;
-            margin-top: 20px;
-        }
-
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: rgba(197, 160, 89, 0.15); color: var(--dorado); padding: 18px; font-family: 'Cinzel'; font-size: 0.75rem; }
-        td { padding: 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
-
-        .status-pill { padding: 6px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; font-family: 'Cinzel'; }
-        .aplomo { background: rgba(46, 204, 113, 0.15); color: var(--verde); border: 1px solid var(--verde); }
-        .mora { background: rgba(231, 76, 60, 0.15); color: var(--rojo); border: 1px solid var(--rojo); }
 
         /* --- BOTONES --- */
-        .btn-validar {
-            background: var(--verde);
-            color: var(--azul-fondo);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            font-family: 'Cinzel';
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-validar:hover { background: #27ae60; transform: scale(1.05); }
+        .btn-primario { background: var(--dorado-osc); color: var(--azul-fondo); border: none; padding: 12px; border-radius: 6px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-primario:hover { background: var(--dorado); transform: translateY(-2px); }
+        
+        .btn-validar { background: var(--verde); color: var(--azul-fondo); border: none; padding: 8px 12px; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; font-size: 0.7rem; }
+        .btn-validar:hover { background: #27ae60; }
 
-        .btn-logout {
-            margin-top: 40px;
-            display: inline-block;
-            color: var(--dorado-osc);
-            text-decoration: none;
-            font-family: 'Cinzel';
-            font-size: 0.8rem;
-            border: 1px solid var(--dorado-osc);
-            padding: 12px 30px;
-            border-radius: 6px;
-            transition: 0.3s;
-            letter-spacing: 2px;
-        }
-        .btn-logout:hover { background: var(--dorado-osc); color: var(--azul-fondo); }
+        /* --- TABLA --- */
+        .table-wrapper { background: var(--azul-card); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: rgba(197, 160, 89, 0.1); color: var(--dorado); padding: 15px; font-family: 'Cinzel'; font-size: 0.7rem; }
+        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+
+        .status-pill { padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; font-family: 'Cinzel'; }
+        .mora { background: rgba(231, 76, 60, 0.1); color: var(--rojo); border: 1px solid var(--rojo); }
+        .aplomo { background: rgba(46, 204, 113, 0.1); color: var(--verde); border: 1px solid var(--verde); }
+
+        .btn-logout { margin-top: 30px; display: inline-block; color: var(--dorado-osc); text-decoration: none; font-family: 'Cinzel'; font-size: 0.7rem; border: 1px solid var(--dorado-osc); padding: 10px 20px; border-radius: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <img src="logo_moderno.png" class="logo-encabezado" alt="Logo Gran Logia">
-        <h1>GRAN TESORERÍA</h1>
-        <div class="sub-titulo">Plataforma de Control Financiero</div>
+        <img src="logo_moderno.png" class="logo-encabezado">
+        <h1>OFICINA DE GRAN TESORERÍA</h1>
+        <div class="sub-titulo">Gestión de Cargos y Validación de Pagos</div>
     </header>
 
-    <div class="summary-grid">
-        <div class="stat-card">
-            <span>Talleres Totales</span>
-            <div class="val" id="total-val">0</div>
-        </div>
-        <div class="stat-card">
-            <span>En Aplomo</span>
-            <div class="val" id="aplomo-val" style="color: var(--verde);">0</div>
-        </div>
-        <div class="stat-card" style="border-left: 4px solid var(--rojo);">
-            <span>En Mora</span>
-            <div class="val" id="mora-val" style="color: var(--rojo);">0</div>
+    <div class="admin-box">
+        <h3><i class="fas fa-plus-circle"></i> Nueva Orden de Cargo</h3>
+        <div class="form-grid">
+            <select id="selectLogia">
+                <option value="">Seleccionar Logia...</option>
+            </select>
+            <input type="text" id="conceptoCargo" placeholder="Concepto (Ej: Capitas, Iniciación)">
+            <input type="number" id="montoCargo" placeholder="Monto $">
+            <button class="btn-primario" onclick="aplicarCargo()">APLICAR CARGO</button>
         </div>
     </div>
 
@@ -152,27 +112,27 @@
         <table>
             <thead>
                 <tr>
-                    <th>Logia Simbólica</th>
-                    <th>Mes Pagado</th>
-                    <th>Concepto</th>
-                    <th>Saldo</th>
+                    <th>Logia</th>
+                    <th>Mes</th>
+                    <th>Concepto Actual</th>
+                    <th>Saldo Pendiente</th>
                     <th>Estado</th>
                     <th>Acción</th>
                 </tr>
             </thead>
-            <tbody id="tableContent">
-                </tbody>
+            <tbody id="tableContent"></tbody>
         </table>
     </div>
 
     <center>
-        <a href="identificacion.html" class="btn-logout" onclick="cerrarSesion()">CERRAR SESIÓN SEGURA</a>
+        <a href="identificacion.html" class="btn-logout" onclick="sessionStorage.clear()">CERRAR SESIÓN SEGURA</a>
     </center>
 </div>
 
 <script>
+    // --- CONFIGURACIÓN ---
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; 
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxouiVZEj_O51t0fcMw-a7A1zzO_i39abqj3jDqzGNlC3weMvE-JT5eZugJK3kYVWw6tw/exec"; 
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKxIRfEbQW5lYmWuBpR4j-Wr_4S7gL0v_f2ri-jH_3_1elGZZ0bT0qcTjlvLqY99I8Nw/exec"; 
 
     function cargarDatos() {
         Papa.parse(SHEET_CSV_URL, {
@@ -182,6 +142,7 @@
             complete: function(results) {
                 const data = results.data.filter(row => row.nombre_logia);
                 renderizar(data);
+                poblarSelector(data);
             }
         });
     }
@@ -189,21 +150,19 @@
     function renderizar(data) {
         const tbody = document.getElementById('tableContent');
         tbody.innerHTML = '';
-        let moraCount = 0;
 
         data.forEach(item => {
             const saldo = parseFloat(item.saldo || 0);
             const tieneDeuda = saldo > 0;
-            if(tieneDeuda) moraCount++;
-
             const row = document.createElement('tr');
+
             row.innerHTML = `
                 <td>
                     <b>${item.nombre_logia}</b>
-                    <div style="font-size:0.7rem; color:var(--dorado-osc)">Usuario: ${item.usuario}</div>
+                    <div style="font-size:0.7rem; color:var(--dorado-osc)">ID: ${item.usuario}</div>
                 </td>
                 <td>${item.mes_pago || '---'}</td>
-                <td style="font-style: italic; color: #aab4c2;">${item.cargos || 'Sin cargos'}</td>
+                <td style="font-size:0.8rem; font-style:italic;">${item.cargos || 'Sin cargos'}</td>
                 <td style="font-weight:bold; color:${tieneDeuda ? 'var(--rojo)' : 'var(--verde)'}">
                     $${saldo.toLocaleString('en-US', {minimumFractionDigits: 2})}
                 </td>
@@ -214,44 +173,61 @@
                 </td>
                 <td>
                     ${tieneDeuda ? 
-                        `<button class="btn-validar" onclick="validarPago('${item.usuario}', this)">VALIDAR</button>` : 
-                        '<span style="color:var(--verde)">✅ Pagado</span>'}
+                        `<button class="btn-validar" onclick="enviarAccion('VALIDAR', '${item.usuario}')">VALIDAR</button>` : 
+                        '✅'}
                 </td>
             `;
             tbody.appendChild(row);
         });
-
-        document.getElementById('total-val').innerText = data.length;
-        document.getElementById('mora-val').innerText = moraCount;
-        document.getElementById('aplomo-val').innerText = data.length - moraCount;
     }
 
-    async function validarPago(usuarioId, boton) {
-        if (!confirm("¿Deseas validar el pago de esta Logia y poner el saldo en $0.00?")) return;
+    function poblarSelector(data) {
+        const select = document.getElementById('selectLogia');
+        select.innerHTML = '<option value="">Seleccionar Logia...</option>';
+        data.forEach(l => {
+            let opt = document.createElement('option');
+            opt.value = l.usuario;
+            opt.text = l.nombre_logia;
+            select.add(opt);
+        });
+    }
+
+    async function aplicarCargo() {
+        const user = document.getElementById('selectLogia').value;
+        const concepto = document.getElementById('conceptoCargo').value;
+        const monto = document.getElementById('montoCargo').value;
         
-        boton.disabled = true;
-        boton.innerText = "...";
+        if(!user || !monto || !concepto) return alert("Completa todos los campos del cargo.");
+        if(!confirm(`¿Aplicar cargo de $${monto} a esta logia?`)) return;
+
+        await enviarAccion('CARGAR', user, monto, concepto);
+    }
+
+    async function enviarAccion(tipo, idUsuario, monto = 0, concepto = "") {
+        const loadingMsg = tipo === 'VALIDAR' ? "Validando pago..." : "Aplicando cargo...";
+        console.log(loadingMsg);
 
         try {
-            // Enviamos la petición al Apps Script
+            // Obtenemos el mes actual en español
+            const mesActual = new Date().toLocaleString('es-MX', {month: 'long'}).toUpperCase();
+
             await fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', 
-                body: JSON.stringify({ usuario: usuarioId })
+                mode: 'no-cors',
+                body: JSON.stringify({ 
+                    accion: tipo, 
+                    usuario: idUsuario, 
+                    monto: monto, 
+                    concepto: concepto,
+                    mes: mesActual
+                })
             });
             
-            alert("Validación enviada. La información se actualizará en unos segundos.");
+            alert("Operación exitosa. La tabla se actualizará en breve.");
             setTimeout(() => location.reload(), 2000);
         } catch (e) {
-            alert("Error de conexión con el servidor.");
-            boton.disabled = false;
-            boton.innerText = "VALIDAR";
+            alert("Error al conectar con el servidor.");
         }
-    }
-
-    function cerrarSesion() {
-        sessionStorage.clear();
-        window.location.href = "identificacion.html";
     }
 
     window.onload = cargarDatos;
