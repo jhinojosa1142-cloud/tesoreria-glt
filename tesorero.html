@@ -2,29 +2,29 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gran Tesorería | Calculadora con Conceptos Extras</title>
+    <title>Gran Tesorería | Gestión de Pagos y Abonos</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
         :root { --azul: #0a192f; --azul-l: #112240; --dorado: #f9e29b; --dorado-osc: #c5a059; --verde: #2ecc71; --rojo: #e74c3c; --blanco: #e6f1ff; }
         body { font-family: 'Lora', serif; background: var(--azul); color: var(--blanco); margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; }
+        .container { max-width: 1100px; margin: 0 auto; }
         header { text-align: center; border-bottom: 2px solid var(--dorado-osc); padding-bottom: 20px; margin-bottom: 30px; }
         .logo { width: 80px; filter: drop-shadow(0 0 10px var(--dorado)); }
         .admin-box { background: var(--azul-l); padding: 25px; border-radius: 12px; border: 1px solid var(--dorado-osc); margin-bottom: 30px; }
         h3 { font-family: 'Cinzel'; color: var(--dorado); margin-top: 0; }
-        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
         .calc-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
         label { display: block; font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-osc); margin-bottom: 8px; }
         input, select { width: 90%; background: var(--azul); border: 1px solid var(--dorado-osc); padding: 10px; color: white; border-radius: 5px; outline: none; font-family: 'Lora'; }
         .total-preview { background: var(--dorado-osc); color: var(--azul); padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; }
-        .total-amount { font-size: 2rem; font-weight: bold; font-family: 'Cinzel'; }
-        .btn-apply { background: var(--verde); color: var(--azul); border: none; padding: 15px; width: 100%; border-radius: 8px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1rem; transition: 0.3s; }
-        .btn-apply:hover { background: #27ae60; transform: scale(1.01); }
+        .total-amount { font-size: 1.8rem; font-weight: bold; font-family: 'Cinzel'; }
+        .btn-apply { background: var(--dorado-osc); color: var(--azul); border: none; padding: 15px; width: 100%; border-radius: 8px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn-apply:hover { background: var(--dorado); transform: scale(1.01); }
         table { width: 100%; border-collapse: collapse; background: var(--azul-l); margin-top: 30px; border-radius: 8px; overflow: hidden; }
         th { background: rgba(197, 160, 89, 0.15); color: var(--dorado); padding: 12px; font-family: 'Cinzel'; font-size: 0.7rem; }
-        td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 0.8rem; }
-        .status-pill { padding: 4px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; }
+        td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 0.85rem; }
+        .status-pill { padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; font-family: 'Cinzel'; }
         .mora { background: rgba(231, 76, 60, 0.2); color: var(--rojo); border: 1px solid var(--rojo); }
         .aplomo { background: rgba(46, 204, 113, 0.2); color: var(--verde); border: 1px solid var(--verde); }
     </style>
@@ -34,48 +34,39 @@
 <div class="container">
     <header>
         <img src="logo_moderno.png" class="logo">
-        <h1>Calculadora de Gran Tesorería</h1>
+        <h1>Gran Tesorería | Panel Administrativo</h1>
     </header>
 
     <div class="admin-box">
-        <h3>Nueva Orden de Cargo</h3>
+        <h3>Generar Nuevo Cargo</h3>
         <div style="margin-bottom: 20px;">
             <label>Seleccionar Logia (Auto-carga desde Padrón)</label>
             <select id="selectLogia" onchange="autoLlenarPadron()"></select>
         </div>
 
         <div class="calc-grid">
-            <div class="calc-item">
-                <label>HH:. con Derecho a PM</label>
-                <input type="number" id="pm_con" value="0" oninput="calcularTotal()">
-            </div>
-            <div class="calc-item">
-                <label>HH:. sin Derecho a PM</label>
-                <input type="number" id="pm_sin" value="0" oninput="calcularTotal()">
-            </div>
+            <div class="calc-item"><label>HH:. con Derecho</label><input type="number" id="pm_con" value="0" oninput="calcularTotal()"></div>
+            <div class="calc-item"><label>HH:. sin Derecho</label><input type="number" id="pm_sin" value="0" oninput="calcularTotal()"></div>
             <div class="calc-item"><label>Iniciaciones</label><input type="number" id="grado_1" value="0" oninput="calcularTotal()"></div>
             <div class="calc-item"><label>Aumentos</label><input type="number" id="grado_2" value="0" oninput="calcularTotal()"></div>
             <div class="calc-item"><label>Exaltaciones</label><input type="number" id="grado_3" value="0" oninput="calcularTotal()"></div>
-            
-            <div class="calc-item" style="border: 1px solid var(--dorado-osc);">
-                <label>Concepto del Cargo Extra</label>
-                <input type="text" id="extra_concepto" placeholder="Ej: Venta de Libros" oninput="calcularTotal()">
-                <label style="margin-top:10px;">Monto Extra ($)</label>
+            <div class="calc-item">
+                <label>Concepto Extra / Monto</label>
+                <input type="text" id="extra_concepto" placeholder="Motivo" oninput="calcularTotal()" style="margin-bottom:5px;">
                 <input type="number" id="extra_monto" value="0" oninput="calcularTotal()">
             </div>
         </div>
 
         <div class="total-preview">
-            <span>RESUMEN TOTAL DEL CARGO</span>
             <div class="total-amount" id="displayTotal">$0.00</div>
-            <div id="displayConcepto" style="font-size: 0.8rem; margin-top: 5px; font-style: italic;">Seleccione una logia...</div>
+            <div id="displayConcepto" style="font-size: 0.75rem; margin-top: 5px; opacity: 0.8;">Esperando selección...</div>
         </div>
 
-        <button class="btn-apply" onclick="enviarCargo()">APLICAR CARGO Y NOTIFICAR</button>
+        <button class="btn-apply" onclick="enviarCargo()">APLICAR CARGO A LOGIA</button>
     </div>
 
     <table>
-        <thead><tr><th>Logia</th><th>Estado</th><th>Saldo</th><th>Detalle del Último Cargo</th><th>Acción</th></tr></thead>
+        <thead><tr><th>Logia</th><th>Estado</th><th>Saldo Actual</th><th>Último Detalle</th><th>Acción</th></tr></thead>
         <tbody id="tableContent"></tbody>
     </table>
 
@@ -83,10 +74,7 @@
 </div>
 
 <script>
-    // --- COSTOS FIJOS ---
     const COSTOS = { pm_con: 250, pm_sin: 150, iniciacion: 1200, aumento: 800, exaltacion: 1000 };
-    
-    // --- ENLACES ---
     const CSV_SALDOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; 
     const CSV_PADRON = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=12481841&single=true&output=csv"; 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEhvaWMCG9MKNQ79Nwb17SeNRqaTWj72iI-HwGWyTrwd_DuQUvdipiGJBZ-aJmKU1wxA/exec";
@@ -94,37 +82,36 @@
     let datosPadron = [];
 
     function init() {
-        Papa.parse(CSV_PADRON, {
-            download: true, header: true, complete: function(r) {
-                datosPadron = r.data;
-                cargarSaldos();
-            }
-        });
+        Papa.parse(CSV_PADRON, { download: true, header: true, complete: function(r) {
+            datosPadron = r.data;
+            cargarSaldos();
+        }});
     }
 
     function cargarSaldos() {
-        Papa.parse(CSV_SALDOS, {
-            download: true, header: true, complete: function(r) {
-                const data = r.data.filter(x => x.nombre_logia);
-                const sel = document.getElementById('selectLogia');
-                const tbody = document.getElementById('tableContent');
-                sel.innerHTML = '<option value="">-- Seleccionar Logia --</option>';
-                tbody.innerHTML = '';
+        Papa.parse(CSV_SALDOS, { download: true, header: true, complete: function(r) {
+            const data = r.data.filter(x => x.nombre_logia);
+            const sel = document.getElementById('selectLogia');
+            const tbody = document.getElementById('tableContent');
+            sel.innerHTML = '<option value="">-- Buscar Logia --</option>';
+            tbody.innerHTML = '';
 
-                data.forEach(l => {
-                    sel.add(new Option(l.nombre_logia, l.usuario));
-                    const esMora = parseFloat(l.saldo) > 0;
-                    tbody.innerHTML += `
-                        <tr>
-                            <td><b>${l.nombre_logia}</b></td>
-                            <td><span class="status-pill ${esMora?'mora':'aplomo'}">${esMora?'MORA':'APLOMO'}</span></td>
-                            <td>$${parseFloat(l.saldo).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-                            <td style="font-size:0.7rem; text-align:left;">${l.cargos || '---'}</td>
-                            <td>${esMora ? `<button onclick="validar('${l.usuario}')" style="background:var(--verde); border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:bold; font-family:'Cinzel'; font-size:0.7rem;">Validar Pago</button>` : '✅'}</td>
-                        </tr>`;
-                });
-            }
-        });
+            data.forEach(l => {
+                sel.add(new Option(l.nombre_logia, l.usuario));
+                const saldo = parseFloat(l.saldo || 0);
+                const esMora = saldo > 0;
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${l.nombre_logia}</b></td>
+                        <td><span class="status-pill ${esMora?'mora':'aplomo'}">${esMora?'EN MORA':'AL CORRIENTE'}</span></td>
+                        <td style="font-weight:bold; color:${esMora?'var(--rojo)':'var(--verde)'}">$${saldo.toLocaleString('en-US', {minimumFractionDigits:2})}</td>
+                        <td style="font-size:0.65rem; text-align:left;">${l.cargos || '---'}</td>
+                        <td>
+                            <button onclick="validarPago('${l.usuario}', ${saldo})" style="background:var(--verde); border:none; padding:6px 10px; border-radius:4px; cursor:pointer; font-weight:bold; font-family:'Cinzel'; font-size:0.65rem;">VALIDAR PAGO</button>
+                        </td>
+                    </tr>`;
+            });
+        }});
     }
 
     function autoLlenarPadron() {
@@ -139,51 +126,51 @@
     }
 
     function calcularTotal() {
-        const n1 = document.getElementById('pm_con').value;
-        const n2 = document.getElementById('pm_sin').value;
-        const n3 = document.getElementById('grado_1').value;
-        const n4 = document.getElementById('grado_2').value;
-        const n5 = document.getElementById('grado_3').value;
-        
-        const extraConcepto = document.getElementById('extra_concepto').value;
-        const extraMonto = parseFloat(document.getElementById('extra_monto').value) || 0;
+        const n = [document.getElementById('pm_con').value, document.getElementById('pm_sin').value, document.getElementById('grado_1').value, document.getElementById('grado_2').value, document.getElementById('grado_3').value];
+        const extraM = parseFloat(document.getElementById('extra_monto').value) || 0;
+        const extraC = document.getElementById('extra_concepto').value;
 
-        const total = (n1 * COSTOS.pm_con) + (n2 * COSTOS.pm_sin) + (n3 * COSTOS.iniciacion) + (n4 * COSTOS.aumento) + (n5 * COSTOS.exaltacion) + extraMonto;
+        const total = (n[0]*COSTOS.pm_con) + (n[1]*COSTOS.pm_sin) + (n[2]*COSTOS.iniciacion) + (n[3]*COSTOS.aumento) + (n[4]*COSTOS.exaltacion) + extraM;
+        let concepto = `Cápitas(C:${n[0]}, S:${n[1]})`;
+        if(n[2]>0||n[3]>0||n[4]>0) concepto += ` + Grados(I:${n[2]}, A:${n[3]}, E:${n[4]})`;
+        if(extraM > 0) concepto += ` + ${extraC || 'Extra'}($${extraM})`;
 
-        let conceptoFinal = `Cápitas (C:${n1}, S:${n2})`;
-        if(n3 > 0 || n4 > 0 || n5 > 0) conceptoFinal += ` + Grados(I:${n3}, A:${n4}, E:${n5})`;
-        if(extraMonto > 0) conceptoFinal += ` + ${extraConcepto || 'Cargo Extra'}($${extraMonto})`;
-
-        document.getElementById('displayTotal').innerText = `$${total.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-        document.getElementById('displayConcepto').innerText = conceptoFinal;
-        return { total, concepto: conceptoFinal };
+        document.getElementById('displayTotal').innerText = `$${total.toLocaleString('en-US',{minimumFractionDigits:2})}`;
+        document.getElementById('displayConcepto').innerText = concepto;
+        return { total, concepto };
     }
 
     async function enviarCargo() {
         const user = document.getElementById('selectLogia').value;
         const { total, concepto } = calcularTotal();
-        if(!user || total <= 0) return alert("Seleccione logia y verifique que el monto sea mayor a 0.");
+        if(!user || total <= 0) return alert("Seleccione logia y monto válido.");
+        if(!confirm(`¿Aplicar cargo de $${total}?`)) return;
 
-        if(!confirm(`¿Desea aplicar el cargo de $${total} a la Logia?`)) return;
-
-        try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST', mode: 'no-cors',
-                body: JSON.stringify({
-                    accion: "CARGAR", usuario: user, monto: total, concepto: concepto,
-                    mes: new Date().toLocaleString('es-MX', {month: 'long'}).toUpperCase()
-                })
-            });
-            alert("Cargo aplicado con éxito y correo enviado.");
-            location.reload();
-        } catch(e) { alert("Error al conectar con el servidor."); }
+        await llamarScript({ accion: "CARGAR", usuario: user, monto: total, concepto: concepto, mes: new Date().toLocaleString('es-MX',{month:'long'}).toUpperCase() });
     }
 
-    async function validar(user) {
-        if(!confirm("¿Confirmas que el pago ha sido recibido en tesorería?")) return;
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ accion: "VALIDAR", usuario: user }) });
-        alert("Pago validado correctamente.");
-        location.reload();
+    async function validarPago(user, saldoActual) {
+        let montoRecibido = prompt(`Saldo total: $${saldoActual}\n\nIngrese la cantidad recibida:`, saldoActual);
+        
+        if (montoRecibido === null || montoRecibido === "") return;
+        montoRecibido = parseFloat(montoRecibido);
+
+        if (isNaN(montoRecibido) || montoRecibido <= 0) return alert("Monto no válido.");
+        
+        const nuevoSaldo = saldoActual - montoRecibido;
+        const mensaje = nuevoSaldo <= 0 ? "PAGO COMPLETO" : `PAGO PARCIAL (Resta $${nuevoSaldo.toFixed(2)})`;
+
+        if(confirm(`Se descontarán $${montoRecibido} del saldo.\n\nNuevo saldo: $${nuevoSaldo < 0 ? 0 : nuevoSaldo.toFixed(2)}\n¿Proceder?`)) {
+            await llamarScript({ accion: "VALIDAR", usuario: user, monto: montoRecibido, concepto: mensaje });
+        }
+    }
+
+    async function llamarScript(datos) {
+        try {
+            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) });
+            alert("Operación realizada con éxito.");
+            location.reload();
+        } catch(e) { alert("Error de conexión."); }
     }
 
     window.onload = init;
