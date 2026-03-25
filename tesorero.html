@@ -2,99 +2,260 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel del Gran Tesorero</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gran Tesorería | Panel de Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        :root { --azul: #0a192f; --dorado: #f9e29b; --verde: #2ecc71; --rojo: #e74c3c; }
-        body { font-family: 'Lora', serif; background: var(--azul); color: white; padding: 20px; }
+        :root {
+            --azul-fondo: #0a192f;
+            --azul-card: #112240;
+            --dorado: #f9e29b;
+            --dorado-osc: #c5a059;
+            --blanco: #e6f1ff;
+            --verde: #2ecc71;
+            --rojo: #e74c3c;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--azul-fondo);
+            color: var(--blanco);
+            margin: 0;
+            padding: 20px;
+            background-image: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
+        }
+
         .container { max-width: 1100px; margin: 0 auto; }
-        h1 { font-family: 'Cinzel'; color: var(--dorado); text-align: center; }
-        table { width: 100%; border-collapse: collapse; background: #112240; border-radius: 10px; overflow: hidden; }
-        th { background: rgba(197, 160, 89, 0.2); color: var(--dorado); padding: 15px; font-family: 'Cinzel'; }
-        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .btn-validar { background: var(--verde); color: var(--azul); border: none; padding: 8px 15px; border-radius: 5px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; }
-        .btn-validar:disabled { background: #555; cursor: not-allowed; }
-        .status-pill { padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
-        .mora { background: rgba(231, 76, 60, 0.2); color: var(--rojo); border: 1px solid var(--rojo); }
-        .aplomo { background: rgba(46, 204, 113, 0.2); color: var(--verde); border: 1px solid var(--verde); }
+
+        /* --- ENCABEZADO CON LOGO --- */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--dorado-osc);
+            padding-bottom: 20px;
+        }
+
+        .logo-encabezado { 
+            width: 120px; 
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px var(--dorado));
+        }
+        
+        h1 { 
+            font-family: 'Cinzel'; 
+            color: var(--dorado); 
+            font-size: 2rem; 
+            margin: 0;
+            letter-spacing: 3px;
+        }
+        
+        .sub-titulo {
+            font-family: 'Cinzel';
+            font-size: 0.9rem;
+            color: var(--dorado-osc);
+            letter-spacing: 5px;
+            margin-top: 5px;
+        }
+
+        /* --- DASHBOARD STATS --- */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--azul-card);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            text-align: center;
+        }
+
+        .stat-card span { display: block; font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-osc); margin-bottom: 10px; }
+        .stat-card .val { font-size: 2.2rem; font-weight: bold; }
+
+        /* --- TABLA --- */
+        .table-wrapper {
+            background: var(--azul-card);
+            border-radius: 12px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: rgba(197, 160, 89, 0.15); color: var(--dorado); padding: 18px; font-family: 'Cinzel'; font-size: 0.75rem; }
+        td { padding: 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+
+        .status-pill { padding: 6px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; font-family: 'Cinzel'; }
+        .aplomo { background: rgba(46, 204, 113, 0.15); color: var(--verde); border: 1px solid var(--verde); }
+        .mora { background: rgba(231, 76, 60, 0.15); color: var(--rojo); border: 1px solid var(--rojo); }
+
+        /* --- BOTONES --- */
+        .btn-validar {
+            background: var(--verde);
+            color: var(--azul-fondo);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-family: 'Cinzel';
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-validar:hover { background: #27ae60; transform: scale(1.05); }
+
+        .btn-logout {
+            margin-top: 40px;
+            display: inline-block;
+            color: var(--dorado-osc);
+            text-decoration: none;
+            font-family: 'Cinzel';
+            font-size: 0.8rem;
+            border: 1px solid var(--dorado-osc);
+            padding: 12px 30px;
+            border-radius: 6px;
+            transition: 0.3s;
+            letter-spacing: 2px;
+        }
+        .btn-logout:hover { background: var(--dorado-osc); color: var(--azul-fondo); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Control de Gran Tesorería</h1>
-    <table id="tablaLogias">
-        <thead>
-            <tr>
-                <th>Logia</th>
-                <th>Último Mes</th>
-                <th>Conceptos</th>
-                <th>Saldo</th>
-                <th>Estado</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody id="cuerpoTabla"></tbody>
-    </table>
+    <header>
+        <img src="logo_moderno.png" class="logo-encabezado" alt="Logo Gran Logia">
+        <h1>GRAN TESORERÍA</h1>
+        <div class="sub-titulo">Plataforma de Control Financiero</div>
+    </header>
+
+    <div class="summary-grid">
+        <div class="stat-card">
+            <span>Talleres Totales</span>
+            <div class="val" id="total-val">0</div>
+        </div>
+        <div class="stat-card">
+            <span>En Aplomo</span>
+            <div class="val" id="aplomo-val" style="color: var(--verde);">0</div>
+        </div>
+        <div class="stat-card" style="border-left: 4px solid var(--rojo);">
+            <span>En Mora</span>
+            <div class="val" id="mora-val" style="color: var(--rojo);">0</div>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Logia Simbólica</th>
+                    <th>Mes Pagado</th>
+                    <th>Concepto</th>
+                    <th>Saldo</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tableContent">
+                </tbody>
+        </table>
+    </div>
+
+    <center>
+        <a href="identificacion.html" class="btn-logout" onclick="cerrarSesion()">CERRAR SESIÓN SEGURA</a>
+    </center>
 </div>
 
 <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; 
-    const SCRIPT_URL = "TU_URL_DE_APPS_SCRIPT_AQUI"; // La que copiaste en el paso 1
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; 
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxouiVZEj_O51t0fcMw-a7A1zzO_i39abqj3jDqzGNlC3weMvE-JT5eZugJK3kYVWw6tw/exec"; 
 
     function cargarDatos() {
-        Papa.parse(CSV_URL, {
-            download: true, header: true, skipEmptyLines: true,
+        Papa.parse(SHEET_CSV_URL, {
+            download: true,
+            header: true,
+            dynamicTyping: true,
             complete: function(results) {
-                const logias = results.data.filter(r => r.nombre_logia);
-                renderizar(logias);
+                const data = results.data.filter(row => row.nombre_logia);
+                renderizar(data);
             }
         });
     }
 
     function renderizar(data) {
-        const tabla = document.getElementById('cuerpoTabla');
-        tabla.innerHTML = '';
+        const tbody = document.getElementById('tableContent');
+        tbody.innerHTML = '';
+        let moraCount = 0;
+
         data.forEach(item => {
             const saldo = parseFloat(item.saldo || 0);
-            const esMora = saldo > 0;
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td><b>${item.nombre_logia}</b></td>
-                <td>${item.mes_pago}</td>
-                <td style="font-size:0.8rem">${item.cargos}</td>
-                <td style="color:${esMora ? 'var(--rojo)' : 'var(--verde)'}">$${saldo.toLocaleString()}</td>
-                <td><span class="status-pill ${esMora ? 'mora' : 'aplomo'}">${esMora ? 'EN MORA' : 'EN APLOMO'}</span></td>
+            const tieneDeuda = saldo > 0;
+            if(tieneDeuda) moraCount++;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
                 <td>
-                    ${esMora ? `<button class="btn-validar" onclick="confirmarPago('${item.usuario}', this)">VALIDAR</button>` : '✅'}
+                    <b>${item.nombre_logia}</b>
+                    <div style="font-size:0.7rem; color:var(--dorado-osc)">Usuario: ${item.usuario}</div>
+                </td>
+                <td>${item.mes_pago || '---'}</td>
+                <td style="font-style: italic; color: #aab4c2;">${item.cargos || 'Sin cargos'}</td>
+                <td style="font-weight:bold; color:${tieneDeuda ? 'var(--rojo)' : 'var(--verde)'}">
+                    $${saldo.toLocaleString('en-US', {minimumFractionDigits: 2})}
+                </td>
+                <td>
+                    <span class="status-pill ${tieneDeuda ? 'mora' : 'aplomo'}">
+                        ${tieneDeuda ? 'EN MORA' : 'EN APLOMO'}
+                    </span>
+                </td>
+                <td>
+                    ${tieneDeuda ? 
+                        `<button class="btn-validar" onclick="validarPago('${item.usuario}', this)">VALIDAR</button>` : 
+                        '<span style="color:var(--verde)">✅ Pagado</span>'}
                 </td>
             `;
-            tabla.appendChild(fila);
+            tbody.appendChild(row);
         });
+
+        document.getElementById('total-val').innerText = data.length;
+        document.getElementById('mora-val').innerText = moraCount;
+        document.getElementById('aplomo-val').innerText = data.length - moraCount;
     }
 
-    async function confirmarPago(idUsuario, boton) {
-        if (!confirm("¿Deseas marcar esta Logia como 'EN APLOMO' y poner el saldo en $0?")) return;
+    async function validarPago(usuarioId, boton) {
+        if (!confirm("¿Deseas validar el pago de esta Logia y poner el saldo en $0.00?")) return;
         
         boton.disabled = true;
         boton.innerText = "...";
 
         try {
-            await fetch(SCRIPT_URL, {
+            // Enviamos la petición al Apps Script
+            await fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Importante para evitar errores de CORS con Google
-                body: JSON.stringify({ usuario: idUsuario })
+                mode: 'no-cors', 
+                body: JSON.stringify({ usuario: usuarioId })
             });
-            alert("Operación enviada. Los cambios se verán reflejados en el Sheet en unos segundos.");
+            
+            alert("Validación enviada. La información se actualizará en unos segundos.");
             setTimeout(() => location.reload(), 2000);
         } catch (e) {
-            alert("Error al conectar con el servidor.");
+            alert("Error de conexión con el servidor.");
             boton.disabled = false;
+            boton.innerText = "VALIDAR";
         }
+    }
+
+    function cerrarSesion() {
+        sessionStorage.clear();
+        window.location.href = "identificacion.html";
     }
 
     window.onload = cargarDatos;
 </script>
+
 </body>
 </html>
