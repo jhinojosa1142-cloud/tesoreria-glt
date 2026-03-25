@@ -2,236 +2,217 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gran Tesorería | Panel Administrativo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <title>Gran Tesorería | Calculadora de Cargos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        :root {
-            --azul-fondo: #0a192f;
-            --azul-card: #112240;
-            --dorado: #f9e29b;
-            --dorado-osc: #c5a059;
-            --blanco: #e6f1ff;
-            --verde: #2ecc71;
-            --rojo: #e74c3c;
-        }
-
-        body {
-            font-family: 'Lora', serif;
-            background-color: var(--azul-fondo);
-            color: var(--blanco);
-            margin: 0;
-            padding: 20px;
-            background-image: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
-        }
-
-        .container { max-width: 1100px; margin: 0 auto; }
-
-        /* --- ENCABEZADO --- */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--dorado-osc);
-            padding-bottom: 20px;
-        }
-        .logo-encabezado { width: 100px; filter: drop-shadow(0 0 10px var(--dorado)); margin-bottom: 10px; }
-        h1 { font-family: 'Cinzel'; color: var(--dorado); font-size: 1.8rem; margin: 0; letter-spacing: 2px; }
-        .sub-titulo { font-family: 'Cinzel'; font-size: 0.8rem; color: var(--dorado-osc); letter-spacing: 4px; }
-
-        /* --- FORMULARIO DE CARGOS --- */
-        .admin-box {
-            background: var(--azul-card);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--dorado-osc);
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .admin-box h3 { font-family: 'Cinzel'; color: var(--dorado); margin-top: 0; font-size: 1rem; border-bottom: 1px solid rgba(197, 160, 89, 0.2); padding-bottom: 10px; }
+        :root { --azul: #0a192f; --azul-l: #112240; --dorado: #f9e29b; --dorado-osc: #c5a059; --verde: #2ecc71; --rojo: #e74c3c; --blanco: #e6f1ff; }
+        body { font-family: 'Lora', serif; background: var(--azul); color: var(--blanco); margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
         
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        input, select {
-            background: rgba(10, 25, 47, 0.8);
-            border: 1px solid var(--dorado-osc);
-            padding: 12px;
-            color: white;
-            border-radius: 6px;
-            outline: none;
-            font-family: 'Lora';
-        }
-
-        /* --- BOTONES --- */
-        .btn-primario { background: var(--dorado-osc); color: var(--azul-fondo); border: none; padding: 12px; border-radius: 6px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-primario:hover { background: var(--dorado); transform: translateY(-2px); }
+        header { text-align: center; border-bottom: 2px solid var(--dorado-osc); padding-bottom: 20px; margin-bottom: 30px; }
+        .logo { width: 80px; filter: drop-shadow(0 0 10px var(--dorado)); }
         
-        .btn-validar { background: var(--verde); color: var(--azul-fondo); border: none; padding: 8px 12px; border-radius: 4px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; font-size: 0.7rem; }
-        .btn-validar:hover { background: #27ae60; }
+        .admin-box { background: var(--azul-l); padding: 25px; border-radius: 12px; border: 1px solid var(--dorado-osc); margin-bottom: 30px; }
+        h3 { font-family: 'Cinzel'; color: var(--dorado); margin-top: 0; border-bottom: 1px solid rgba(197, 160, 89, 0.2); padding-bottom: 10px; }
 
-        /* --- TABLA --- */
-        .table-wrapper { background: var(--azul-card); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: rgba(197, 160, 89, 0.1); color: var(--dorado); padding: 15px; font-family: 'Cinzel'; font-size: 0.7rem; }
-        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+        .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .calc-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        label { display: block; font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-osc); margin-bottom: 8px; }
+        input, select { width: 90%; background: var(--azul); border: 1px solid var(--dorado-osc); padding: 10px; color: white; border-radius: 5px; outline: none; }
 
-        .status-pill { padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; font-family: 'Cinzel'; }
-        .mora { background: rgba(231, 76, 60, 0.1); color: var(--rojo); border: 1px solid var(--rojo); }
-        .aplomo { background: rgba(46, 204, 113, 0.1); color: var(--verde); border: 1px solid var(--verde); }
+        .total-preview { background: var(--dorado-osc); color: var(--azul); padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; }
+        .total-amount { font-size: 2rem; font-weight: bold; font-family: 'Cinzel'; }
 
-        .btn-logout { margin-top: 30px; display: inline-block; color: var(--dorado-osc); text-decoration: none; font-family: 'Cinzel'; font-size: 0.7rem; border: 1px solid var(--dorado-osc); padding: 10px 20px; border-radius: 5px; }
+        .btn-add { background: none; border: 1px dashed var(--dorado); color: var(--dorado); padding: 10px; cursor: pointer; width: 100%; margin-top: 10px; font-family: 'Cinzel'; font-size: 0.7rem; }
+        .btn-apply { background: var(--verde); color: var(--azul); border: none; padding: 15px; width: 100%; border-radius: 8px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1rem; }
+        
+        .extra-charge { display: flex; gap: 10px; margin-top: 10px; }
+        
+        table { width: 100%; border-collapse: collapse; background: var(--azul-l); border-radius: 10px; overflow: hidden; margin-top: 30px; }
+        th { background: rgba(197, 160, 89, 0.15); color: var(--dorado); padding: 15px; font-family: 'Cinzel'; font-size: 0.7rem; }
+        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <img src="logo_moderno.png" class="logo-encabezado">
-        <h1>OFICINA DE GRAN TESORERÍA</h1>
-        <div class="sub-titulo">Gestión de Cargos y Validación de Pagos</div>
+        <img src="logo_moderno.png" class="logo">
+        <h1>Calculadora de Gran Tesorería</h1>
     </header>
 
     <div class="admin-box">
-        <h3><i class="fas fa-plus-circle"></i> Nueva Orden de Cargo</h3>
-        <div class="form-grid">
-            <select id="selectLogia">
-                <option value="">Seleccionar Logia...</option>
-            </select>
-            <input type="text" id="conceptoCargo" placeholder="Concepto (Ej: Capitas, Iniciación)">
-            <input type="number" id="montoCargo" placeholder="Monto $">
-            <button class="btn-primario" onclick="aplicarCargo()">APLICAR CARGO</button>
+        <h3>Nueva Orden de Cargo Detallada</h3>
+        <div style="margin-bottom: 20px;">
+            <label>Seleccionar Logia Destino</label>
+            <select id="selectLogia" style="width: 100%;"></select>
         </div>
+
+        <div class="calc-grid">
+            <div class="calc-item">
+                <label>HH:. con Derecho a Post Mortem</label>
+                <input type="number" id="pm_con" value="0" oninput="calcularTotal()">
+            </div>
+            <div class="calc-item">
+                <label>HH:. sin Derecho a Post Mortem</label>
+                <input type="number" id="pm_sin" value="0" oninput="calcularTotal()">
+            </div>
+
+            <div class="calc-item">
+                <label>Iniciaciones (Cant.)</label>
+                <input type="number" id="grado_1" value="0" oninput="calcularTotal()">
+            </div>
+            <div class="calc-item">
+                <label>Aumentos (Cant.)</label>
+                <input type="number" id="grado_2" value="0" oninput="calcularTotal()">
+            </div>
+            <div class="calc-item">
+                <label>Exaltaciones (Cant.)</label>
+                <input type="number" id="grado_3" value="0" oninput="calcularTotal()">
+            </div>
+        </div>
+
+        <div id="extraChargesContainer">
+            </div>
+        <button class="btn-add" onclick="agregarCampoExtra()">+ AGREGAR OTRO CARGO (EXTRA)</button>
+
+        <div class="total-preview">
+            <span>RESUMEN TOTAL DEL CARGO</span>
+            <div class="total-amount" id="displayTotal">$0.00</div>
+            <div id="displayConcepto" style="font-size: 0.8rem; margin-top: 5px; opacity: 0.8;">Esperando datos...</div>
+        </div>
+
+        <button class="btn-apply" onclick="enviarCargoAlExcel()">APLICAR Y NOTIFICAR A LOGIA</button>
     </div>
 
-    <div class="table-wrapper">
-        <table>
+    <div style="overflow-x: auto;">
+        <table id="logiasTable">
             <thead>
                 <tr>
                     <th>Logia</th>
-                    <th>Mes</th>
-                    <th>Concepto Actual</th>
-                    <th>Saldo Pendiente</th>
                     <th>Estado</th>
+                    <th>Saldo</th>
+                    <th>Último Concepto</th>
                     <th>Acción</th>
                 </tr>
             </thead>
             <tbody id="tableContent"></tbody>
         </table>
     </div>
-
-    <center>
-        <a href="identificacion.html" class="btn-logout" onclick="sessionStorage.clear()">CERRAR SESIÓN SEGURA</a>
-    </center>
 </div>
 
 <script>
-    // --- CONFIGURACIÓN ---
-    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; 
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzokPx7OVMi9-RFxQ3xSBsQbuuffNu7BE-ssDcT2QCnIN0l81iazl7OXvUNvoa5SNW-_A/exec"; 
+    // --- COSTOS PREDEFINIDOS (Ajusta estos valores según tus leyes) ---
+    const COSTOS = { pm_con: 250, pm_sin: 150, iniciacion: 1200, aumento: 800, exaltacion: 1000 };
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzokPx7OVMi9-RFxQ3xSBsQbuuffNu7BE-ssDcT2QCnIN0l81iazl7OXvUNvoa5SNW-_A/exec";
 
-    function cargarDatos() {
-        Papa.parse(SHEET_CSV_URL, {
-            download: true,
-            header: true,
-            dynamicTyping: true,
-            complete: function(results) {
-                const data = results.data.filter(row => row.nombre_logia);
-                renderizar(data);
-                poblarSelector(data);
+    function agregarCampoExtra() {
+        const container = document.getElementById('extraChargesContainer');
+        const div = document.createElement('div');
+        div.className = 'extra-charge';
+        div.innerHTML = `
+            <input type="text" placeholder="Concepto Extra" class="extra-desc" oninput="calcularTotal()">
+            <input type="number" placeholder="Monto $" class="extra-monto" oninput="calcularTotal()">
+            <button onclick="this.parentElement.remove(); calcularTotal()" style="background:none; border:none; color:var(--rojo); cursor:pointer;">X</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function calcularTotal() {
+        let total = 0;
+        let descParts = [];
+
+        // Cálculos base
+        const val_pm_con = document.getElementById('pm_con').value * COSTOS.pm_con;
+        const val_pm_sin = document.getElementById('pm_sin').value * COSTOS.pm_sin;
+        const val_i = document.getElementById('grado_1').value * COSTOS.iniciacion;
+        const val_a = document.getElementById('grado_2').value * COSTOS.aumento;
+        const val_e = document.getElementById('grado_3').value * COSTOS.exaltacion;
+
+        if(val_pm_con > 0) { total += val_pm_con; descParts.push(`PM Con(${document.getElementById('pm_con').value})`); }
+        if(val_pm_sin > 0) { total += val_pm_sin; descParts.push(`PM Sin(${document.getElementById('pm_sin').value})`); }
+        if(val_i > 0) { total += val_i; descParts.push(`Iniciación(${document.getElementById('grado_1').value})`); }
+        if(val_a > 0) { total += val_a; descParts.push(`Aumento(${document.getElementById('grado_2').value})`); }
+        if(val_e > 0) { total += val_e; descParts.push(`Exaltación(${document.getElementById('grado_3').value})`); }
+
+        // Cargos extra
+        const extrasDesc = document.querySelectorAll('.extra-desc');
+        const extrasMonto = document.querySelectorAll('.extra-monto');
+        extrasDesc.forEach((input, index) => {
+            const m = parseFloat(extrasMonto[index].value) || 0;
+            if(m > 0) {
+                total += m;
+                descParts.push(`${input.value || 'Extra'}($${m})`);
+            }
+        });
+
+        document.getElementById('displayTotal').innerText = `$${total.toFixed(2)}`;
+        document.getElementById('displayConcepto').innerText = descParts.join(' + ') || "Sin cargos";
+        return { total, concepto: descParts.join(' + ') };
+    }
+
+    async function enviarCargoAlExcel() {
+        const logia = document.getElementById('selectLogia').value;
+        const { total, concepto } = calcularTotal();
+
+        if(!logia || total <= 0) return alert("Selecciona una logia y asegúrate que el total sea mayor a $0.");
+        if(!confirm(`¿Aplicar cargo total de $${total}? Se enviará correo a la Logia.`)) return;
+
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({
+                    accion: "CARGAR",
+                    usuario: logia,
+                    monto: total,
+                    concepto: concepto,
+                    mes: new Date().toLocaleString('es-MX', {month: 'long'}).toUpperCase()
+                })
+            });
+            alert("Cargo aplicado. La página se recargará.");
+            location.reload();
+        } catch(e) { alert("Error al procesar."); }
+    }
+
+    // --- CARGA DE DATOS INICIAL ---
+    function init() {
+        Papa.parse(CSV_URL, {
+            download: true, header: true, complete: function(r) {
+                const data = r.data.filter(x => x.nombre_logia);
+                const sel = document.getElementById('selectLogia');
+                const tbody = document.getElementById('tableContent');
+                data.forEach(l => {
+                    sel.add(new Option(l.nombre_logia, l.usuario));
+                    const esMora = parseFloat(l.saldo) > 0;
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${l.nombre_logia}</td>
+                            <td><span class="status-pill ${esMora?'mora':'aplomo'}">${esMora?'MORA':'APLOMO'}</span></td>
+                            <td>$${l.saldo}</td>
+                            <td style="font-size:0.7rem">${l.cargos}</td>
+                            <td>${esMora ? `<button onclick="validar('${l.usuario}')" style="background:var(--verde); border:none; border-radius:3px; cursor:pointer;">Validar</button>` : '✅'}</td>
+                        </tr>
+                    `;
+                });
             }
         });
     }
 
-    function renderizar(data) {
-        const tbody = document.getElementById('tableContent');
-        tbody.innerHTML = '';
-
-        data.forEach(item => {
-            const saldo = parseFloat(item.saldo || 0);
-            const tieneDeuda = saldo > 0;
-            const row = document.createElement('tr');
-
-            row.innerHTML = `
-                <td>
-                    <b>${item.nombre_logia}</b>
-                    <div style="font-size:0.7rem; color:var(--dorado-osc)">ID: ${item.usuario}</div>
-                </td>
-                <td>${item.mes_pago || '---'}</td>
-                <td style="font-size:0.8rem; font-style:italic;">${item.cargos || 'Sin cargos'}</td>
-                <td style="font-weight:bold; color:${tieneDeuda ? 'var(--rojo)' : 'var(--verde)'}">
-                    $${saldo.toLocaleString('en-US', {minimumFractionDigits: 2})}
-                </td>
-                <td>
-                    <span class="status-pill ${tieneDeuda ? 'mora' : 'aplomo'}">
-                        ${tieneDeuda ? 'EN MORA' : 'EN APLOMO'}
-                    </span>
-                </td>
-                <td>
-                    ${tieneDeuda ? 
-                        `<button class="btn-validar" onclick="enviarAccion('VALIDAR', '${item.usuario}')">VALIDAR</button>` : 
-                        '✅'}
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
+    async function validar(user) {
+        if(!confirm("¿Validar pago total?")) return;
+        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ accion: "VALIDAR", usuario: user }) });
+        location.reload();
     }
 
-    function poblarSelector(data) {
-        const select = document.getElementById('selectLogia');
-        select.innerHTML = '<option value="">Seleccionar Logia...</option>';
-        data.forEach(l => {
-            let opt = document.createElement('option');
-            opt.value = l.usuario;
-            opt.text = l.nombre_logia;
-            select.add(opt);
-        });
-    }
-
-    async function aplicarCargo() {
-        const user = document.getElementById('selectLogia').value;
-        const concepto = document.getElementById('conceptoCargo').value;
-        const monto = document.getElementById('montoCargo').value;
-        
-        if(!user || !monto || !concepto) return alert("Completa todos los campos del cargo.");
-        if(!confirm(`¿Aplicar cargo de $${monto} a esta logia?`)) return;
-
-        await enviarAccion('CARGAR', user, monto, concepto);
-    }
-
-    async function enviarAccion(tipo, idUsuario, monto = 0, concepto = "") {
-        const loadingMsg = tipo === 'VALIDAR' ? "Validando pago..." : "Aplicando cargo...";
-        console.log(loadingMsg);
-
-        try {
-            // Obtenemos el mes actual en español
-            const mesActual = new Date().toLocaleString('es-MX', {month: 'long'}).toUpperCase();
-
-            await fetch(APPS_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({ 
-                    accion: tipo, 
-                    usuario: idUsuario, 
-                    monto: monto, 
-                    concepto: concepto,
-                    mes: mesActual
-                })
-            });
-            
-            alert("Operación exitosa. La tabla se actualizará en breve.");
-            setTimeout(() => location.reload(), 2000);
-        } catch (e) {
-            alert("Error al conectar con el servidor.");
-        }
-    }
-
-    window.onload = cargarDatos;
+    window.onload = init;
 </script>
-
+<style>
+    .status-pill { padding: 4px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; }
+    .mora { background: rgba(231, 76, 60, 0.2); color: var(--rojo); border: 1px solid var(--rojo); }
+    .aplomo { background: rgba(46, 204, 113, 0.2); color: var(--verde); border: 1px solid var(--verde); }
+</style>
 </body>
 </html>
