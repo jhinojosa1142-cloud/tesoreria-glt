@@ -3,205 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gran Tesorería | Plataforma Hiram</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script><!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel del Gran Tesorero | Plataforma Hiram</title>
+    <title>Gran Tesorería | Control de Talleres</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <style>
-        :root {
-            --azul-maestro: #0a192f;
-            --azul-panel: #112240;
-            --dorado: #f9e29b;
-            --dorado-osc: #c5a059;
-            --blanco: #e6f1ff;
-            --verde-exito: #2ecc71;
-            --rojo-alerta: #e74c3c;
-        }
-
-        body {
-            font-family: 'Lora', serif;
-            background-color: var(--azul-maestro);
-            color: var(--blanco);
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container { max-width: 1100px; margin: 0 auto; }
-
-        header {
-            text-align: center;
-            border-bottom: 2px solid var(--dorado-osc);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-
-        .logo-glt { width: 80px; filter: drop-shadow(0 0 10px var(--dorado)); }
-        h1 { font-family: 'Cinzel'; color: var(--dorado); letter-spacing: 2px; margin: 10px 0; }
-        .cargo { font-family: 'Cinzel'; font-size: 0.8rem; color: var(--dorado-osc); letter-spacing: 5px; }
-
-        /* --- TARJETAS DE CONTROL GLOBAL --- */
-        .grid-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: var(--azul-panel);
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 5px solid var(--dorado-osc);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            text-align: center;
-        }
-
-        .stat-card h3 { font-family: 'Cinzel'; font-size: 0.75rem; margin: 0 0 10px; color: var(--dorado-osc); }
-        .stat-card .numero { font-size: 2.5rem; font-weight: bold; color: var(--blanco); }
-
-        /* --- FILTROS Y BÚSQUEDA --- */
-        .controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .search-bar {
-            flex: 2;
-            padding: 15px;
-            background: var(--azul-panel);
-            border: 1px solid var(--dorado-osc);
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        /* --- LISTADO DE LOGIAS --- */
-        .table-wrap {
-            background: var(--azul-panel);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-        }
-
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: rgba(197, 160, 89, 0.15); color: var(--dorado); padding: 20px; font-family: 'Cinzel'; font-size: 0.8rem; border-bottom: 2px solid var(--dorado-osc); }
-        td { padding: 18px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
-        .badge {
-            padding: 6px 12px;
-            border-radius: 5px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            font-family: 'Cinzel';
-        }
-
-        .status-ok { background: rgba(46, 204, 113, 0.2); color: var(--verde-exito); border: 1px solid var(--verde-exito); }
-        .status-mora { background: rgba(231, 76, 60, 0.2); color: var(--rojo-alerta); border: 1px solid var(--rojo-alerta); }
-
-        .btn-logout {
-            margin-top: 30px;
-            display: inline-block;
-            color: var(--dorado-osc);
-            text-decoration: none;
-            font-family: 'Cinzel';
-            font-size: 0.7rem;
-            border: 1px solid var(--dorado-osc);
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-
-        .btn-logout:hover { background: var(--dorado-osc); color: var(--azul-maestro); }
-
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <header>
-        <img src="logo_moderno.png" class="logo-glt">
-        <h1>OFICINA DE GRAN TESORERÍA</h1>
-        <div class="cargo">Control General de Talleres</div>
-    </header>
-
-    <div class="grid-stats">
-        <div class="stat-card">
-            <h3>Logias en la Jurisdicción</h3>
-            <div class="numero" id="val-total">0</div>
-        </div>
-        <div class="stat-card">
-            <h3>Talleres a Plomo</h3>
-            <div class="numero" id="val-aplomo" style="color: var(--verde-exito);">0</div>
-        </div>
-        <div class="stat-card">
-            <h3>Talleres en Mora</h3>
-            <div class="numero" id="val-mora" style="color: var(--rojo-alerta);">0</div>
-        </div>
-    </div>
-
-    <div class="controls">
-        <input type="text" id="filterInput" class="search-bar" placeholder="Buscar Logia por nombre o número..." onkeyup="searchLogia()">
-    </div>
-
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Logia Simbólica</th>
-                    <th>Nro.</th>
-                    <th>Estatus Financiero</th>
-                    <th>Última Capitación</th>
-                </tr>
-            </thead>
-            <tbody id="listaLogias">
-                </tbody>
-        </table>
-    </div>
-
-    <center>
-        <a href="identificacion.html" class="btn-logout" onclick="sessionStorage.clear()">SALIR DEL SISTEMA</a>
-    </center>
-</div>
-
-<script>
-    // Asegúrate de usar el link CSV de la pestaña donde llevas el control de las Logias
-    const CSV_URL = "TU_URL_DE_CSV_LOGIAS_AQUI";
-
-    function initTesorero() {
-        Papa.parse(CSV_URL, {
-            download: true,
-            header: true,
-            complete: function(results) {
-                const data = results.data.filter(r => r.logia_nombre);
-                renderTable(data);
-                processStats(data);
-            }
-        });
-    }
-
-    function renderTable(data) {
-        const table = document.getElementById('listaLogias');
-        table.innerHTML = '';
-
-        data.forEach(l => {
-            const row = document.createElement('tr');
-            const estatus = (l.estatus || "").toLowerCase();
-            const esValido = estatus === 'en aplomo' || estatus === 'pagado';
-            
-            const badgeClass = esValido ? 'status-ok' : 'status-mora';
-            const badgeText = esValido ? 'EN APLOMO' : 'EN MORA';
-
-            row.innerHTML = `
-                <td><b>${l.logia_nombre}</b></td>
-                <td>#${l.numero_log
     <style>
         :root {
             --azul-fondo: #0a192f;
@@ -249,7 +53,7 @@
             text-transform: uppercase;
         }
 
-        /* --- TARJETAS DE RESUMEN --- */
+        /* --- DASHBOARD STATS --- */
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -274,13 +78,9 @@
             margin-bottom: 10px;
         }
 
-        .stat-card .val { 
-            font-size: 2rem; 
-            font-weight: bold; 
-            color: var(--blanco); 
-        }
+        .stat-card .val { font-size: 2rem; font-weight: bold; color: var(--blanco); }
 
-        /* --- BUSCADOR --- */
+        /* --- CONTROLES --- */
         .search-container { margin-bottom: 20px; }
         .search-input {
             width: 100%;
@@ -294,7 +94,7 @@
             font-family: 'Lora';
         }
 
-        /* --- TABLA DE LOGIAS --- */
+        /* --- TABLA --- */
         .table-wrapper {
             background: var(--azul-card);
             border-radius: 12px;
@@ -308,7 +108,7 @@
             color: var(--dorado); 
             padding: 18px; 
             font-family: 'Cinzel'; 
-            font-size: 0.8rem; 
+            font-size: 0.75rem; 
             border-bottom: 1px solid var(--dorado-osc);
         }
         td { padding: 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
@@ -316,33 +116,41 @@
         .status-pill {
             padding: 6px 12px;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: bold;
             font-family: 'Cinzel';
-            display: inline-block;
         }
 
         .aplomo { background: rgba(46, 204, 113, 0.15); color: var(--verde); border: 1px solid var(--verde); }
         .mora { background: rgba(231, 76, 60, 0.15); color: var(--rojo); border: 1px solid var(--rojo); }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 1.4rem; }
-            td, th { padding: 12px; font-size: 0.8rem; }
+        .btn-salir {
+            margin-top: 30px;
+            display: inline-block;
+            color: var(--dorado-osc);
+            text-decoration: none;
+            font-family: 'Cinzel';
+            font-size: 0.7rem;
+            border: 1px solid var(--dorado-osc);
+            padding: 10px 25px;
+            border-radius: 5px;
+            transition: 0.3s;
         }
+        .btn-salir:hover { background: var(--dorado-osc); color: var(--azul-fondo); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <img src="logo_moderno.png" class="logo-glt" alt="Logo Gran Logia">
+        <img src="logo_moderno.png" class="logo-glt">
         <h1>Gran Tesorería</h1>
-        <div class="role-tag">Control de Logias Jurisdiccionadas</div>
+        <div class="role-tag">Control Financiero de Logias</div>
     </header>
 
     <div class="summary-grid">
         <div class="stat-card">
-            <span>Talleres Totales</span>
+            <span>Talleres en Lista</span>
             <div class="val" id="total-val">0</div>
         </div>
         <div class="stat-card">
@@ -356,36 +164,42 @@
     </div>
 
     <div class="search-container">
-        <input type="text" id="searchInput" class="search-input" placeholder="Buscar Logia por nombre o número..." onkeyup="filterTable()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar Logia por nombre o mes..." onkeyup="filterTable()">
     </div>
 
     <div class="table-wrapper">
         <table id="logiasTable">
             <thead>
                 <tr>
-                    <th>Nombre de la Logia</th>
-                    <th>Nro.</th>
-                    <th>Último Pago</th>
-                    <th>Estatus Oficial</th>
+                    <th>Logia Simbólica</th>
+                    <th>Mes Pagado</th>
+                    <th>Cargos</th>
+                    <th>Saldo Pendiente</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody id="tableContent">
                 </tbody>
         </table>
     </div>
+
+    <center>
+        <a href="identificacion.html" class="btn-salir" onclick="sessionStorage.clear()">CERRAR SESIÓN SEGURA</a>
+    </center>
 </div>
 
 <script>
-    // URL del CSV con el listado de Logias y sus estatus
-    const SHEET_URL = "URL_DE_TU_CSV_DE_LOGIAS_AQUI";
+    // URL CSV de la pestaña Sheet1
+    const SHEET1_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv";
 
-    function loadData() {
-        Papa.parse(SHEET_URL, {
+    function loadSheetData() {
+        Papa.parse(SHEET1_CSV_URL, {
             download: true,
             header: true,
+            dynamicTyping: true,
             skipEmptyLines: true,
             complete: function(results) {
-                const data = results.data;
+                const data = results.data.filter(row => row.nombre_logia);
                 renderTable(data);
                 updateStats(data);
             }
@@ -397,19 +211,25 @@
         tbody.innerHTML = '';
 
         data.forEach(item => {
-            if(!item.logia_nombre) return;
-
             const row = document.createElement('tr');
-            const estatus = (item.estatus || "").toLowerCase();
-            const isAplomo = estatus === 'en aplomo' || estatus === 'pagado';
             
-            const badgeClass = isAplomo ? 'aplomo' : 'mora';
-            const badgeText = isAplomo ? 'EN APLOMO' : 'EN MORA';
+            // Lógica basada en SALDO
+            const saldoNum = parseFloat(item.saldo || 0);
+            const tieneDeuda = saldoNum > 0;
+            
+            const badgeClass = tieneDeuda ? 'mora' : 'aplomo';
+            const badgeText = tieneDeuda ? 'EN MORA' : 'EN APLOMO';
 
             row.innerHTML = `
-                <td><b>${item.logia_nombre}</b></td>
-                <td>#${item.numero_logia || '--'}</td>
-                <td>${item.fecha_ultimo_pago || 'Sin registro'}</td>
+                <td>
+                    <div style="font-weight:bold; color:var(--dorado)">${item.nombre_logia}</div>
+                    <div style="font-size:0.75rem; color:var(--dorado-osc)">Usuario: ${item.usuario}</div>
+                </td>
+                <td>${item.mes_pago || 'N/A'}</td>
+                <td>$${parseFloat(item.cargos || 0).toLocaleString()}</td>
+                <td style="color: ${tieneDeuda ? 'var(--rojo)' : 'var(--verde)'}; font-weight:bold;">
+                    $${saldoNum.toLocaleString()}
+                </td>
                 <td><span class="status-pill ${badgeClass}">${badgeText}</span></td>
             `;
             tbody.appendChild(row);
@@ -417,15 +237,13 @@
     }
 
     function updateStats(data) {
-        const total = data.filter(i => i.logia_nombre).length;
-        const aplomo = data.filter(i => {
-            const e = (i.estatus || "").toLowerCase();
-            return e === 'en aplomo' || e === 'pagado';
-        }).length;
+        const total = data.length;
+        const mora = data.filter(i => parseFloat(i.saldo || 0) > 0).length;
+        const aplomo = total - mora;
 
         document.getElementById('total-val').innerText = total;
         document.getElementById('aplomo-val').innerText = aplomo;
-        document.getElementById('mora-val').innerText = total - aplomo;
+        document.getElementById('mora-val').innerText = mora;
     }
 
     function filterTable() {
@@ -438,7 +256,7 @@
         }
     }
 
-    window.onload = loadData;
+    window.onload = loadSheetData;
 </script>
 
 </body>
