@@ -3,191 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gran Tesorería | Panel Administrativo</title>
+    <title>Tesorería | Archivum Digitalis</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        :root { --azul: #0a192f; --azul-l: #112240; --dorado: #f9e29b; --dorado-osc: #c5a059; --verde: #2ecc71; --rojo: #e74c3c; --blanco: #e6f1ff; }
-        body { font-family: 'Lora', serif; background: var(--azul); color: var(--blanco); margin: 0; padding: 20px; }
-        .container { max-width: 1100px; margin: 0 auto; }
-        header { text-align: center; border-bottom: 2px solid var(--dorado-osc); padding-bottom: 20px; margin-bottom: 30px; }
-        .logo { width: 80px; filter: drop-shadow(0 0 10px var(--dorado)); }
-        .admin-box { background: var(--azul-l); padding: 25px; border-radius: 12px; border: 1px solid var(--dorado-osc); margin-bottom: 30px; }
-        h3 { font-family: 'Cinzel'; color: var(--dorado); margin-top: 0; }
-        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
-        .calc-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
-        label { display: block; font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-osc); margin-bottom: 8px; }
-        input, select { width: 90%; background: var(--azul); border: 1px solid var(--dorado-osc); padding: 10px; color: white; border-radius: 5px; outline: none; }
-        .total-preview { background: var(--dorado-osc); color: var(--azul); padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; }
-        .total-amount { font-size: 1.8rem; font-weight: bold; font-family: 'Cinzel'; }
-        .btn-apply { background: var(--dorado-osc); color: var(--azul); border: none; padding: 15px; width: 100%; border-radius: 8px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
-        .btn-apply:hover { background: var(--dorado); transform: scale(1.01); }
-        table { width: 100%; border-collapse: collapse; background: var(--azul-l); margin-top: 30px; border-radius: 8px; overflow: hidden; }
-        th { background: rgba(197, 160, 89, 0.15); color: var(--dorado); padding: 12px; font-family: 'Cinzel'; font-size: 0.7rem; }
-        td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 0.85rem; }
-        .status-pill { padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; font-family: 'Cinzel'; }
-        .mora { background: rgba(231, 76, 60, 0.2); color: var(--rojo); border: 1px solid var(--rojo); }
-        .aplomo { background: rgba(46, 204, 113, 0.2); color: var(--verde); border: 1px solid var(--verde); }
+        :root { 
+            --azul: #0a192f; --azul-l: #112240; --dorado: #f9e29b; 
+            --dorado-osc: #c5a059; --blanco: #e6f1ff; --rojo: #ff4d4d; --verde: #2ecc71;
+        }
+
+        body { 
+            font-family: 'Lora', serif; background: var(--azul); 
+            color: var(--blanco); margin: 0; padding: 20px; padding-top: 80px;
+        }
+
+        h1, h2 { font-family: 'Cinzel'; color: var(--dorado); letter-spacing: 2px; text-align: center; }
+
+        /* --- SIDEBAR & NAV --- */
+        .sidebar { height: 100%; width: 0; position: fixed; z-index: 2000; top: 0; left: 0; background-color: var(--azul-l); overflow-x: hidden; transition: 0.5s; padding-top: 60px; border-right: 2px solid var(--dorado-osc); }
+        .sidebar a { padding: 15px 30px; text-decoration: none; font-size: 0.9rem; color: var(--dorado); display: block; transition: 0.3s; font-family: 'Cinzel'; }
+        .sidebar a:hover { background: rgba(197, 160, 89, 0.1); color: white; }
+        .sidebar .closebtn { position: absolute; top: 0; right: 25px; font-size: 36px; }
+        .openbtn { font-size: 18px; cursor: pointer; background: var(--azul-l); color: var(--dorado); padding: 10px 15px; border: 1px solid var(--dorado-osc); position: fixed; top: 20px; left: 20px; border-radius: 5px; z-index: 1000; font-family: 'Cinzel'; }
+        .btn-logout { position: fixed; top: 20px; right: 20px; background: var(--rojo); color: white; border: none; padding: 10px 15px; border-radius: 5px; font-family: 'Cinzel'; font-size: 0.7rem; cursor: pointer; z-index: 1001; }
+
+        /* --- CONTENEDORES --- */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--azul-l); padding: 20px; border: 1px solid var(--dorado-osc); border-radius: 10px; text-align: center; }
+        .stat-card h3 { margin: 0; font-size: 0.8rem; color: var(--dorado-osc); font-family: 'Cinzel'; }
+        .stat-card p { margin: 10px 0 0; font-size: 1.5rem; font-weight: bold; color: var(--dorado); }
+
+        /* --- TABLA --- */
+        .search-container { margin-bottom: 20px; text-align: center; }
+        #searchInput { width: 80%; padding: 12px; border-radius: 5px; border: 1px solid var(--dorado-osc); background: var(--azul-l); color: white; font-family: 'Lora'; }
+        
+        table { width: 100%; border-collapse: collapse; background: var(--azul-l); border-radius: 10px; overflow: hidden; }
+        th { background: var(--dorado-osc); color: var(--azul); font-family: 'Cinzel'; padding: 15px; font-size: 0.8rem; }
+        td { padding: 12px; border-bottom: 1px solid rgba(197,160,89,0.1); text-align: center; font-size: 0.9rem; }
+        .status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.7rem; font-weight: bold; font-family: 'Cinzel'; }
+        .bg-ok { background: rgba(46, 204, 113, 0.2); color: var(--verde); }
+        .bg-alert { background: rgba(255, 77, 77, 0.2); color: var(--rojo); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <img src="logo_moderno.png" class="logo" alt="Logo">
-        <h1>Gran Tesorería | Panel Administrativo</h1>
-    </header>
-
-    <div class="admin-box">
-        <h3>Generar Nuevo Cargo</h3>
-        <div style="margin-bottom: 20px;">
-            <label>Seleccionar Logia (Auto-carga desde Padrón)</label>
-            <select id="selectLogia" onchange="autoLlenarPadron()"></select>
-        </div>
-
-        <div class="calc-grid">
-            <div class="calc-item"><label>HH:. con Derecho</label><input type="number" id="pm_con" value="0" oninput="calcularTotal()"></div>
-            <div class="calc-item"><label>HH:. sin Derecho</label><input type="number" id="pm_sin" value="0" oninput="calcularTotal()"></div>
-            <div class="calc-item"><label>Iniciaciones</label><input type="number" id="grado_1" value="0" oninput="calcularTotal()"></div>
-            <div class="calc-item"><label>Aumentos</label><input type="number" id="grado_2" value="0" oninput="calcularTotal()"></div>
-            <div class="calc-item"><label>Exaltaciones</label><input type="number" id="grado_3" value="0" oninput="calcularTotal()"></div>
-            <div class="calc-item" style="border: 1px solid var(--dorado-osc);">
-                <label>Concepto Extra / Monto</label>
-                <input type="text" id="extra_concepto" placeholder="Ej: Mandiles" oninput="calcularTotal()" style="margin-bottom:5px; width:85%">
-                <input type="number" id="extra_monto" value="0" oninput="calcularTotal()">
-            </div>
-        </div>
-
-        <div class="total-preview">
-            <div class="total-amount" id="displayTotal">$0.00</div>
-            <div id="displayConcepto" style="font-size: 0.75rem; margin-top: 5px; opacity: 0.8;">Esperando selección...</div>
-        </div>
-
-        <button class="btn-apply" onclick="enviarCargo()">APLICAR CARGO A LOGIA</button>
-    </div>
-
-    <table>
-        <thead><tr><th>Logia</th><th>Estado</th><th>Saldo Actual</th><th>Último Detalle</th><th>Acción</th></tr></thead>
-        <tbody id="tableContent"></tbody>
-    </table>
-
-    <center><a href="identificacion.html" onclick="sessionStorage.clear()" style="color:var(--dorado-osc); font-family:'Cinzel'; font-size:0.7rem; text-decoration:none; border:1px solid; padding:10px; margin-top:30px; display:inline-block; border-radius:5px;">Cerrar Sesión Segura</a></center>
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="pasaporte.html">Mi Pasaporte</a>
+  <a href="secretario.html" id="linkSec" style="display:none;">Secretaría</a>
+  <a href="tesorero.html" id="linkTes">Tesorería</a>
+  <hr style="opacity:0.2">
+  <a href="#" onclick="cerrarSesion()" style="color:var(--rojo);">Cerrar Sesión</a>
 </div>
 
+<button class="openbtn" onclick="openNav()">&#9776; MENÚ</button>
+<button class="btn-logout" onclick="cerrarSesion()">CERRAR SESIÓN</button>
+
+<h1>PANEL DE TESORERÍA</h1>
+<p style="text-align:center; font-family:'Cinzel'; font-size:0.7rem; color:var(--dorado-osc);">GESTIÓN FINANCIERA - GRAN LOGIA DE TAMAULIPAS</p>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>HERMANOS AL CORRIENTE</h3>
+        <p id="totalOk">0</p>
+    </div>
+    <div class="stat-card">
+        <h3>EN MORA</h3>
+        <p id="totalMora" style="color:var(--rojo)">0</p>
+    </div>
+</div>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Buscar hermano por nombre o ID..." onkeyup="filtrarTabla()">
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID MASÓNICO</th>
+            <th>NOMBRE COMPLETO</th>
+            <th>LOGIA</th>
+            <th>ÚLTIMO PAGO</th>
+            <th>ESTADO CUENTA</th>
+        </tr>
+    </thead>
+    <tbody id="cuerpoTesorería">
+        </tbody>
+</table>
+
 <script>
-    // --- CONFIGURACIÓN DE RUTAS ---
-    const COSTOS = { pm_con: 250, pm_sin: 150, iniciacion: 1200, aumento: 800, exaltacion: 1000 };
-    const CSV_SALDOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; 
-    const CSV_PADRON = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=12481841&single=true&output=csv"; 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwaveXszk1SZ83r0kZTYZjgrXIYvtC2gI_DBv42lYWiO-Q3qtWsklaNdaTgngb-fkwugA/exec";
+    // --- CONFIGURACIÓN ---
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=838211030&single=true&output=csv"; // URL de tu Google Sheet (Membresia)
 
-    let datosPadron = [];
+    window.onload = function() {
+        // Protección de Ruta
+        const rol = sessionStorage.getItem("rolUsuario");
+        if (rol !== "Tesorero" && rol !== "Secretario") {
+            alert("Acceso Restringido a Tesorería.");
+            window.location.href = "identificacion.html";
+        }
+        if (rol === "Secretario") {
+            document.getElementById("linkSec").style.display = "block";
+        }
+        cargarFinanzas();
+    };
 
-    function init() {
-        Papa.parse(CSV_PADRON, { download: true, header: true, complete: function(r) {
-            datosPadron = r.data;
-            cargarSaldos();
-        }});
-    }
+    function cargarFinanzas() {
+        Papa.parse(CSV_URL, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                const cuerpo = document.getElementById('cuerpoTesorería');
+                const data = results.data;
+                cuerpo.innerHTML = "";
+                
+                let okCount = 0;
+                let moraCount = 0;
 
-    function cargarSaldos() {
-        Papa.parse(CSV_SALDOS, { download: true, header: true, complete: function(r) {
-            const data = r.data.filter(x => x.nombre_logia);
-            const sel = document.getElementById('selectLogia');
-            const tbody = document.getElementById('tableContent');
-            sel.innerHTML = '<option value="">-- Buscar Logia --</option>';
-            tbody.innerHTML = '';
+                data.forEach(h => {
+                    // Lógica simple: Si la columna "Estado" (Col H) dice "ACTIVO" se considera al corriente para este ejemplo
+                    // Puedes cambiar esto por una columna de "Deuda" si la tienes
+                    const estadoFinanciero = (h.Estado || h.estado || "ACTIVO").toUpperCase();
+                    const esMora = estadoFinanciero === "MOROSO" || estadoFinanciero === "SUSPENDIDO";
+                    
+                    if (esMora) moraCount++; else okCount++;
 
-            data.forEach(l => {
-                sel.add(new Option(l.nombre_logia, l.usuario));
-                const saldo = parseFloat(l.saldo || 0);
-                const esMora = saldo > 0;
-                tbody.innerHTML += `
-                    <tr>
-                        <td><b>${l.nombre_logia}</b></td>
-                        <td><span class="status-pill ${esMora?'mora':'aplomo'}">${esMora?'EN MORA':'AL CORRIENTE'}</span></td>
-                        <td style="font-weight:bold; color:${esMora?'var(--rojo)':'var(--verde)'}">$${saldo.toLocaleString('en-US', {minimumFractionDigits:2})}</td>
-                        <td style="font-size:0.65rem; text-align:left;">${l.cargos || '---'}</td>
+                    const row = `<tr>
+                        <td>${h.ID_Masonico || "---"}</td>
+                        <td style="text-align:left">${h.Nombre || "---"}</td>
+                        <td>${h.Logia || "---"}</td>
+                        <td>${h.Fecha_Iniciacion || "No reg."}</td>
                         <td>
-                            <button onclick="validarPago('${l.usuario}', ${saldo})" style="background:var(--verde); border:none; padding:6px 10px; border-radius:4px; cursor:pointer; font-weight:bold; font-family:'Cinzel'; font-size:0.65rem; color:var(--azul);">VALIDAR PAGO</button>
+                            <span class="status-badge ${esMora ? 'bg-alert' : 'bg-ok'}">
+                                ${esMora ? 'PENDIENTE' : 'AL CORRIENTE'}
+                            </span>
                         </td>
                     </tr>`;
-            });
-        }});
-    }
+                    cuerpo.innerHTML += row;
+                });
 
-    function autoLlenarPadron() {
-        const sel = document.getElementById('selectLogia');
-        const nombreLogia = sel.options[sel.selectedIndex].text;
-        const logiaInfo = datosPadron.find(p => p.Nombre_Logia === nombreLogia);
-        if (logiaInfo) {
-            document.getElementById('pm_con').value = logiaInfo.Hermanos_Con || 0;
-            document.getElementById('pm_sin').value = logiaInfo.Hermanos_Sin || 0;
-            calcularTotal();
-        }
-    }
-
-    function calcularTotal() {
-        const n = [
-            document.getElementById('pm_con').value, 
-            document.getElementById('pm_sin').value, 
-            document.getElementById('grado_1').value, 
-            document.getElementById('grado_2').value, 
-            document.getElementById('grado_3').value
-        ];
-        const extraM = parseFloat(document.getElementById('extra_monto').value) || 0;
-        const extraC = document.getElementById('extra_concepto').value;
-
-        const total = (n[0]*COSTOS.pm_con) + (n[1]*COSTOS.pm_sin) + (n[2]*COSTOS.iniciacion) + (n[3]*COSTOS.aumento) + (n[4]*COSTOS.exaltacion) + extraM;
-        
-        let concepto = `Cápitas(C:${n[0]}, S:${n[1]})`;
-        if(n[2]>0||n[3]>0||n[4]>0) concepto += ` + Grados(I:${n[2]}, A:${n[3]}, E:${n[4]})`;
-        if(extraM > 0) concepto += ` + ${extraC || 'Extra'}($${extraM})`;
-
-        document.getElementById('displayTotal').innerText = `$${total.toLocaleString('en-US',{minimumFractionDigits:2})}`;
-        document.getElementById('displayConcepto').innerText = concepto;
-        return { total, concepto };
-    }
-
-    async function enviarCargo() {
-        const user = document.getElementById('selectLogia').value;
-        const { total, concepto } = calcularTotal();
-        if(!user || total <= 0) return alert("Seleccione logia y verifique el monto.");
-        if(!confirm(`¿Aplicar cargo de $${total}?`)) return;
-
-        await llamarScript({ 
-            accion: "CARGAR", 
-            usuario: user, 
-            monto: total, 
-            concepto: concepto, 
-            mes: new Date().toLocaleString('es-MX',{month:'long'}).toUpperCase() 
+                document.getElementById('totalOk').innerText = okCount;
+                document.getElementById('totalMora').innerText = moraCount;
+            }
         });
     }
 
-    async function validarPago(user, saldoActual) {
-        let montoRecibido = prompt(`Saldo total: $${saldoActual}\n\nIngrese la cantidad recibida:`, saldoActual);
-        if (montoRecibido === null || montoRecibido === "") return;
-        
-        montoRecibido = parseFloat(montoRecibido);
-        if (isNaN(montoRecibido) || montoRecibido <= 0) return alert("Monto no válido.");
-        
-        const nuevoSaldo = saldoActual - montoRecibido;
-        const mensaje = nuevoSaldo <= 0 ? "PAGO COMPLETO" : `PAGO PARCIAL (Resta $${nuevoSaldo.toFixed(2)})`;
+    // --- NAVEGACIÓN ---
+    function openNav() { document.getElementById("mySidebar").style.width = "250px"; }
+    function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+    function cerrarSesion() { sessionStorage.clear(); window.location.href = "identificacion.html"; }
 
-        if(confirm(`Se descontarán $${montoRecibido} del saldo.\n\nNuevo saldo: $${nuevoSaldo < 0 ? 0 : nuevoSaldo.toFixed(2)}\n¿Proceder?`)) {
-            await llamarScript({ accion: "VALIDAR", usuario: user, monto: montoRecibido, concepto: mensaje });
+    function filtrarTabla() {
+        const input = document.getElementById("searchInput").value.toUpperCase();
+        const tr = document.getElementById("cuerpoTesorería").getElementsByTagName("tr");
+        for (let i = 0; i < tr.length; i++) {
+            const txt = tr[i].textContent || tr[i].innerText;
+            tr[i].style.display = txt.toUpperCase().indexOf(input) > -1 ? "" : "none";
         }
     }
-
-    async function llamarScript(datos) {
-        try {
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) });
-            alert("Operación realizada con éxito.");
-            location.reload();
-        } catch(e) { alert("Error de conexión."); }
-    }
-
-    window.onload = init;
 </script>
+
 </body>
 </html>
