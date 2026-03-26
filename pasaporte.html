@@ -3,254 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pasaporte Digital | Gran Logia de Tamaulipas</title>
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Hiram App">
-    <link rel="apple-touch-icon" href="logo_moderno.png">
-    
+    <title>Pasaporte Masónico Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        :root {
-            --azul-profundo: #0a192f;
-            --azul-tarjeta: #112240;
-            --dorado: #f9e29b;
-            --dorado-oscuro: #c5a059;
-            --blanco: #e6f1ff;
+        :root { 
+            --azul: #0a192f; --azul-l: #112240; --dorado: #f9e29b; 
+            --dorado-osc: #c5a059; --blanco: #e6f1ff; 
         }
 
-        body {
-            font-family: 'Lora', serif;
-            background-color: var(--azul-profundo);
-            color: var(--blanco);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            background-image: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
+        body { 
+            font-family: 'Lora', serif; background: var(--azul); 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; margin: 0; color: var(--blanco);
         }
 
-        /* --- CREDENCIAL --- */
-        .credencial {
-            width: 100%;
-            max-width: 340px;
-            background: linear-gradient(135deg, #112240 0%, #0a192f 100%);
-            border: 2px solid var(--dorado-oscuro);
-            border-radius: 20px;
-            padding: 30px 25px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        /* Estilo de la Credencial */
+        .card {
+            width: 350px; height: 550px; background: var(--azul-l);
+            border: 3px solid var(--dorado-osc); border-radius: 20px;
+            position: relative; overflow: hidden; box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            text-align: center; padding: 20px;
+            background-image: radial-gradient(circle at 50% 50%, rgba(197,160,89,0.05) 0%, transparent 80%);
         }
 
-        .header {
-            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-            padding-bottom: 12px;
-            margin-bottom: 20px;
+        .card::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: repeating-linear-gradient(45deg, transparent, transparent 1px, rgba(197,160,89,0.02) 1px, rgba(197,160,89,0.02) 2px);
+            pointer-events: none;
         }
 
-        .logo-glt { width: 60px; filter: drop-shadow(0 0 5px var(--dorado)); }
+        .header-logo { width: 70px; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--dorado)); }
         
-        h2 { 
-            font-family: 'Cinzel'; 
-            font-size: 0.8rem; 
-            color: var(--dorado); 
-            margin: 8px 0 0;
-            letter-spacing: 1.5px;
-            line-height: 1.3;
+        h1 { font-family: 'Cinzel'; font-size: 1.2rem; color: var(--dorado); margin: 0; letter-spacing: 2px; }
+        h2 { font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-osc); margin: 5px 0 20px; letter-spacing: 1px; }
+
+        .photo-frame {
+            width: 140px; height: 160px; margin: 0 auto 15px;
+            border: 2px solid var(--dorado-osc); border-radius: 10px;
+            background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center;
+        }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        .member-name { font-family: 'Cinzel'; font-size: 1.1rem; color: #fff; margin: 10px 0 5px; text-transform: uppercase; }
+        .member-info { font-size: 0.85rem; color: var(--dorado-osc); margin-bottom: 15px; }
+
+        .qr-area {
+            background: #fff; width: 120px; height: 120px; margin: 20px auto;
+            padding: 10px; border-radius: 10px; border: 2px solid var(--dorado-osc);
+        }
+        .qr-area img { width: 100%; height: 100%; }
+
+        .id-badge {
+            font-family: 'Cinzel'; font-size: 0.8rem; background: var(--dorado-osc);
+            color: var(--azul); padding: 5px 15px; border-radius: 20px; font-weight: bold;
         }
 
-        /* --- FOTOGRAFÍA --- */
-        .foto-wrap {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            border: 3px solid var(--dorado-oscuro);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            overflow: hidden;
-            background-color: var(--azul-profundo);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .status { margin-top: 15px; font-size: 0.7rem; letter-spacing: 2px; color: #2ecc71; font-weight: bold; }
 
-        .foto-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-        }
-
-        .no-foto-icon {
-            font-size: 4rem;
-            color: var(--dorado-oscuro);
-            opacity: 0.5;
-        }
-
-        .nombre-hermano { 
-            font-family: 'Cinzel'; 
-            font-size: 1.25rem; 
-            color: white; 
-            margin: 10px 0 2px; 
-            text-transform: uppercase;
-        }
-
-        .grado-hermano {
-            font-family: 'Cinzel';
-            font-size: 0.9rem;
-            color: var(--dorado);
-            font-weight: bold;
-            margin-bottom: 5px;
-            letter-spacing: 1.2px;
-        }
-
-        .afiliacion-hermano {
-            font-family: 'Cinzel';
-            font-size: 0.75rem;
-            color: var(--blanco);
-            background: rgba(197, 160, 89, 0.15);
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 4px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            letter-spacing: 1px;
-        }
-
-        .logia-hermano { 
-            font-size: 0.8rem; 
-            color: var(--dorado-oscuro); 
-            margin-bottom: 15px; 
-            letter-spacing: 1px;
-        }
-
-        #qrcode {
-            background: white;
-            padding: 10px;
-            display: inline-block;
-            border-radius: 12px;
-            margin: 10px 0;
-            border: 2px solid var(--dorado-oscuro);
-        }
-
-        /* --- BOTONES DE ACCIÓN --- */
-        .acciones { margin-top: 30px; width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
-        
-        .btn-action { 
-            padding: 14px; 
-            border-radius: 8px; 
-            text-decoration: none; 
-            font-family: 'Cinzel'; 
-            font-size: 0.75rem; 
-            font-weight: bold; 
-            text-align: center; 
-            transition: 0.3s; 
-            cursor: pointer; 
-        }
-
-        .btn-descargar { background: var(--dorado-oscuro); color: var(--azul-profundo); border: none; }
-        .btn-descargar:hover { background: var(--dorado); transform: translateY(-2px); }
-        
-        .btn-salir { color: var(--dorado-oscuro); border: 1px solid var(--dorado-oscuro); }
-        .btn-salir:hover { background: rgba(197, 160, 89, 0.1); }
-
-        @media print {
-            .acciones { display: none; }
-            body { background: white; padding: 0; }
-            .credencial { border: none; box-shadow: none; margin: 0 auto; -webkit-print-color-adjust: exact; }
-        }
+        /* Pantalla de carga */
+        #loader { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--azul); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10; }
     </style>
 </head>
 <body>
 
-    <div class="credencial">
-        <div class="header">
-            <img src="logo_moderno.png" alt="Logo GLT" class="logo-glt">
-            <h2>MUY RESPETABLE GRAN LOGIA<br>DE TAMAULIPAS</h2>
-        </div>
+<div class="card">
+    <div id="loader">
+        <h2 style="color:var(--dorado)">Buscando en Archivum...</h2>
+        <p style="font-size:0.7rem">Validando Identidad Masónica</p>
+    </div>
 
-        <div class="foto-wrap">
-            <img src="" alt="Foto Hermano" id="disp-foto" class="foto-img">
-            <div id="disp-no-foto" class="no-foto-icon">👤</div>
-        </div>
+    <img src="logo_moderno.png" class="header-logo">
+    <h1>GRAN LOGIA DE TAMAULIPAS</h1>
+    <h2>PASAPORTE MASÓNICO DIGITAL</h2>
 
-        <div class="nombre-hermano" id="disp-nombre">Cargando...</div>
-        <div class="grado-hermano" id="disp-grado">---</div>
+    <div class="photo-frame">
+        <img src="https://via.placeholder.com/140x160?text=FOTO+H:." id="h_foto">
+    </div>
+
+    <div class="member-name" id="h_nombre">Cargando...</div>
+    <div class="member-info">
+        <span id="h_grado">Grado</span> | <span id="h_logia">Logia</span>
+    </div>
+
+    <div class="id-badge" id="h_id">---</div>
+
+    <div class="qr-area">
+        <img id="h_qr" src="">
+    </div>
+
+    <div class="status">● MIEMBRO ACTIVO</div>
+</div>
+
+<script>
+    // --- MISMA CONFIGURACIÓN QUE SECRETARIO ---
+    const CSV_MEMBRESIA = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=838211030&single=true&output=csv";
+
+    function getParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    function init() {
+        const idBuscado = getParam('id'); // Obtiene el ID de la URL: pasaporte.html?id=GL-123
+
+        if (!idBuscado) {
+            document.getElementById('loader').innerHTML = "<h2 style='color:var(--dorado)'>ID NO PROPORCIONADO</h2><p>Escanee un código válido.</p>";
+            return;
+        }
+
+        Papa.parse(CSV_MEMBRESIA, {
+            download: true,
+            header: true,
+            complete: function(results) {
+                const padron = results.data;
+                // Buscamos al hermano por su ID (mapeo universal)
+                const hermano = padron.find(h => {
+                    const idOriginal = h.ID_Masonico || h.id_masonico || h.ID || h["ID Masónico"] || "";
+                    return idOriginal.toString().trim() === idBuscado.trim();
+                });
+
+                if (hermano) {
+                    mostrarDatos(hermano);
+                } else {
+                    document.getElementById('loader').innerHTML = "<h2 style='color:var(--dorado)'>HERMANO NO ENCONTRADO</h2><p>El ID no coincide con el padrón.</p>";
+                }
+            }
+        });
+    }
+
+    function mostrarDatos(h) {
+        // Mapeo de datos
+        const nombre = h.Nombre || h.nombre || h.NOMBRE || "Desconocido";
+        const gradoNum = h.Grado || h.grado || "1";
+        const logia = h.Logia || h.logia || "Logia No Definida";
+        const id = h.ID_Masonico || h.id_masonico || h.ID || h["ID Masónico"] || "---";
+
+        // Traducir grado numérico a texto
+        const gradosTexto = { "1": "Aprendiz Masón", "2": "Compañero Masón", "3": "Maestro Masón" };
         
-        <div class="afiliacion-hermano" id="disp-id">ID: 0000</div>
+        // Inyectar en HTML
+        document.getElementById('h_nombre').innerText = nombre;
+        document.getElementById('h_grado').innerText = gradosTexto[gradoNum] || "Maestro Masón";
+        document.getElementById('h_logia').innerText = logia;
+        document.getElementById('h_id').innerText = id;
+        
+        // Generar QR interno (con el ID)
+        const qrUrl = `https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=${encodeURIComponent(id)}&choe=UTF-8`;
+        document.getElementById('h_qr').src = qrUrl;
 
-        <div class="logia-hermano" id="disp-logia">---</div>
+        // Ocultar cargador
+        document.getElementById('loader').style.display = 'none';
+    }
 
-        <div id="qrcode"></div>
-
-        <div style="margin-top: 20px; font-size: 0.6rem; color: var(--dorado-oscuro); letter-spacing: 3px; font-weight: bold;">
-            S.·. F.·. U.·.
-        </div>
-    </div>
-
-    <div class="acciones">
-        <a href="javascript:void(0)" class="btn-action btn-descargar" onclick="window.print()"> 
-            📥 GUARDAR / IMPRIMIR CREDENCIAL 
-        </a>
-        <a href="index.html" class="btn-action btn-salir" onclick="sessionStorage.clear()"> 
-            CERRAR SESIÓN SEGURA 
-        </a>
-    </div>
-
-    <script>
-        window.onload = function() {
-            const data = JSON.parse(sessionStorage.getItem('hermanoValidado'));
-
-            if (!data) {
-                window.location.href = "identificacion.html";
-                return;
-            }
-
-            // Datos principales
-            document.getElementById('disp-nombre').innerText = data.nombre_completo || "HERMANO";
-            document.getElementById('disp-grado').innerText = data.grado || "SIN GRADO";
-            
-            // ID de Afiliación
-            const idVal = data.numero_afiliacion || "0000";
-            document.getElementById('disp-id').innerText = `AFILIACIÓN: ${idVal}`;
-
-            // Lógica de Logia
-            let nomLogia = data.logia_nombre || "Logia";
-            let numLogia = data.numero_logia ? data.numero_logia.toString().trim() : "";
-            if (numLogia !== "" && numLogia !== "0" && numLogia !== "undefined") {
-                document.getElementById('disp-logia').innerText = `${nomLogia} #${numLogia}`;
-            } else {
-                document.getElementById('disp-logia').innerText = nomLogia;
-            }
-
-            // Foto
-            const imgEl = document.getElementById('disp-foto');
-            const iconEl = document.getElementById('disp-no-foto');
-            if (data.url_fotografia && data.url_fotografia.trim() !== "") {
-                imgEl.src = data.url_fotografia.trim();
-                imgEl.onload = function() {
-                    imgEl.style.display = 'block';
-                    iconEl.style.display = 'none';
-                };
-            }
-
-            // Generar QR
-            new QRCode(document.getElementById("qrcode"), {
-                text: `VALID:${idVal}|${data.nombre_completo}|${data.grado}`,
-                width: 120,
-                height: 120,
-                colorDark : "#0a192f",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-        };
-    </script>
+    window.onload = init;
+</script>
 </body>
 </html>
