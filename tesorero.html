@@ -2,191 +2,176 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gran Secretaría | Gestión de Padrón</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <title>Gran Tesorería | Gestión de Pagos y Abonos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        :root { --azul: #0a192f; --azul-l: #112240; --dorado: #f9e29b; --dorado-osc: #c5a059; --blanco: #e6f1ff; --verde: #2ecc71; }
+        :root { --azul: #0a192f; --azul-l: #112240; --dorado: #f9e29b; --dorado-osc: #c5a059; --verde: #2ecc71; --rojo: #e74c3c; --blanco: #e6f1ff; }
         body { font-family: 'Lora', serif; background: var(--azul); color: var(--blanco); margin: 0; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        
+        .container { max-width: 1100px; margin: 0 auto; }
         header { text-align: center; border-bottom: 2px solid var(--dorado-osc); padding-bottom: 20px; margin-bottom: 30px; }
-        h1 { font-family: 'Cinzel'; color: var(--dorado); margin: 0; letter-spacing: 3px; }
-
-        /* Herramientas de Búsqueda */
-        .toolbar { display: flex; gap: 15px; background: var(--azul-l); padding: 20px; border-radius: 10px; border: 1px solid rgba(197, 160, 89, 0.3); margin-bottom: 20px; align-items: center; }
-        input, select { background: var(--azul); border: 1px solid var(--dorado-osc); padding: 12px; color: white; border-radius: 5px; outline: none; }
-        .search-input { flex: 2; }
-        .filter-select { flex: 1; }
-        .btn-nuevo { background: var(--dorado-osc); color: var(--azul); border: none; padding: 12px 25px; border-radius: 5px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-nuevo:hover { background: var(--dorado); transform: translateY(-2px); }
-
-        /* Tabla de Padrón */
-        .table-container { background: var(--azul-l); border-radius: 10px; overflow: hidden; border: 1px solid rgba(197, 160, 89, 0.2); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: rgba(197, 160, 89, 0.1); color: var(--dorado); padding: 15px; font-family: 'Cinzel'; font-size: 0.75rem; }
-        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
-        .grado-tag { padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; background: var(--dorado-osc); color: var(--azul); }
-
-        /* Modal */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: var(--azul-l); padding: 30px; border-radius: 15px; border: 2px solid var(--dorado); width: 90%; max-width: 600px; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .full-width { grid-column: span 2; }
-        label { display: block; font-family: 'Cinzel'; font-size: 0.65rem; color: var(--dorado-osc); margin-bottom: 5px; }
+        .logo { width: 80px; filter: drop-shadow(0 0 10px var(--dorado)); }
+        .admin-box { background: var(--azul-l); padding: 25px; border-radius: 12px; border: 1px solid var(--dorado-osc); margin-bottom: 30px; }
+        h3 { font-family: 'Cinzel'; color: var(--dorado); margin-top: 0; }
+        .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .calc-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        label { display: block; font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-osc); margin-bottom: 8px; }
+        input, select { width: 90%; background: var(--azul); border: 1px solid var(--dorado-osc); padding: 10px; color: white; border-radius: 5px; outline: none; font-family: 'Lora'; }
+        .total-preview { background: var(--dorado-osc); color: var(--azul); padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; }
+        .total-amount { font-size: 1.8rem; font-weight: bold; font-family: 'Cinzel'; }
+        .btn-apply { background: var(--dorado-osc); color: var(--azul); border: none; padding: 15px; width: 100%; border-radius: 8px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn-apply:hover { background: var(--dorado); transform: scale(1.01); }
+        table { width: 100%; border-collapse: collapse; background: var(--azul-l); margin-top: 30px; border-radius: 8px; overflow: hidden; }
+        th { background: rgba(197, 160, 89, 0.15); color: var(--dorado); padding: 12px; font-family: 'Cinzel'; font-size: 0.7rem; }
+        td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 0.85rem; }
+        .status-pill { padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; font-family: 'Cinzel'; }
+        .mora { background: rgba(231, 76, 60, 0.2); color: var(--rojo); border: 1px solid var(--rojo); }
+        .aplomo { background: rgba(46, 204, 113, 0.2); color: var(--verde); border: 1px solid var(--verde); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>GRAN SECRETARÍA</h1>
-        <p style="font-family:'Cinzel'; font-size: 0.7rem; letter-spacing: 2px; color: var(--dorado-osc);">Archivum Digitalis - Gestión de Membresía</p>
+        <img src="logo_moderno.png" class="logo">
+        <h1>Gran Tesorería | Panel Administrativo</h1>
     </header>
 
-    <div class="toolbar">
-        <input type="text" id="inputBuscar" class="search-input" placeholder="Buscar por Nombre del Hermano..." oninput="filtrarTabla()">
-        <select id="filtroLogia" class="filter-select" onchange="filtrarTabla()">
-            <option value="">Todas las Logias</option>
-        </select>
-        <button class="btn-nuevo" onclick="abrirModal()">+ NUEVO INGRESO</button>
-    </div>
+    <div class="admin-box">
+        <h3>Generar Nuevo Cargo</h3>
+        <div style="margin-bottom: 20px;">
+            <label>Seleccionar Logia (Auto-carga desde Padrón)</label>
+            <select id="selectLogia" onchange="autoLlenarPadron()"></select>
+        </div>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Folio/ID</th>
-                    <th>Nombre del Hermano</th>
-                    <th>Logia Simbólica</th>
-                    <th>Grado</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="padrónContent">
-                </tbody>
-        </table>
-    </div>
-</div>
-
-<div id="modalAlta" class="modal">
-    <div class="modal-content">
-        <h2 style="font-family:'Cinzel'; color:var(--dorado); margin-top:0; text-align:center;">Registro de Padrón</h2>
-        <form id="formAlta">
-            <div class="form-grid">
-                <div class="full-width">
-                    <label>Nombre Completo</label>
-                    <input type="text" id="h_nombre" style="width:96%" required>
-                </div>
-                <div>
-                    <label>Logia</label>
-                    <select id="h_logia" style="width:100%" required></select>
-                </div>
-                <div>
-                    <label>Grado Actual</label>
-                    <select id="h_grado" style="width:100%">
-                        <option value="1">Aprendiz</option>
-                        <option value="2">Compañero</option>
-                        <option value="3">Maestro Masón</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Correo Electrónico</label>
-                    <input type="email" id="h_correo" style="width:90%" required>
-                </div>
-                <div>
-                    <label>Teléfono</label>
-                    <input type="text" id="h_tel" style="width:90%">
-                </div>
-                <div class="full-width" style="margin-top:20px; text-align:right;">
-                    <button type="button" onclick="cerrarModal()" style="background:none; color:white; border:1px solid; padding:10px 20px; cursor:pointer; margin-right:10px;">Cancelar</button>
-                    <button type="submit" style="background:var(--verde); color:var(--azul); border:none; padding:10px 30px; font-weight:bold; cursor:pointer;">Guardar Hermano</button>
-                </div>
+        <div class="calc-grid">
+            <div class="calc-item"><label>HH:. con Derecho</label><input type="number" id="pm_con" value="0" oninput="calcularTotal()"></div>
+            <div class="calc-item"><label>HH:. sin Derecho</label><input type="number" id="pm_sin" value="0" oninput="calcularTotal()"></div>
+            <div class="calc-item"><label>Iniciaciones</label><input type="number" id="grado_1" value="0" oninput="calcularTotal()"></div>
+            <div class="calc-item"><label>Aumentos</label><input type="number" id="grado_2" value="0" oninput="calcularTotal()"></div>
+            <div class="calc-item"><label>Exaltaciones</label><input type="number" id="grado_3" value="0" oninput="calcularTotal()"></div>
+            <div class="calc-item">
+                <label>Concepto Extra / Monto</label>
+                <input type="text" id="extra_concepto" placeholder="Motivo" oninput="calcularTotal()" style="margin-bottom:5px;">
+                <input type="number" id="extra_monto" value="0" oninput="calcularTotal()">
             </div>
-        </form>
+        </div>
+
+        <div class="total-preview">
+            <div class="total-amount" id="displayTotal">$0.00</div>
+            <div id="displayConcepto" style="font-size: 0.75rem; margin-top: 5px; opacity: 0.8;">Esperando selección...</div>
+        </div>
+
+        <button class="btn-apply" onclick="enviarCargo()">APLICAR CARGO A LOGIA</button>
     </div>
+
+    <table>
+        <thead><tr><th>Logia</th><th>Estado</th><th>Saldo Actual</th><th>Último Detalle</th><th>Acción</th></tr></thead>
+        <tbody id="tableContent"></tbody>
+    </table>
+
+    <center><a href="identificacion.html" onclick="sessionStorage.clear()" style="color:var(--dorado-osc); font-family:'Cinzel'; font-size:0.7rem; text-decoration:none; border:1px solid; padding:10px; margin-top:30px; display:inline-block; border-radius:5px;">Cerrar Sesión Segura</a></center>
 </div>
 
 <script>
-    const CSV_MEMBRESIA = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=838211030&single=true&output=csv"; // Pestaña "Membresia"
-    const CSV_LOGIAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; // Pestaña "Sheet1" donde están las logias
+    const COSTOS = { pm_con: 250, pm_sin: 150, iniciacion: 1200, aumento: 800, exaltacion: 1000 };
+    const CSV_SALDOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=0&single=true&output=csv"; 
+    const CSV_PADRON = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=12481841&single=true&output=csv"; 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwaveXszk1SZ83r0kZTYZjgrXIYvtC2gI_DBv42lYWiO-Q3qtWsklaNdaTgngb-fkwugA/exec";
 
-    let todosLosHermanos = [];
+    let datosPadron = [];
 
     function init() {
-        // 1. Cargar Logias para los selectores
-        Papa.parse(CSV_LOGIAS, { download: true, header: true, complete: (r) => {
-            const logias = r.data.filter(x => x.nombre_logia);
-            const selectFiltro = document.getElementById('filtroLogia');
-            const selectAlta = document.getElementById('h_logia');
-            logias.forEach(l => {
-                selectFiltro.add(new Option(l.nombre_logia, l.nombre_logia));
-                selectAlta.add(new Option(l.nombre_logia, l.nombre_logia));
+        Papa.parse(CSV_PADRON, { download: true, header: true, complete: function(r) {
+            datosPadron = r.data;
+            cargarSaldos();
+        }});
+    }
+
+    function cargarSaldos() {
+        Papa.parse(CSV_SALDOS, { download: true, header: true, complete: function(r) {
+            const data = r.data.filter(x => x.nombre_logia);
+            const sel = document.getElementById('selectLogia');
+            const tbody = document.getElementById('tableContent');
+            sel.innerHTML = '<option value="">-- Buscar Logia --</option>';
+            tbody.innerHTML = '';
+
+            data.forEach(l => {
+                sel.add(new Option(l.nombre_logia, l.usuario));
+                const saldo = parseFloat(l.saldo || 0);
+                const esMora = saldo > 0;
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${l.nombre_logia}</b></td>
+                        <td><span class="status-pill ${esMora?'mora':'aplomo'}">${esMora?'EN MORA':'AL CORRIENTE'}</span></td>
+                        <td style="font-weight:bold; color:${esMora?'var(--rojo)':'var(--verde)'}">$${saldo.toLocaleString('en-US', {minimumFractionDigits:2})}</td>
+                        <td style="font-size:0.65rem; text-align:left;">${l.cargos || '---'}</td>
+                        <td>
+                            <button onclick="validarPago('${l.usuario}', ${saldo})" style="background:var(--verde); border:none; padding:6px 10px; border-radius:4px; cursor:pointer; font-weight:bold; font-family:'Cinzel'; font-size:0.65rem;">VALIDAR PAGO</button>
+                        </td>
+                    </tr>`;
             });
         }});
-
-        // 2. Cargar Padrón de Membresía
-        Papa.parse(CSV_MEMBRESIA, { download: true, header: true, complete: (r) => {
-            todosLosHermanos = r.data.filter(x => x.Nombre);
-            renderTabla(todosLosHermanos);
-        }});
     }
 
-    function renderTabla(data) {
-        const tbody = document.getElementById('padrónContent');
-        tbody.innerHTML = '';
-        data.forEach(h => {
-            tbody.innerHTML += `
-                <tr>
-                    <td style="color:var(--dorado-osc); font-family:'Cinzel'; font-size:0.7rem;">${h.ID_QR || 'S/N'}</td>
-                    <td><b>${h.Nombre}</b></td>
-                    <td>${h.Logia}</td>
-                    <td><span class="grado-tag">${h.Grado}°</span></td>
-                    <td style="color:var(--verde); font-size:0.7rem;">● ACTIVO</td>
-                    <td><button onclick="verFicha('${h.ID_QR}')" style="background:none; border:1px solid var(--dorado-osc); color:var(--dorado-osc); cursor:pointer; padding:3px 7px; border-radius:3px;">Ficha</button></td>
-                </tr>`;
-        });
+    function autoLlenarPadron() {
+        const sel = document.getElementById('selectLogia');
+        const nombreLogia = sel.options[sel.selectedIndex].text;
+        const logiaInfo = datosPadron.find(p => p.Nombre_Logia === nombreLogia);
+        if (logiaInfo) {
+            document.getElementById('pm_con').value = logiaInfo.Hermanos_Con || 0;
+            document.getElementById('pm_sin').value = logiaInfo.Hermanos_Sin || 0;
+            calcularTotal();
+        }
     }
 
-    function filtrarTabla() {
-        const texto = document.getElementById('inputBuscar').value.toLowerCase();
-        const logia = document.getElementById('filtroLogia').value;
+    function calcularTotal() {
+        const n = [document.getElementById('pm_con').value, document.getElementById('pm_sin').value, document.getElementById('grado_1').value, document.getElementById('grado_2').value, document.getElementById('grado_3').value];
+        const extraM = parseFloat(document.getElementById('extra_monto').value) || 0;
+        const extraC = document.getElementById('extra_concepto').value;
+
+        const total = (n[0]*COSTOS.pm_con) + (n[1]*COSTOS.pm_sin) + (n[2]*COSTOS.iniciacion) + (n[3]*COSTOS.aumento) + (n[4]*COSTOS.exaltacion) + extraM;
+        let concepto = `Cápitas(C:${n[0]}, S:${n[1]})`;
+        if(n[2]>0||n[3]>0||n[4]>0) concepto += ` + Grados(I:${n[2]}, A:${n[3]}, E:${n[4]})`;
+        if(extraM > 0) concepto += ` + ${extraC || 'Extra'}($${extraM})`;
+
+        document.getElementById('displayTotal').innerText = `$${total.toLocaleString('en-US',{minimumFractionDigits:2})}`;
+        document.getElementById('displayConcepto').innerText = concepto;
+        return { total, concepto };
+    }
+
+    async function enviarCargo() {
+        const user = document.getElementById('selectLogia').value;
+        const { total, concepto } = calcularTotal();
+        if(!user || total <= 0) return alert("Seleccione logia y monto válido.");
+        if(!confirm(`¿Aplicar cargo de $${total}?`)) return;
+
+        await llamarScript({ accion: "CARGAR", usuario: user, monto: total, concepto: concepto, mes: new Date().toLocaleString('es-MX',{month:'long'}).toUpperCase() });
+    }
+
+    async function validarPago(user, saldoActual) {
+        let montoRecibido = prompt(`Saldo total: $${saldoActual}\n\nIngrese la cantidad recibida:`, saldoActual);
         
-        const filtrados = todosLosHermanos.filter(h => {
-            const coincideNombre = h.Nombre.toLowerCase().includes(texto);
-            const coincideLogia = logia === "" || h.Logia === logia;
-            return coincideNombre && coincideLogia;
-        });
-        renderTabla(filtrados);
+        if (montoRecibido === null || montoRecibido === "") return;
+        montoRecibido = parseFloat(montoRecibido);
+
+        if (isNaN(montoRecibido) || montoRecibido <= 0) return alert("Monto no válido.");
+        
+        const nuevoSaldo = saldoActual - montoRecibido;
+        const mensaje = nuevoSaldo <= 0 ? "PAGO COMPLETO" : `PAGO PARCIAL (Resta $${nuevoSaldo.toFixed(2)})`;
+
+        if(confirm(`Se descontarán $${montoRecibido} del saldo.\n\nNuevo saldo: $${nuevoSaldo < 0 ? 0 : nuevoSaldo.toFixed(2)}\n¿Proceder?`)) {
+            await llamarScript({ accion: "VALIDAR", usuario: user, monto: montoRecibido, concepto: mensaje });
+        }
     }
 
-    function abrirModal() { document.getElementById('modalAlta').style.display = 'flex'; }
-    function cerrarModal() { document.getElementById('modalAlta').style.display = 'none'; }
-
-    document.getElementById('formAlta').onsubmit = async (e) => {
-        e.preventDefault();
-        const btn = e.target.querySelector('button[type="submit"]');
-        btn.innerText = "Procesando...";
-        btn.disabled = true;
-
-        const nuevo = {
-            accion: "ALTA_HERMANO",
-            nombre: document.getElementById('h_nombre').value,
-            logia: document.getElementById('h_logia').value,
-            grado: document.getElementById('h_grado').value,
-            correo: document.getElementById('h_correo').value,
-            tel: document.getElementById('h_tel').value
-        };
-
+    async function llamarScript(datos) {
         try {
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(nuevo) });
-            alert("Hermano registrado con éxito.");
+            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) });
+            alert("Operación realizada con éxito.");
             location.reload();
-        } catch (err) { alert("Error de conexión."); btn.disabled = false; }
-    };
+        } catch(e) { alert("Error de conexión."); }
+    }
 
     window.onload = init;
 </script>
