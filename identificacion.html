@@ -27,14 +27,15 @@
 
         .logo { width: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--dorado-osc)); }
 
-        h1 { font-family: 'Cinzel'; font-size: 1.2rem; color: var(--dorado); margin-bottom: 30px; letter-spacing: 2px; }
+        h1 { font-family: 'Cinzel'; font-size: 1.2rem; color: var(--dorado); margin-bottom: 10px; letter-spacing: 2px; }
+        p.subtitle { font-family: 'Cinzel'; font-size: 0.6rem; color: var(--dorado-osc); margin-bottom: 30px; letter-spacing: 1px; }
 
         .input-group { margin-bottom: 20px; text-align: left; }
         label { display: block; font-family: 'Cinzel'; font-size: 0.7rem; color: var(--dorado-osc); margin-bottom: 5px; }
         
         input {
             width: 100%; padding: 12px; background: var(--azul); border: 1px solid var(--dorado-osc);
-            color: white; border-radius: 5px; box-sizing: border-box; outline: none;
+            color: white; border-radius: 5px; box-sizing: border-box; outline: none; font-size: 1rem;
         }
 
         button {
@@ -44,8 +45,9 @@
         }
 
         button:hover { background: var(--dorado); transform: translateY(-2px); }
+        button:disabled { background: #444; color: #888; cursor: not-allowed; }
 
-        #mensaje { margin-top: 20px; font-size: 0.8rem; min-height: 1.2em; }
+        #mensaje { margin-top: 20px; font-size: 0.8rem; min-height: 1.2em; font-weight: bold; }
         .error { color: #ff4d4d; }
         .success { color: #2ecc71; }
     </style>
@@ -53,17 +55,18 @@
 <body>
 
 <div class="login-box">
-    <img src="logo_moderno.png" alt="Logo" class="logo">
+    <img src="logo_moderno.png" alt="Gran Logia" class="logo" onerror="this.style.display='none'">
     <h1>PLATAFORMA HIRAM</h1>
+    <p class="subtitle">ARCHIVUM DIGITALIS TAMAULIPAS</p>
     
     <form id="loginForm">
         <div class="input-group">
             <label>ID Masónico / Usuario</label>
-            <input type="text" id="usuario" placeholder="Ej: GL-12345" required>
+            <input type="text" id="usuario" placeholder="Ej: GL-12345" required autocomplete="username">
         </div>
         <div class="input-group">
             <label>Contraseña (Últimos 4 dígitos del Tel.)</label>
-            <input type="password" id="password" placeholder="****" required>
+            <input type="password" id="password" placeholder="****" required autocomplete="current-password">
         </div>
         <button type="submit" id="btnIngresar">INGRESAR AL TEMPLO</button>
     </form>
@@ -73,6 +76,7 @@
 
 <script>
     // --- CONFIGURACIÓN ---
+    // Asegúrate de que esta URL sea la de tu CSV de la hoja "Membresia"
     const CSV_MEMBRESIA = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHtXI5LY1DF7e6sHplXRgzQhk1yHaSZ7lKXUZvY2dTtkUKc29RvzZzCM6FffbYxoFWeIMst9ZKeP10/pub?gid=838211030&single=true&output=csv";
 
     document.getElementById('loginForm').onsubmit = function(e) {
@@ -82,38 +86,53 @@
         const msg = document.getElementById('mensaje');
         const btn = document.getElementById('btnIngresar');
 
-        msg.innerHTML = "Validando identidad...";
+        msg.className = "";
+        msg.innerHTML = "Consultando el Padrón...";
         btn.disabled = true;
 
         Papa.parse(CSV_MEMBRESIA, {
             download: true,
             header: true,
+            skipEmptyLines: true,
             complete: function(results) {
                 const padron = results.data;
                 
-                // Buscamos al hermano por su ID Masónico
+                // 1. Buscar al hermano (Mapeo Universal de columnas)
                 const hermano = padron.find(h => {
-                    const idPadron = (h.ID_Masonico || h.id_masonico || h.ID || h["ID Masónico"] || "").toString().trim();
-                    return idPadron === userIn;
+                    const idCol = (h.ID_Masonico || h.id_masonico || h.ID || h["ID Masónico"] || "").toString().trim();
+                    return idCol === userIn;
                 });
 
                 if (hermano) {
-                    // VALIDACIÓN DE CONTRASEÑA (Usando los últimos 4 dígitos del teléfono registrado)
-                    const telCompleto = (hermano.Telefono || hermano.telefono || hermano.Tel || "").toString().trim();
-                    const ultimosCuatro = telCompleto.slice(-4);
+                    // 2. Extraer teléfono para la contraseña
+                    const tel = (hermano.Telefono || hermano.telefono || hermano.Tel || "").toString().trim();
+                    const ultimosCuatro = tel.slice(-4);
 
-                    if (passIn === ultimosCuatro) {
+                    if (passIn === ultimosCuatro && ultimosCuatro !== "") {
+                        // 3. Extraer el ROL del usuario
+                        const rol = (hermano.Rol || hermano.rol || hermano.ROL || "Hermano").toString().trim();
+                        
                         msg.className = "success";
-                        msg.innerHTML = "Identidad confirmada. Bienvenido, V:. H:.";
+                        msg.innerHTML = "Identidad confirmada. Perfil: " + rol.toUpperCase();
                         
-                        // --- PASO CLAVE ---
-                        // Guardamos el ID en la sesión para que el Pasaporte lo lea automáticamente
+                        // 4. Guardar datos en la sesión del navegador
                         sessionStorage.setItem("usuarioLogueado", userIn);
-                        
-                        // Redirigir al menú principal después de 1.5 segundos
+                        sessionStorage.setItem("rolUsuario", rol);
+
+                        // 5. Redirección Inteligente
                         setTimeout(() => {
-                            window.location.href = "menu.html"; 
-                        }, 1500);
+                            if (rol === "Secretario") {
+                                window.location.href = "secretario.html";
+                            } 
+                            else if (rol === "Tesorero") {
+                                window.location.href = "tesorero.html";
+                            } 
+                            else {
+                                // Redirige al Pasaporte Digital por defecto
+                                window.location.href = "pasaporte.html";
+                            }
+                        }, 1200);
+
                     } else {
                         msg.className = "error";
                         msg.innerHTML = "Contraseña incorrecta.";
@@ -121,13 +140,13 @@
                     }
                 } else {
                     msg.className = "error";
-                    msg.innerHTML = "ID Masónico no encontrado en el Padrón.";
+                    msg.innerHTML = "ID Masónico no registrado.";
                     btn.disabled = false;
                 }
             },
             error: function() {
                 msg.className = "error";
-                msg.innerHTML = "Error al conectar con el Archivum.";
+                msg.innerHTML = "Error crítico de conexión.";
                 btn.disabled = false;
             }
         });
